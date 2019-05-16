@@ -38,13 +38,6 @@ const plugins = [
       flatten: false
     }
   ]),
-  new CopyWebpackPlugin([
-    {
-      from: 'src/fonts',
-      to: 'fonts/',
-      flatten: false
-    }
-  ]),
   new MiniCssExtractPlugin({
     filename: '[hash].index.css',
   })
