@@ -1,0 +1,37 @@
+@import '_bootstrap.scss';
+@import '~bootstrap/scss/bootstrap';
+
+@import '../../node_modules/highlight.js/styles/github.css';
+@import '_fonts.scss';
+
+#copy {
+  bottom: 4rem;
+  float: right;
+  position: relative;
+  right: .75rem;
+}
+
+#copy-icon {
+  fill: currentColor;
+  height: 1rem;
+  margin-bottom: 4px;
+}
+
+#output-header {
+  margin-top: 2.5rem;
+}
+
+#output-clients {
+  font-weight: 400;
+  margin-top: -.5rem;
+}
+
+#output-config {
+  font-size: .8rem;
+  max-height: unset;
+  white-space: pre-wrap;
+}
+
+.text-disabled {
+  color: #a1a8ae;
+}

@@ -1,0 +1,28 @@
+# generated with: {{{output.link}}}
+<VirtualHost *:443>
+    SSLEngine on
+{{#if (minver "2.4.8" form.serverVersion)}}
+    SSLCertificateFile      /path/to/signed_certificate_followed_by_intermediate_certificates
+{{else}}
+    SSLCertificateFile      /path/to/signed_certificate
+    SSLCertificateChainFile /path/to/intermediate_certificate
+{{/if}}
+    SSLCertificateKeyFile   /path/to/private_key
+
+{{#if form.hsts}}
+
+    # HTTP Strict Transport Security (mod_headers is required) ({{output.hstsMaxAge}} seconds)
+    Header always set Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
+{{/if}}
+</VirtualHost>
+
+# {{form.config}} configuration, tweak to your needs
+{{#if (minver "2.3.16" form.serverVersion)}}
+SSLProtocol             all {{#unless (includes "SSLv3" output.protocols)}}-SSLv3{{/unless}}
+                            {{~#unless (includes "TLSv1" output.protocols)}} -TLSv1{{/unless}}
+                            {{~#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
+{{else}}
+SSLProtocol             all -SSLv2 {{#unless (includes "SSLv3" output.protocols)}}-SSLv3 {{/unless}}{{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
+{{/if}}
+SSLCipherSuite          {{output.cipherSuites}}
+SSLHonorCipherOrder     on

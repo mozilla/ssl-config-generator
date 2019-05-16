@@ -1,0 +1,154 @@
+<head><link href="e6c81945f09d82640c33.index.css" rel="stylesheet"></head><body>
+  <div class="container mt-4">
+    <h2>Mozilla SSL Configuration Generator</h2>
+
+    <form id="form-generator">
+      <div class="form-row">
+        <!-- server software, populated from entries in configs.js with names -->
+        <div id="form-server" class="col-12 col-md-4">
+          <h5>Server Software</h5>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-apache" value="apache" >
+              <label class="form-check-label" for="server-apache">
+                Apache
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-awselb" value="awselb" >
+              <label class="form-check-label" for="server-awselb">
+                AWS Elastic Load Balancer
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-haproxy" value="haproxy" >
+              <label class="form-check-label" for="server-haproxy">
+                HAProxy
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-lighttpd" value="lighttpd" >
+              <label class="form-check-label" for="server-lighttpd">
+                lighttpd
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-mysql" value="mysql" >
+              <label class="form-check-label" for="server-mysql">
+                MySQL
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-nginx" value="nginx" checked>
+              <label class="form-check-label" for="server-nginx">
+                nginx
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-oraclehttp" value="oraclehttp" >
+              <label class="form-check-label" for="server-oraclehttp">
+                Oracle HTTP Server
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-postfix" value="postfix" >
+              <label class="form-check-label" for="server-postfix">
+                Postfix
+              </label>
+            </div>
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-postgresql" value="postgresql" >
+              <label class="form-check-label" for="server-postgresql">
+                PostgreSQL
+              </label>
+            </div>
+          
+        </div>
+
+        <!-- config -->
+        <div class="col-12 col-md-4" id="form-config">
+          <h5>Mozilla Configuration</h5>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="config" id="config-modern" value="modern">
+            <label class="form-check-label" for="config-modern">
+              Modern
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="config" id="config-intermediate" value="intermediate" checked>
+            <label class="form-check-label" for="config-intermediate">
+              Intermediate
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="config" id="config-old" value="old">
+            <label class="form-check-label" for="config-old">
+              Old
+            </label>
+          </div>
+        </div>
+
+        <!-- versions -->
+        <div class="col-12 col-md-4" id="form-environment">
+          <h5>Environment</h5>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Server Version</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Server Version" aria-described="server-version" id="server-version" value="2.4.39">
+          </div>
+          <div class="input-group mt-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text">OpenSSL Version</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Server Version" aria-described="openssl-version" id="openssl-version" value="1.1.1b">
+          </div>
+
+          <h5 class="mt-3">Miscellaneous</h5>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="checkbox" id="hsts" aria-label="HTTP Strict Transport Security" checked>
+              </div>
+            </div>
+            <input type="text" class="form-control bg-white" aria-label="HTTP Strict Transport Security" value="HTTP Strict Transport Security" readonly>
+          </div>
+          <div class="input-group mt-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="checkbox" id="ocsp" aria-label="OCSP Stapling" checked>
+              </div>
+            </div>
+            <input type="text" class="form-control bg-white" aria-label="OCSP Stapling" value="OCSP Stapling" readonly>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div id="output-header"></div>
+
+    <div id="output-config-container">
+      <pre class="border p-3 pre-scrollable" id="output-config"></pre>
+      <button type="button" class="btn btn-light border text-muted" id="copy" data-toggle="tooltip" data-placement="top" data-trigger="manual" title="Copied!" data-clipboard-target="#output-config">
+        <svg id="copy-icon" viewBox="0 0 14 16" version="1.1" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg> Copy</button>
+    </button>
+
+    <div class="mt-5">
+      <h4>See Also:</h4>
+
+      <ul>
+        <li><a href="https://wiki.mozilla.org/Security/Server_Side_TLS">Mozilla's Server Side TLS Guidelines</a> for more details on these configurations</li>
+        <li>The <a href="https://observatory.mozilla.org">Mozilla Observatory</a>, <a href="https://github.com/mozilla/cipherscan">Cipherscan</a> and <a href="https://www.ssllabs.com/ssltest/">SSLLabs</a> to test the configuration of live servers</li>
+        <li>Report issues and propose improvements to this generator <a href="https://github.com/mozilla/server-side-tls">on GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+<script type="text/javascript" src="e6c81945f09d82640c33.index.js"></script></body>
