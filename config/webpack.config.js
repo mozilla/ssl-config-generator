@@ -69,7 +69,7 @@ module.exports = {
     filename: '[hash].[name]'
   },
   entry: {
-    'index.js': path.resolve(__dirname, '..', 'src', 'js', 'index.js')
+    'index.js': ['regenerator-runtime/runtime', path.resolve(__dirname, '..', 'src', 'js', 'index.js')]
   },
   mode: production ? 'production' : 'development',
   devtool: production ? undefined : 'source-map',
