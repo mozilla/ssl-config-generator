@@ -1,5 +1,5 @@
 // configs for the supported pieces of software
-// hasVersions, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
+// hasVersions, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
 
 module.exports = {
   apache: {
@@ -23,6 +23,7 @@ module.exports = {
     highlighter: 'nginx', // TODO: find better
     latestVersion: '1.0.0',
     name: 'Caddy',
+    supportsConfigs: false,  // Caddy automatically configures TLS settings
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
     usesOpenssl: false,
   },

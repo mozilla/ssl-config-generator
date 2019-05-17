@@ -9,7 +9,14 @@ export default async function () {
   const ssc = sstls.configurations[form['config'].value];  // server side tls config for that level
   
   const url = new URL(document.location);
-  const fragment = `server=${server}&server-version=${form['server-version'].value}&openssl-version=${form['openssl-version'].value}&config=${config}&hsts=${form['hsts'].checked}&ocsp=${form['ocsp'].checked}`;
+
+  // generate the fragment
+  let fragment = `server=${server}&server-version=${form['server-version'].value}`;
+  fragment += configs[server].supportsConfigs !== false ? `&config=${config}` : '';
+  fragment += configs[server].usesOpenssl !== false ? `&openssl-version=${form['openssl-version'].value}` : '';
+  fragment += configs[server].supportsHsts !== false ? `&hsts=${form['hsts'].checked}` : '';
+  fragment += configs[server].supportsOcspStapling !== false ? `&ocsp=${form['ocsp'].checked}` : '';
+
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
   const state = {
@@ -30,6 +37,7 @@ export default async function () {
       link,
       oldestClients: ssc.oldest_clients,
       protocols: ssc.tls_versions,
+      supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,
       supportedCiphers: configs[server].supportedCiphers,
