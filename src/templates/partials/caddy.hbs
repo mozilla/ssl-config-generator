@@ -1,8 +1,10 @@
 # generated with: {{{output.link}}}
+# note that Caddy automatically configures safe ("Modern") TLS settings
+
 # replace example.com with your domain name
 example.com
-
 {{#if form.hsts}}
+
 # HSTS ({{output.hstsMaxAge}} seconds)
 header / Strict-Transport-Security "max-age={{output.hstsMaxAge}};"
 {{/if}}
