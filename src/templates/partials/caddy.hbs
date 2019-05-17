@@ -1,0 +1,8 @@
+# generated with: {{{output.link}}}
+# replace example.com with your domain name
+example.com
+
+{{#if form.hsts}}
+# HSTS ({{output.hstsMaxAge}} seconds)
+header / Strict-Transport-Security "max-age={{output.hstsMaxAge}};"
+{{/if}}
