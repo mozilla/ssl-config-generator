@@ -25,6 +25,9 @@ import state from './state.js';
 import { sleep } from './utils.js';
 
 
+// note if any button has changed so that we can update the fragment if it has
+let gHaveSettingsChanged = false;
+
 // import all the templates by name, e.g. apache --> require(apache.hbs)
 const templates = {};
 const templateContext = require.context('../templates/partials', true, /\.hbs$/);
@@ -43,7 +46,9 @@ const render = async () => {
   $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
 
   // update the fragment
-  window.location.hash = _state.output.fragment;
+  if (gHaveSettingsChanged) {
+    window.location.hash = _state.output.fragment;
+  }
   
   // render the output header
   document.getElementById('output-header').innerHTML = templates.header(_state);
@@ -104,6 +109,7 @@ $().ready(() => {
 
   // anytime the server changes, so does the server version
   $('#form-server').on('change', async () => {
+    gHaveSettingsChanged = true;
     const _state = await state();
     $('#server-version').val(_state.output.latestVersion);
 
