@@ -1,10 +1,18 @@
 # generated with: {{{output.link}}}
-# note that Caddy automatically configures safe ("Modern") TLS settings
+{{#if (includes "old" form.config)}}
+{{! This is a big of a kludge due to Caddy restrictions on TLS versions and cipher suites }}
+tls
+    protocols tls1.0
+    ciphers ECDHE-ECDSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-ECDSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-ECDSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-AES256-CBC-SHA ECDHE-RSA-AES128-CBC-SHA ECDHE-ECDSA-AES256-CBC-SHA ECDHE-ECDSA-AES128-CBC-SHA RSA-AES256-CBC-SHA RSA-AES128-CBC-SHA ECDHE-RSA-3DES-EDE-CBC-SHA RSA-3DES-EDE-CBC-SHA
 
+{{else}}
+# note that Caddy automatically configures safe TLS settings
+
+{{/if}}
 # replace example.com with your domain name
 example.com
 {{#if form.hsts}}
 
 # HSTS ({{output.hstsMaxAge}} seconds)
-header / Strict-Transport-Security "max-age={{output.hstsMaxAge}};"
+header / Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
 {{/if}}
