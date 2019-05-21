@@ -1,16 +1,18 @@
 # generated with: {{{output.link}}}
-{{#if (includes "old" form.config)}}
-{{! This is a big of a kludge due to Caddy restrictions on TLS versions and cipher suites }}
-tls
-    protocols tls1.0
-    ciphers ECDHE-ECDSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-ECDSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-ECDSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-AES256-CBC-SHA ECDHE-RSA-AES128-CBC-SHA ECDHE-ECDSA-AES256-CBC-SHA ECDHE-ECDSA-AES128-CBC-SHA RSA-AES256-CBC-SHA RSA-AES128-CBC-SHA ECDHE-RSA-3DES-EDE-CBC-SHA RSA-3DES-EDE-CBC-SHA
-
-{{else}}
+{{#unless (includes "old" form.config)}}
 # note that Caddy automatically configures safe TLS settings
+{{/unless}}
 
-{{/if}}
 # replace example.com with your domain name
 example.com
+{{#if (includes "old" form.config)}}
+
+{{! This is a big of a kludge due to Caddy restrictions on TLS versions and cipher suites }}
+tls {
+    protocols tls1.0
+    ciphers ECDHE-ECDSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-ECDSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-ECDSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-WITH-CHACHA20-POLY1305 ECDHE-RSA-AES256-CBC-SHA ECDHE-RSA-AES128-CBC-SHA ECDHE-ECDSA-AES256-CBC-SHA ECDHE-ECDSA-AES128-CBC-SHA RSA-AES256-CBC-SHA RSA-AES128-CBC-SHA ECDHE-RSA-3DES-EDE-CBC-SHA RSA-3DES-EDE-CBC-SHA
+}
+{{/if}}
 {{#if form.hsts}}
 
 # HSTS ({{output.hstsMaxAge}} seconds)
