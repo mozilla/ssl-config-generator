@@ -36,7 +36,7 @@ server {
 {{/if}}
     # {{form.config}} configuration, tweak to your needs
     ssl_protocols{{#each (reverse output.protocols)}} {{this}}{{/each}};
-    ssl_ciphers '{{output.cipherSuites}}';
+    ssl_ciphers {{output.cipherSuites}};
     ssl_prefer_server_ciphers on;
 {{#if form.hsts}}
 
