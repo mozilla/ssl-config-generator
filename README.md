@@ -22,8 +22,8 @@ This starts a local webserver that will automatically reload your changes.
 
 There are two places that need to be updated in order to add support for a new piece of software:
 
-`js/configs.js`, which sets the supported features for your software, and
-`templates/partials/your-software.hbs`, a Handlebars.js template that mirrors your software's configuration
+`src/js/configs.js`, which sets the supported features for your software, and
+`src/templates/partials/your-software.hbs`, a Handlebars.js template that mirrors your software's configuration
 
 ## Building
 

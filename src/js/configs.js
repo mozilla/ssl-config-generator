@@ -73,4 +73,12 @@ module.exports = {
     supportsHsts: false,
     supportsOcspStapling: false,
   },
+  traefik: {
+    highlighter: 'toml',
+    latestVersion: '1.7.11',
+    name: 'Traefik',
+    supportsHsts: true,
+    // https://github.com/containous/traefik/issues/212
+    supportsOcspStapling: false
+  }
 };
