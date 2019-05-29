@@ -22,8 +22,28 @@ This starts a local webserver that will automatically reload your changes.
 
 There are two places that need to be updated in order to add support for a new piece of software:
 
-`js/configs.js`, which sets the supported features for your software, and
-`templates/partials/your-software.hbs`, a Handlebars.js template that mirrors your software's configuration
+* `src/js/configs.js`, which sets the supported features for your software, and
+* `src/templates/partials/your-software.hbs`, a Handlebars.js template that mirrors your software's configuration
+
+### Creating templates
+
+All of the templates are written in [Handlebars.js](https://handlebarsjs.com/), and so therefore support all of its standard features. This includes `if`/`else`/`unless` conditionals and `each` loops, for example. In addition, the configuration generator supports the following helpers:
+
+- `includes(item, stringOrArray`) - `true` if `stringOrArray` contains `item`
+  - `{{#if (includes ":DHE" output.cipherSuites)}}`
+- `last(array)` - returns the last item in the array
+- `minpatchver(minimumver, curver)` - `true` if `curver` is greater `minimumver` and both versions are the same patch version, e.g. `2.2`
+  - `{{#if (minpatchver "2.4.3" form.serverVersion)}}`
+- `minver(minimumver, curver)` - `true` if `curver` is greater than `minver`
+  - `{{#if (minver "1.9.5" form.serverVersion)}}`
+- `replace(string, whattoreplace, replacement)` - replaces whatToReplace with replacement
+  - `replace(protocol, "TLSv", "TLS ")`
+- `reverse(array)` - reverses the order of an array
+  - `{{#each (reverse output.protocols)}`
+- `sameminorver(version, otherVersion)` - returns `true` if `version` and `otherVersion` are of the same minor version, e.g. `2.2`
+  - `{{#if (sameminorver "2.4.0" form.serverVersion)}}`
+- `split(string, splitter)` - split a string into an array based on `splitter`
+  - `{{#each (split output.cipherSuites ":")}}`
 
 ## Building
 
