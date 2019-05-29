@@ -2,7 +2,12 @@
 <VirtualHost *:443>
     SSLEngine on
 {{#if (minver "2.4.8" form.serverVersion)}}
+  {{#if (includes ":DHE" output.cipherSuites)}}
+    # generate dhparams with `openssl dhparam -out /path/to/dhparam.pem 2048` and append them to SSLCertificateFile
+    SSLCertificateFile      /path/to/signed_certificate_followed_by_intermediate_certificates_and_dhparams
+  {{else}}
     SSLCertificateFile      /path/to/signed_certificate_followed_by_intermediate_certificates
+  {{/if}}
 {{else}}
     SSLCertificateFile      /path/to/signed_certificate
     SSLCertificateChainFile /path/to/intermediate_certificate
