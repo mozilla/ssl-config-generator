@@ -8,11 +8,10 @@
     SSLCertificateChainFile /path/to/intermediate_certificate
 {{/if}}
     SSLCertificateKeyFile   /path/to/private_key
-
 {{#if form.hsts}}
 
     # HTTP Strict Transport Security (mod_headers is required) ({{output.hstsMaxAge}} seconds)
-    Header{{#if (minver "2.3.16" form.serverVersion)}} always{{/if}} set Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
+    Header{{#if (minver "2.0.0" form.serverVersion)}} always{{/if}} set Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
 {{/if}}
 </VirtualHost>
 
