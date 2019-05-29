@@ -22,7 +22,7 @@ server {
     ssl_certificate /path/to/signed_cert_plus_intermediates;
     ssl_certificate_key /path/to/private_key;
     ssl_session_timeout 1d;
-    ssl_session_cache shared:SSL:50m;
+    ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions
 {{#if (minver "0.9.8f" form.opensslVersion)}}
   {{#if (minver "1.5.9" form.serverVersion)}}
     ssl_session_tickets off;
