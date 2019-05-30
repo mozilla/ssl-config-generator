@@ -11,7 +11,6 @@ const path = require('path');
 const webpack = require('webpack');
 const production = process.env.NODE_ENV === 'production';
 
-
 // the many plugins used
 const plugins = [
   new CleanWebpackPlugin(
@@ -28,6 +27,12 @@ const plugins = [
   new HtmlWebpackPlugin({
     constants,
     configs,
+    meta: {
+      'Content-Security-Policy': {
+        'http-equiv': 'Content-Security-Policy',
+        content: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
+      },
+    },
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),
