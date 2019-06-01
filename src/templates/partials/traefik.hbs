@@ -1,13 +1,9 @@
 # generated with: {{{output.link}}}
 [entryPoints]
 [entryPoints.http.tls]
-{{#if (includes "modern" form.config)}}
-minVersion = "VersionTLS12"
-{{else if (includes "intermedia" form.config)}}
-minVersion = "VersionTLS10"
-{{else}}
-minVersion = "VersionSSL30"
-{{/if}}
+
+{{! See https://regexr.com/4f3e4 for an explanation of the regex. }}
+minVersion = "{{replace (concat (last output.protocols) "0") (toregex "([A-Z]{3})v(\d)\.?(\d)0?") "Version$1$2$3" }}"
 
 cipherSuites = [
 	"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
