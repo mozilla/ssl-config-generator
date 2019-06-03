@@ -2,6 +2,9 @@
 .bg-black {
   background-color: black;
 }
+.text-black {
+  color: black;
+}
 
 // typography
 $font-size-base:         1rem !default;  // 16px
@@ -19,3 +22,13 @@ $h3-font-size: $font-size-base * 3;
 $h4-font-size: $font-size-base * 2.25;
 $h5-font-size: $font-size-base * 1.5;
 $h6-font-size: $font-size-base * 1.125;
+
+// spacing
+.px-point-5 {
+  padding-left: .125rem;
+  padding-right: .125rem;
+}
+.py-point-5 {
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+}
