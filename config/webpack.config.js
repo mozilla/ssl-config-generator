@@ -38,6 +38,12 @@ const plugins = [
       flatten: false
     }
   ]),
+  new CopyWebpackPlugin([
+    {
+      from: 'config/CNAME',
+      flatten: false
+    }
+  ]),
   new MiniCssExtractPlugin({
     filename: '[hash].index.css',
   })
