@@ -27,12 +27,7 @@ const plugins = [
   new HtmlWebpackPlugin({
     constants,
     configs,
-    meta: {
-      'Content-Security-Policy': {
-        'http-equiv': 'Content-Security-Policy',
-        content: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
-      },
-    },
+    csp: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),
