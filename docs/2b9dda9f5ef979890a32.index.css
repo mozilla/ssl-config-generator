@@ -100,6 +100,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .bg-black {
   background-color: black; }
 
+.text-black {
+  color: black; }
+
+.px-point-5 {
+  padding-left: .125rem;
+  padding-right: .125rem; }
+
+.py-point-5 {
+  padding-top: .125rem;
+  padding-bottom: .125rem; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
