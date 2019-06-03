@@ -80,7 +80,7 @@ $().ready(() => {
 
       if (validHashKeys.includes(entry[0])) {
         // find the element
-        let e = document.getElementById(entry[0]) || document.querySelector(`input[name=${entry[0]}][value=${entry[1]}`);
+        let e = document.getElementById(entry[0]) || document.querySelector(`input[name="${entry[0]}"][value="${entry[1]}"]`);
 
         if (!e || !e.type) {
           continue;
