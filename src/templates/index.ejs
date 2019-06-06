@@ -20,7 +20,8 @@
   <div class="container mt-4">
     <div class="h2 pb-2">
       <span class="bg-black text-white px-3">Moz://a</span>
-      <span><%= htmlWebpackPlugin.options.constants.header %></span>
+      <span class="d-none d-md-inline-block"><%= htmlWebpackPlugin.options.constants.header %></span>
+      <span class="d-inline-block d-md-none"><%= htmlWebpackPlugin.options.constants.mobileHeader %></span>
     </div>
 
     <form id="form-generator">
@@ -115,7 +116,7 @@
 
       <div class="row pt-5">
         <div class="h5">
-          <span class="bg-white text-black px-2 py-point-5">moz://a</span>
+          <span class="bg-white text-black ml-3 ml-md-0 px-2 py-point-5">moz://a</span>
         </div>
       </div>
 

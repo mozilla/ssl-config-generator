@@ -4,6 +4,7 @@ module.exports = {
   description: "An easy-to-use secure configuration generator for web, database, and mail software",
   header: "SSL Configuration Generator",
   localContentSecurityPolicy: "default-src * 'unsafe-inline'",  // supports autoreload
+  mobileHeader: "SSL Config Generator",
   title: "Mozilla SSL Configuration Generator",
   validHashKeys: ["server", "server-version", "openssl-version", "config", "hsts", "ocsp"],
 };
