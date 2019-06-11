@@ -1,13 +1,13 @@
-# generated with: {{{output.link}}}
+# generated {{output.date}}, {{{output.link}}}
 <VirtualHost *:443>
     SSLEngine on
 {{#if (minver "2.4.8" form.serverVersion)}}
   {{#if (includes ":DHE" output.cipherSuites)}}
 
-    # generate dhparams with `openssl dhparam -out /path/to/dhparam.pem 2048` and append them to SSLCertificateFile
-    SSLCertificateFile      /path/to/signed_certificate_followed_by_intermediate_certificates_and_dhparams
+    # curl {{output.origin}}/ffdhe2048.txt >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams
   {{else}}
-    SSLCertificateFile      /path/to/signed_certificate_followed_by_intermediate_certificates
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
   {{/if}}
 {{else}}
     SSLCertificateFile      /path/to/signed_certificate

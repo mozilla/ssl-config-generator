@@ -6,5 +6,6 @@ module.exports = {
   localContentSecurityPolicy: "default-src * 'unsafe-inline'",  // supports autoreload
   mobileHeader: "SSL Config Generator",
   title: "Mozilla SSL Configuration Generator",
+  url: "https://ssl-config.mozilla.org",
   validHashKeys: ["server", "server-version", "openssl-version", "config", "hsts", "ocsp"],
 };

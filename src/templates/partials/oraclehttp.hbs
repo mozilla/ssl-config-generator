@@ -1,4 +1,4 @@
-# generated with: {{{output.link}}}
+# {{output.date}}, {{{output.link}}}
 <VirtualHost *:443>
     SSLEngine on
     SSLWallet               /path_to_wallet
@@ -33,7 +33,7 @@ SSLSessionTickets       off
   {{#if (minver "1.0.2" form.opensslVersion)}}
     {{#if (minpatchver "2.4.8" form.serverVersion)}}
 
-# generate with: $ openssl dhparam -out /path/to/dhparam.pem 2048
+# curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
 SSLOpenSSLConfCmd DHParameters /path/to/dhparam.pem;
     {{/if}}
   {{/if}}

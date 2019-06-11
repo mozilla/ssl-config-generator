@@ -17,6 +17,7 @@ export default async function () {
   fragment += configs[server].supportsHsts !== false ? `&hsts=${form['hsts'].checked}` : '';
   fragment += configs[server].supportsOcspStapling !== false ? `&ocsp=${form['ocsp'].checked}` : '';
 
+  const date = new Date();
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
   const state = {
@@ -30,12 +31,14 @@ export default async function () {
     },
     output: {
       cipherSuites: ssc.openssl_ciphersuites,
+      date: date.toISOString().substr(0, 10),
       fragment,
       hasVersions: configs[server].hasVersions !== false,
       hstsMaxAge: ssc.hsts_min_age,
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
+      origin: url.origin,
       protocols: ssc.tls_versions,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,

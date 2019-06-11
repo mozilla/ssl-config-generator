@@ -1,4 +1,4 @@
-# generated with: {{{output.link}}}
+# {{output.date}}, {{{output.link}}}
 {{#if form.hsts}}
 server {
     listen 80 default_server;
@@ -30,7 +30,7 @@ server {
 {{/if}}
 
 {{#if (includes ":DHE" output.cipherSuites)}}
-    # generate with: $ openssl dhparam -out /path/to/dhparam.pem 2048
+    # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
     ssl_dhparam /path/to/dhparam.pem;
 
 {{/if}}

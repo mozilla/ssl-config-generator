@@ -44,6 +44,12 @@ const plugins = [
       flatten: false
     }
   ]),
+  new CopyWebpackPlugin([
+    {
+      from: 'src/static',
+      flatten: false
+    }
+  ]),
   new MiniCssExtractPlugin({
     filename: '[hash].index.css',
   })

@@ -1,4 +1,4 @@
-# generated with: {{{output.link}}}
+# generated {{output.date}}, {{{output.link}}}
 $SERVER["socket"] == ":443" {
     protocol     = "https://"
     ssl.engine   = "enable"
@@ -10,7 +10,7 @@ $SERVER["socket"] == ":443" {
 {{#if (includes ":DHE" output.cipherSuites)}}
     {{#if (minver "1.4.29" form.serverVersion)}}
 
-    # for DH/DHE ciphers, dhparam should be >= 2048-bit
+    # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
     ssl.dh-file               = "/path/to/dhparam.pem"
     {{/if}}
 {{/if}}
