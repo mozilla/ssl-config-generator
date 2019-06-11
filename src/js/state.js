@@ -13,9 +13,9 @@ export default async function () {
   // generate the fragment
   let fragment = `server=${server}&server-version=${form['server-version'].value}`;
   fragment += configs[server].supportsConfigs !== false ? `&config=${config}` : '';
-  fragment += configs[server].usesOpenssl !== false ? `&openssl-version=${form['openssl-version'].value}` : '';
-  fragment += configs[server].supportsHsts !== false ? `&hsts=${form['hsts'].checked}` : '';
-  fragment += configs[server].supportsOcspStapling !== false ? `&ocsp=${form['ocsp'].checked}` : '';
+  fragment += configs[server].usesOpenssl !== false && form['openssl-version'].value !== configs['openssl'].latestVersion ? `&openssl-version=${form['openssl-version'].value}` : '';
+  fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
+  fragment += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `&ocsp=false` : '';
 
   const date = new Date();
   const link = `${url.origin}${url.pathname}#${fragment}`;

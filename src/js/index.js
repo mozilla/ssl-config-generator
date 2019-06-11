@@ -74,6 +74,11 @@ $().ready(() => {
 
     const params = new URLSearchParams(window.location.hash.substr(1));
 
+    // set the default server version, if we're loading and have "server" but not "server-version"
+    if (params.get('server') !== null && params.get('server-version') === null) {
+      $('#server-version').val(configs[params.get('server')].latestVersion);
+    }
+
     for (let entry of params.entries()) {
       // if it's in the mappings, we should do a find/replace
       entry[1] = mappings[entry[1]] === undefined ? entry[1] : mappings[entry[1]];
