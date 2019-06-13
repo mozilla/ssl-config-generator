@@ -34,10 +34,13 @@ server {
     ssl_dhparam /path/to/dhparam.pem;
 
 {{/if}}
-    # {{form.config}} configuration, tweak to your needs
+    # {{form.config}} configuration
     ssl_protocols{{#each (reverse output.protocols)}} {{this}}{{/each}};
+{{#if output.cipherSuites.length}}
     ssl_ciphers {{output.cipherSuites}};
-    ssl_prefer_server_ciphers on;
+{{/if}}
+    ssl_prefer_server_ciphers {{#if output.serverPreferredOrder}}on{{else}}off{{/if}};
+}
 {{#if form.hsts}}
 
     # HSTS (ngx_http_headers_module is required) ({{output.hstsMaxAge}} seconds)

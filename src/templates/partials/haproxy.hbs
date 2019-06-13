@@ -3,10 +3,15 @@
 {{#if (minver "1.5.0" form.serverVersion)}}
 global
     # {{form.config}} configuration, tweak to your needs
+{{#if output.cipherSuites.length}}
     ssl-default-bind-ciphers {{output.cipherSuites}}
-    ssl-default-bind-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}} no-tls-tickets
+{{/if}}
+    ssl-default-bind-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
+{{#if output.cipherSuites.length}}
     ssl-default-server-ciphers {{output.cipherSuites}}
-    ssl-default-server-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}} no-tls-tickets
+{{/if}}
+    ssl-default-server-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
+}
 {{#if (includes ":DHE" output.cipherSuites)}}
 
     # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem

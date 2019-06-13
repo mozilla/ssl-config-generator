@@ -3,5 +3,7 @@
 require_secure_transport = on
 ssl-cert = /path/to/signed_cert_plus_intermediates.pem
 ssl-key = /path/to/private_key
+{{#if output.cipherSuites.length}}
 ssl-cipher = {{output.cipherSuites}}
+{{/if}}
 tls_version = {{#each (reverse output.protocols)}}{{this}}{{#unless @last}},{{/unless}}{{/each}}

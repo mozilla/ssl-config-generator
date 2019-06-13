@@ -5,9 +5,11 @@ smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
 smtpd_tls_cert_file = /path/to/signed_cert_plus_intermediates
 smtpd_tls_key_file = /path/to/private_key
-smtpd_tls_mandatory_protocols = !SSLv2{{#unless (includes "SSLv3" output.protocols)}}, !SSLv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}
-smtpd_tls_protocols = !SSLv2{{#unless (includes "SSLv3" output.protocols)}}, !SSLv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}
+smtpd_tls_mandatory_protocols = !SSLv2{{#unless (includes "SSLv3" output.protocols)}}, !SSLv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, !TLSv1.2{{/unless}}
+smtpd_tls_protocols = !SSLv2{{#unless (includes "SSLv3" output.protocols)}}, !SSLv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, !TLSv1.2{{/unless}}
+{{#if output.cipherSuites.length}}
 smtpd_tls_mandatory_ciphers = medium
+{{/if}}
 {{#if (includes ":DHE" output.cipherSuites)}}
 
 # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
@@ -15,5 +17,7 @@ smtpd_tls_mandatory_ciphers = medium
 smtpd_tls_dh1024_param_file = /path/to/dhparam.pem
 {{/if}}
 
+{{#if output.cipherSuites.length}}
 tls_medium_cipherlist = {{output.cipherSuites}}
-tls_preempt_cipherlist = yes
+{{/if}}
+tls_preempt_cipherlist = {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}

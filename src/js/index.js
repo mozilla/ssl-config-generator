@@ -54,7 +54,10 @@ const render = async () => {
   document.getElementById('output-header').innerHTML = templates.header(_state);
 
   // and the config file for whichever server software we're using
-  const renderedTemplate = templates[_state.form.server](_state);
+  const renderedTemplate = _state.output.protocols.length === 0 ? templates['nosupport'](_state) : templates[_state.form.server](_state);
+
+  // show / hide the copy button as needed
+  document.getElementById('copy').classList.toggle('d-none', _state.output.protocols.length === 0);
   
   // syntax highlight and enter into the page
   const highlighter = configs[_state.form.server].highlighter;

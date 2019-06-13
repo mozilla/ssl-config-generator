@@ -16,7 +16,7 @@ $SERVER["socket"] == ":443" {
 {{/if}}
 
     # ECDH/ECDHE ciphers curve strength (see `openssl ecparam -list_curves`)
-    ssl.ec-curve              = "prime256v1{{#if (minver "1.4.48" form.serverVersion)}}{{#if (minver "1.0.2" form.opensslVersion)}}:secp384r1:secp521r1{{/if}}{{/if}}"
+    ssl.ec-curve              = "{{#if (minver "1.4.49" form.serverVersion)}}{{#if (minver "1.1.1" form.opensslVersion)}}X25519:{{/if}}{{/if}}prime256v1{{#if (minver "1.4.48" form.serverVersion)}}{{#if (minver "1.0.2" form.opensslVersion)}}:secp384r1{{/if}}{{/if}}"
 
     # Compression is by default off at compile-time, but use if needed
     # ssl.use-compression     = "disable"

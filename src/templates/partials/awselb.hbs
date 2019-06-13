@@ -60,12 +60,12 @@
                                 "Name": "Server-Defined-Cipher-Order",
                                 "Value": true
                             },
-{{#each (split output.cipherSuites ":")}}{{#if (includes this ../output.supportedCiphers)}}
+{{#each (split output.cipherSuites ":")}}
                             {
                                 "Name": "{{this}}",
                                 "Value": true
                             }{{#unless @last}},{{/unless}}
-{{/if}}{{/each}}
+{{/each}}
                         ]
                     }
                 ]

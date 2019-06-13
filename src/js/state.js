@@ -1,5 +1,6 @@
 import configs from './configs.js';
-import sstls from '../../config/server-side-tls-conf.json';
+import sstls from '../../config/server-side-tls-conf-5.0.json';
+import minver from './helpers/minver.js';
 
 
 export default async function () {
@@ -20,6 +21,19 @@ export default async function () {
   const date = new Date();
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
+  // we need to remove TLS 1.3 from the supported protocols if the software is too old
+  let protocols = ssc.tls_versions;
+  if ((minver(configs[server].tls13, form['server-version'].value) === false || minver(configs['openssl'].tls13, form['openssl-version'].value) === false) && configs[server].usesOpenssl !== false) {
+    protocols = protocols.filter(a => a !== 'TLSv1.3');
+  }
+
+  let ciphersuites = ssc.ciphersuites;
+  if (configs[server].supportedCiphers) {
+    ciphersuites = ciphersuites.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1).join(':');
+  } else {
+    ciphersuites = ciphersuites.join(':');
+  }
+
   const state = {
     form: {
       config: form['config'].value,
@@ -27,10 +41,11 @@ export default async function () {
       ocsp: form['ocsp'].checked && configs[server].supportsOcspStapling !== false,
       opensslVersion: form['openssl-version'].value,
       server,
+      serverName: document.querySelector(`label[for=server-${server}]`).innerText,
       serverVersion: form['server-version'].value,      
     },
     output: {
-      cipherSuites: ssc.openssl_ciphersuites,
+      cipherSuites: ciphersuites,
       date: date.toISOString().substr(0, 10),
       fragment,
       hasVersions: configs[server].hasVersions !== false,
@@ -38,12 +53,13 @@ export default async function () {
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
+      opensslCipherSuites: ssc.openssl_ciphersuites,
       origin: url.origin,
-      protocols: ssc.tls_versions,
+      protocols: protocols,
+      serverPreferredOrder: ssc.server_preferred_order,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,
-      supportedCiphers: configs[server].supportedCiphers,
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
     sstls,
