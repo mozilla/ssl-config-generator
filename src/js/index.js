@@ -112,6 +112,7 @@ $().ready(() => {
 
   // update state anytime the form is changed
   $('#form-config, #form-environment').on('change', async () => {
+    gHaveSettingsChanged = true;
     render();
   });
 
