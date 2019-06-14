@@ -10,7 +10,7 @@ smtpd_tls_protocols = !SSLv2{{#unless (includes "SSLv3" output.protocols)}}, !SS
 {{#if output.cipherSuites.length}}
 smtpd_tls_mandatory_ciphers = medium
 {{/if}}
-{{#if (includes ":DHE" output.cipherSuites)}}
+{{#if output.usesDhe}}
 
 # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
 # not actually 1024 bits, this applies to all DHE >= 1024 bits
@@ -18,6 +18,6 @@ smtpd_tls_dh1024_param_file = /path/to/dhparam.pem
 {{/if}}
 
 {{#if output.cipherSuites.length}}
-tls_medium_cipherlist = {{output.cipherSuites}}
+tls_medium_cipherlist = {{{join output.ciphers ":"}}}
 {{/if}}
 tls_preempt_cipherlist = {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}

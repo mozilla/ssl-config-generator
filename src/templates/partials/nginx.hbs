@@ -29,15 +29,15 @@ server {
   {{/if}}
 {{/if}}
 
-{{#if (includes ":DHE" output.cipherSuites)}}
+{{#if output.usesDhe}}
     # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
     ssl_dhparam /path/to/dhparam.pem;
 
 {{/if}}
     # {{form.config}} configuration
-    ssl_protocols{{#each (reverse output.protocols)}} {{this}}{{/each}};
-{{#if output.cipherSuites.length}}
-    ssl_ciphers {{output.cipherSuites}};
+    ssl_protocols{{#each output.protocols}} {{this}}{{/each}};
+{{#if output.ciphers.length}}
+    ssl_ciphers {{{join output.ciphers ":"}}};
 {{/if}}
     ssl_prefer_server_ciphers {{#if output.serverPreferredOrder}}on{{else}}off{{/if}};
 }

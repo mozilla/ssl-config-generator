@@ -23,15 +23,15 @@ export default async function () {
 
   // we need to remove TLS 1.3 from the supported protocols if the software is too old
   let protocols = ssc.tls_versions;
-  if ((minver(configs[server].tls13, form['server-version'].value) === false || minver(configs['openssl'].tls13, form['openssl-version'].value) === false) && configs[server].usesOpenssl !== false) {
-    protocols = protocols.filter(a => a !== 'TLSv1.3');
+  if (minver(configs[server].tls13, form['server-version'].value) === false || minver(configs['openssl'].tls13, form['openssl-version'].value) === false) {
+    protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
-  let ciphersuites = ssc.ciphersuites;
+  let openssl_ciphers = ssc.openssl_ciphers;
   if (configs[server].supportedCiphers) {
-    ciphersuites = ciphersuites.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1).join(':');
+    openssl_ciphers = openssl_ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
   } else {
-    ciphersuites = ciphersuites.join(':');
+    openssl_ciphers = openssl_ciphers;
   }
 
   const state = {
@@ -45,7 +45,8 @@ export default async function () {
       serverVersion: form['server-version'].value,      
     },
     output: {
-      cipherSuites: ciphersuites,
+      ciphers: openssl_ciphers,  // OpenSSL
+      cipherSuites: ssc.openssl_ciphersuites,
       date: date.toISOString().substr(0, 10),
       fragment,
       hasVersions: configs[server].hasVersions !== false,
@@ -53,6 +54,7 @@ export default async function () {
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
+      opensslCiphers: openssl_ciphers,
       opensslCipherSuites: ssc.openssl_ciphersuites,
       origin: url.origin,
       protocols: protocols,
@@ -60,6 +62,7 @@ export default async function () {
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,
+      usesDhe: openssl_ciphers.join(":").includes(":DHE"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
     sstls,

@@ -3,10 +3,10 @@ ssl = on
 
 ssl_cert_file = '/path/to/signed_cert_plus_intermediates'
 ssl_key_file = '/path/to/private_key'
-{{#if (includes ":DHE" output.cipherSuites)}}
+{{#if output.usesDhe}}
 
 # curl {{output.origin}}/ffdhe2048.txt > /path/to/dhparam.pem
 ssl_dh_params_file = '/path/to/dhparam.pem'
 {{/if}}
 
-ssl_ciphers = '{{output.cipherSuites}}'
+ssl_ciphers = '{{{join output.ciphers ":"}}}'

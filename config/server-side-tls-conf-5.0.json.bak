@@ -2,12 +2,8 @@
     "href": "https://statics.tls.security.mozilla.org/server-side-tls-conf-5.0.json",
     "configurations": {
         "modern": {
-            "openssl_ciphers": [],
-            "openssl_ciphersuites": [
-                "TLS_AES_256_GCM_SHA384",
-                "TLS_AES_128_GCM_SHA256",
-                "TLS_CHACHA20_POLY1305_SHA256"
-            ],
+            "openssl_ciphersuites": "TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256",
+            "ciphersuites": [],
             "tls_versions": ["TLSv1.3"],
             "tls_curves": ["X25519", "prime256v1", "secp384r1"],
             "certificate_types": ["ecdsa"],
@@ -22,7 +18,8 @@
             "server_preferred_order": false
         },
         "intermediate": {
-            "openssl_ciphers": [
+            "openssl_ciphersuites": "TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256",
+            "ciphersuites": [
                 "ECDHE-ECDSA-AES256-GCM-SHA384",
                 "ECDHE-RSA-AES256-GCM-SHA384",
                 "ECDHE-ECDSA-AES128-GCM-SHA256",
@@ -32,12 +29,7 @@
                 "DHE-RSA-AES256-GCM-SHA384",
                 "DHE-RSA-AES128-GCM-SHA256"
             ],
-            "openssl_ciphersuites": [
-                "TLS_AES_256_GCM_SHA384",
-                "TLS_AES_128_GCM_SHA256",
-                "TLS_CHACHA20_POLY1305_SHA256"
-            ],
-            "tls_versions": ["TLSv1.2", "TLSv1.3"],
+            "tls_versions": ["TLSv1.3", "TLSv1.2"],
             "tls_curves": ["X25519", "secp256r1", "secp384r1"],
             "certificate_types": ["ecdsa", "rsa"],
             "certificate_curves": null,
@@ -51,17 +43,18 @@
             "server_preferred_order": true
         },
         "old": {
-            "openssl_ciphers": [
+            "openssl_ciphersuites": "TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:ECDHE-RSA-DES-CBC3-SHA:ECDHE-ECDSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:DES-CBC3-SHA:HIGH:SEED:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!RSAPSK:!aDH:!aECDH:!EDH-DSS-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA:!SRP",
+            "ciphersuites": [
                 "ECDHE-ECDSA-CHACHA20-POLY1305",
                 "ECDHE-RSA-CHACHA20-POLY1305",
-                "ECDHE-ECDSA-AES128-GCM-SHA256",
                 "ECDHE-RSA-AES128-GCM-SHA256",
-                "ECDHE-ECDSA-AES256-GCM-SHA384",
+                "ECDHE-ECDSA-AES128-GCM-SHA256",
                 "ECDHE-RSA-AES256-GCM-SHA384",
+                "ECDHE-ECDSA-AES256-GCM-SHA384",
                 "DHE-RSA-AES128-GCM-SHA256",
-                "DHE-RSA-AES256-GCM-SHA384",
                 "DHE-DSS-AES128-GCM-SHA256",
                 "DHE-DSS-AES256-GCM-SHA384",
+                "DHE-RSA-AES256-GCM-SHA384",
                 "ECDHE-RSA-AES128-SHA256",
                 "ECDHE-ECDSA-AES128-SHA256",
                 "ECDHE-RSA-AES128-SHA",
@@ -109,12 +102,7 @@
                 "DHE-DSS-SEED-SHA",
                 "SEED-SHA"
             ],
-            "openssl_ciphersuites": [
-                "TLS_AES_256_GCM_SHA384",
-                "TLS_AES_128_GCM_SHA256",
-                "TLS_CHACHA20_POLY1305_SHA256"
-            ],
-            "tls_versions": ["TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3"],
+            "tls_versions": ["TLSv1.3", "TLSv1.2", "TLSv1.1", "TLSv1"],
             "tls_curves": ["X25519", "secp256r1", "secp384r1"],
             "certificate_types": ["rsa"],
             "certificate_curves": null,

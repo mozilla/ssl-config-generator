@@ -2,7 +2,7 @@
 <VirtualHost *:443>
     SSLEngine on
 {{#if (minver "2.4.8" form.serverVersion)}}
-  {{#if (includes ":DHE" output.cipherSuites)}}
+  {{#if output.usesDhe}}
 
     # curl {{output.origin}}/ffdhe2048.txt >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
     SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams
@@ -35,7 +35,7 @@ SSLProtocol             all {{#unless (includes "SSLv3" output.protocols)}}-SSLv
 {{else}}
 SSLProtocol             all -SSLv2 {{#unless (includes "SSLv3" output.protocols)}}-SSLv3 {{/unless}}{{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} -TLSv1.2{{/unless}}
 {{/if}}
-{{#if output.cipherSuites.length}}
-SSLCipherSuite          {{output.cipherSuites}}
+{{#if output.ciphers.length}}
+SSLCipherSuite          {{{join output.ciphers ":"}}}
 {{/if}}
 SSLHonorCipherOrder     {{#if output.serverPreferredOrder}}on{{else}}off{{/if}}

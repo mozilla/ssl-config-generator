@@ -60,7 +60,7 @@
                                 "Name": "Server-Defined-Cipher-Order",
                                 "Value": true
                             },
-{{#each (split output.cipherSuites ":")}}
+{{#each output.ciphers}}
                             {
                                 "Name": "{{this}}",
                                 "Value": true
