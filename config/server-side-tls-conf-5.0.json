@@ -47,7 +47,7 @@
             "dh_param_size": 2048,
             "ecdh_param_size": 256,
             "hsts_min_age": 63072000,
-            "oldest_clients": ["Firefox 27", "Android 4.4.2", "Chrome 31", "Edge", "IE 11 on Windows 7", "Java 8u31", "OpenSSL 1.0.1", "Safari 9"],
+            "oldest_clients": ["Firefox 27", "Android 4.4.2", "Chrome 31", "Edge", "IE 11 on Windows 7", "Java 8u31", "OpenSSL 1.0.1", "Opera 20", "Safari 9"],
             "ocsp_staple": true,
             "server_preferred_order": true,
             "maximum_certificate_lifespan": 730
