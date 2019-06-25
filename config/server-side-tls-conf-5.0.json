@@ -19,7 +19,8 @@
             "hsts_min_age": 63072000,
             "oldest_clients": ["Firefox 63", "Android 10.0", "Chrome 70", "Edge 75", "Java 11", "OpenSSL 1.1.1", "Opera 57", "Safari 12.1"],
             "ocsp_staple": true,
-            "server_preferred_order": false
+            "server_preferred_order": false,
+            "maximum_certificate_lifespan": 90
         },
         "intermediate": {
             "openssl_ciphers": [
@@ -48,7 +49,8 @@
             "hsts_min_age": 63072000,
             "oldest_clients": ["Firefox 27", "Android 4.4.2", "Chrome 31", "Edge", "IE 11 on Windows 7", "Java 8u31", "OpenSSL 1.0.1", "Safari 9"],
             "ocsp_staple": true,
-            "server_preferred_order": true
+            "server_preferred_order": true,
+            "maximum_certificate_lifespan": 730
         },
         "old": {
             "openssl_ciphers": [
@@ -131,9 +133,10 @@
             "dh_param_size": 1024,
             "ecdh_param_size": 256,
             "hsts_min_age": 63072000,
-            "oldest_clients": ["Firefox 1", "Chrome 1", "Opera 5", "Safari 1", "IE8 on Windows XP", "Android 2.3", "Java 6", "OpenSSL 0.9.8"],
+            "oldest_clients": ["Firefox 1", "Android 2.3", "Chrome 1", "Edge 12", "IE8 on Windows XP", "Java 6", "Opera 5", "OpenSSL 0.9.8", "Safari 1"],
             "ocsp_staple": true,
-            "server_preferred_order": true
+            "server_preferred_order": true,
+            "maximum_certificate_lifespan": 730
         }
     },
     "version": 5.0
