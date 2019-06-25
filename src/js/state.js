@@ -48,6 +48,7 @@ export default async function () {
       ciphers: openssl_ciphers,  // OpenSSL
       cipherSuites: ssc.openssl_ciphersuites,
       date: date.toISOString().substr(0, 10),
+      dhParamSize: ssc.dh_param_size,
       fragment,
       hasVersions: configs[server].hasVersions !== false,
       hstsMaxAge: ssc.hsts_min_age,
