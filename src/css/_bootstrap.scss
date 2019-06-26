@@ -2,6 +2,7 @@
 .bg-black {
   background-color: black;
 }
+
 .text-black {
   color: black;
 }
@@ -24,10 +25,13 @@ $h5-font-size: $font-size-base * 1.5;
 $h6-font-size: $font-size-base * 1.125;
 
 // spacing
+$form-check-input-margin-y: .35rem !default;
+
 .px-point-5 {
   padding-left: .125rem;
   padding-right: .125rem;
 }
+
 .py-point-5 {
   padding-top: .125rem;
   padding-bottom: .125rem;
