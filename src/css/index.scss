@@ -35,3 +35,8 @@
 .text-disabled {
   color: #a1a8ae;
 }
+
+/* comments underneath checkbox input fields */
+div.input-group ~ small {
+  margin-left: 52px !important;
+}
