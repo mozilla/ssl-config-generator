@@ -1,4 +1,11 @@
 # {{output.date}}, {{{output.link}}}
+{{#if form.hsts}}
+<VirtualHost *:80>
+    RewriteEngine On
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]
+</VirtualHost>
+
+{{/if}}
 <VirtualHost *:443>
     SSLEngine on
     SSLWallet               /path/to/wallet

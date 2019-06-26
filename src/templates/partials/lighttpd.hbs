@@ -1,4 +1,12 @@
 # generated {{output.date}}, {{{output.link}}}
+{{#if form.hsts}}
+$SERVER["socket"] == ":80" {
+    $HTTP["host"] =~ ".*" {
+        url.redirect = (".*" => "https://%0$0")
+    }
+}
+
+{{/if}}
 $SERVER["socket"] == ":443" {
     protocol     = "https://"
     ssl.engine   = "enable"
