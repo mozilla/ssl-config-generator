@@ -7271,3 +7271,10 @@ a.text-dark:hover, a.text-dark:focus {
 div.input-group ~ small {
   margin-left: 52px !important; }
 
+/* comments underneath the configs */
+#form-config label {
+  margin-top: -1.25px; }
+
+#form-config small {
+  margin: 1px 8px 8px 0; }
+
