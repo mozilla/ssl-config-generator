@@ -5,7 +5,7 @@ ssl_cert_file = '/path/to/signed_cert_plus_intermediates'
 ssl_key_file = '/path/to/private_key'
 {{#if output.usesDhe}}
 
-# curl {{output.origin}}/ffdhe{{output.dhParamSize}}.txt > /path/to/dhparam.pem
+# {{output.dhCommand}} > /path/to/dhparam.pem
 ssl_dh_params_file = '/path/to/dhparam.pem'
 {{/if}}
 

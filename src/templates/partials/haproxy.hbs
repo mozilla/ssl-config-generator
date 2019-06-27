@@ -25,7 +25,7 @@ global
 }
 {{#if output.usesDhe}}
 
-    # curl {{output.origin}}/ffdhe{{output.dhParamSize}}.txt > /path/to/dhparam.pem
+    # {{output.dhCommand}} > /path/to/dhparam.pem
     ssl-dh-param-file /path/to/dhparam.pem
 {{/if}}
 

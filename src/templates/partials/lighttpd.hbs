@@ -18,7 +18,7 @@ $SERVER["socket"] == ":443" {
 {{#if output.usesDhe}}
     {{#if (minver "1.4.29" form.serverVersion)}}
 
-    # curl {{output.origin}}/ffdhe{{output.dhParamSize}}.txt > /path/to/dhparam.pem
+    # {{output.dhCommand}} > /path/to/dhparam.pem
     ssl.dh-file               = "/path/to/dhparam.pem"
     {{/if}}
 {{/if}}
