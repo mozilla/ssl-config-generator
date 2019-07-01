@@ -48,7 +48,7 @@ server {
 {{#if form.ocsp}}
   {{#if (minver "1.3.7" form.serverVersion)}}
 
-    # OSCP stapling
+    # OCSP stapling
     ssl_stapling on;
     ssl_stapling_verify on;
 
