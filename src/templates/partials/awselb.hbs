@@ -34,31 +34,15 @@
                         "PolicyName": "Mozilla-{{form.config}}-2015-03",
                         "PolicyType": "SSLNegotiationPolicyType",
                         "Attributes": [
-{{#if (includes "SSLv3" output.protocols)}}
+{{#each output.protocols}}
                             {
-                                "Name": "Protocol-SSLv3",
+                                "Name": "Protocol-{{this}}",
                                 "Value": true
                             },
-{{/if}}
-{{#if (includes "TLSv1" output.protocols)}}
-                            {
-                                "Name": "Protocol-TLSv1",
-                                "Value": true
-                            },
-{{/if}}
-{{#if (includes "TLSv1.1" output.protocols)}}
-                            {
-                                "Name": "Protocol-TLSv1.1",
-                                "Value": true
-                            },
-{{/if}}
-                            {
-                                "Name": "Protocol-TLSv1.2",
-                                "Value": true
-                            },
+{{/each}}
                             {
                                 "Name": "Server-Defined-Cipher-Order",
-                                "Value": true
+                                "Value": {{#if output.serverPreferredOrder}}true{{else}}false{{/if}}
                             },
 {{#each output.ciphers}}
                             {
