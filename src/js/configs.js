@@ -12,6 +12,16 @@ module.exports = {
   },
   // supported ciphers generated with:
   // aws elb describe-load-balancer-policies --query "PolicyDescriptions[?PolicyName=='ELBSample-ELBDefaultCipherPolicy'].PolicyAttributeDescriptions[*].AttributeName[]"
+  awsalb: {
+    hasVersions: false,
+    highlighter: 'yaml',
+    latestVersion: '2018-07-25',
+    name: 'AWS Application Load Balancer',
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: noSupportedVersion,
+    usesOpenssl: false,
+  },
   awselb: {
     hasVersions: false,
     highlighter: 'json',
