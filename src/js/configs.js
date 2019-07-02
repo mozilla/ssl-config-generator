@@ -15,7 +15,7 @@ module.exports = {
   awsalb: {
     hasVersions: false,
     highlighter: 'yaml',
-    latestVersion: '2018-07-25',
+    latestVersion: '2018.7.25',
     name: 'AWS Application Load Balancer',
     supportsHsts: false,
     supportsOcspStapling: false,
