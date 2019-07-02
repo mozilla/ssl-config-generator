@@ -1,11 +1,13 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Generated {{output.date}}, {{{output.link}}}
+Description: Mozilla ELB configuration generated {{output.date}}, {{{output.link}}}
 Parameters:
   SSLCertificateId:
-    Description: The ARN of the SSL certificate to use
+    Description: The ARN of the ACM SSL certificate to use
     Type: String
-    AllowedPattern: ^arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$
-    ConstraintDescription: SSL Certificate ID must be a valid ARN. http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns
+    AllowedPattern: ^arn:aws:acm:[^:]*:[^:]*:certificate/.*$
+    ConstraintDescription: >
+      SSL Certificate ID must be a valid ACM ARN.
+      https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns
 Resources:
   ExampleELB:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
@@ -14,13 +16,13 @@ Resources:
         - LoadBalancerPort: '443'
           InstancePort: '80'
           PolicyNames:
-            - Mozilla-{{form.config}}-2015-03
-          SSLCertificateId: !Ref 'SSLCertificateId'
+            - Mozilla-{{form.config}}-v5-0
+          SSLCertificateId: !Ref SSLCertificateId
           Protocol: HTTPS
       AvailabilityZones:
-        Fn::GetAZs: ''
+        Fn::GetAZs: !Ref 'AWS::Region'
       Policies:
-        - PolicyName: Mozilla-{{form.config}}-2015-03
+        - PolicyName: Mozilla-{{form.config}}-v5-0
           PolicyType: SSLNegotiationPolicyType
           Attributes:
 {{#if (includes "SSLv3" output.protocols)}}
@@ -44,6 +46,6 @@ Resources:
               Value: true
 {{/each}}
 Outputs:
-  ELBDNSName:
-    Description: DNS entry point to the stack (all ELBs)
-    Value: !GetAtt 'ExampleELB.DNSName'
+  ELBURL:
+    Description: URL of the ELB load balancer
+    Value: !Join [ '', [ 'https://', !GetAtt 'ExampleELB.DNSName', '/' ] ]
