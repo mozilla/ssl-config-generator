@@ -1,0 +1,187 @@
+# {{output.date}}, {{{output.link}}}
+function Set-Chipher($name, $value){
+  Write-Host "Set-Chiphers ``$name`` ``$value``"
+  $key = [Microsoft.Win32.Registry]::LocalMachine;
+  $subKey = $key.CreateSubKey("SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\$name")
+  $return = $subKey.SetValue("Enabled", $value, [Microsoft.Win32.RegistryValueKind]::DWord)
+  $subKey.Close();
+  $key.Close();
+}
+
+function Reset-Chiphers(){
+  Write-Host "Reset-Chiphers"
+  $sChannelKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers"
+  Remove-Item -Path $sChannelKey -Recurse -Force
+  $return = New-Item -Path $sChannelKey
+  $return = Set-ItemProperty -Path $sChannelKey -Name "EventLogging" -Value 1 -Type DWord
+  $return = Set-ItemProperty -Path $sChannelKey -Name "DisableRenegoOnClient" -Value 1 -Type DWord
+  $return = Set-ItemProperty -Path $sChannelKey -Name "DisableRenegoOnServer" -Value 1 -Type DWord
+}
+
+function Set-Hash($name, $value){
+  Write-Host "Set-Hashes ``$name`` ``$value``"
+  $hashKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Hashes\$name"
+  if($false -eq (Test-Path $hashKey)){
+    $return = New-Item -Path $hashKey
+  }
+  $return = Set-ItemProperty -Path $hashKey -Name "Enabled" -Value $value -Type DWord
+}
+
+function Reset-Hashes(){
+  Write-Host "Reset-Hashes"
+  $hashesKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Hashes"
+  Remove-Item -Path $hashesKey -Recurse -Force
+  $return = New-Item -Path $hashesKey
+}
+
+function Set-KeyExchangeAlgorithm($name, $value){
+  Write-Host "Set-KeyExchangeAlgorithm ``$name`` ``$value``"
+  $keyExchangeAlgorithmKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\KeyExchangeAlgorithms\$name"
+  if($false -eq (Test-Path $keyExchangeAlgorithmKey)){
+    $return = New-Item -Path $keyExchangeAlgorithmKey
+  }
+  $return = Set-ItemProperty -Path $keyExchangeAlgorithmKey -Name "Enabled" -Value $value -Type DWord
+}
+
+function Reset-KeyExchangeAlgorithms(){
+  Write-Host "Reset-KeyExchangeAlgorithms"
+  $keyExchangeAlgorithmsKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\KeyExchangeAlgorithms"
+  Remove-Item -Path $keyExchangeAlgorithmsKey -Recurse -Force
+  $return = New-Item -Path $keyExchangeAlgorithmsKey
+}
+
+function Set-SChannelProtocol($name, $value, $clientAlso){
+  Write-Host "Set-SChannelProtocol ``$name`` ``$value``"
+  $protocolKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\$name"
+  if($false -eq (Test-Path $protocolKey)){
+    $return = New-Item -Path $protocolKey
+  }
+  $protocolKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\$name\Server"
+  if($false -eq (Test-Path $protocolKey)){
+    $return = New-Item -Path $protocolKey
+  }
+  Set-ItemProperty -Path $protocolKey -Name "Enabled" -Value $value -Type DWord
+  if($value -eq 0x00000000){
+    $return = Set-ItemProperty -Path $protocolKey -Name "DisabledByDefault" -Value 0x00000001 -Type DWord
+  }else{
+    $return = Set-ItemProperty -Path $protocolKey -Name "DisabledByDefault" -Value 0x00000000 -Type DWord
+  }
+  if($clientAlso){
+    $protocolKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\$name\Client"
+    if($false -eq (Test-Path $protocolKey)){
+      $return = New-Item -Path $protocolKey
+    }
+    if($value -eq 0x00000000){
+      $return = Set-ItemProperty -Path $protocolKey -Name "DisabledByDefault" -Value 0x00000001 -Type DWord
+    }else{
+      $return = Set-ItemProperty -Path $protocolKey -Name "DisabledByDefault" -Value 0x00000000 -Type DWord
+    }
+  }
+}
+
+function Reset-SChannelProtocols(){
+  Write-Host "Reset-SChannelProtocols"
+  $protocolKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\"
+  $r = Remove-Item -Path $protocolKey -Recurse -Force
+  $return = New-Item -Path $protocolKey
+}
+
+function Remove-RegistryValue($path, $name){
+  Write-Host "Remove-RegistryValue ``$name``"
+  $key = Get-Item -LiteralPath $path
+  if ($key.GetValue($name, $null) -ne $null) {
+    $r = Remove-ItemProperty -Path $path -Name $name
+  }
+}
+
+# Restrict the use of certain cryptographic algorithms and protocols in Schannel.dll
+# http://support2.microsoft.com/default.aspx?scid=kb;EN-US;245030
+Reset-Chiphers
+Set-Chipher -name "AES 128/128" -value 0xffffffff
+Set-Chipher -name "AES 256/256" -value 0xffffffff
+Set-Chipher -name "DES 56/56" -value 0x00000000
+Set-Chipher -name "NULL" -value 0x00000000
+Set-Chipher -name "RC2 128/128" -value 0x00000000
+Set-Chipher -name "RC2 40/128" -value 0x00000000
+Set-Chipher -name "RC2 56/128" -value 0x00000000
+Set-Chipher -name "RC4 128/128" -value 0x00000000
+Set-Chipher -name "RC4 40/128" -value 0x00000000
+Set-Chipher -name "RC4 56/128" -value 0x00000000
+Set-Chipher -name "RC4 64/128" -value 0x00000000
+Set-Chipher -name "Triple DES 168/168" -value 0x00000000
+
+Reset-Hashes
+Set-Hash -name "MD5" -value 0x00000000
+Set-Hash -name "SHA" -value 0x00000000
+Set-Hash -name "SHA256" -value 0xffffffff
+Set-Hash -name "SHA384" -value 0xffffffff
+Set-Hash -name "SHA512" -value 0xffffffff
+
+Reset-KeyExchangeAlgorithms
+Set-KeyExchangeAlgorithm -name Diffie-Hellman -value 0xffffffff
+Set-KeyExchangeAlgorithm -name PKCS -value 0xffffffff
+Set-KeyExchangeAlgorithm -name ECDH -value 0xffffffff
+
+Reset-SChannelProtocols
+Set-SChannelProtocol -name "Multi-Protocol Unified Hello" -value 0x00000000
+Set-SChannelProtocol -name "PCT 1.0" -value 0x00000000 
+Set-SChannelProtocol -name "SSL 2.0" -value 0x00000000 
+Set-SChannelProtocol -name "SSL 3.0" -value 0x00000000 
+Set-SChannelProtocol -name "TLS 1.0" -value 0x00000000
+Set-SChannelProtocol -name "TLS 1.1" -value 0x00000000
+Set-SChannelProtocol -name "TLS 1.2" -value 0xffffffff
+
+Remove-RegistryValue `
+  -path "HKLM:\SOFTWARE\Policies\Microsoft\Cryptography\Configuration\SSL\00010002" `
+  -name "Functions"
+
+$ssl_ciphers = '{{{join output.windowsCiphers ","}}}'.Split(',') `
+  | Foreach-Object { "TLS_$($_)".replace("-", "_").replace("_AES128_", "_WITH_AES128_").replace("_AES256_", "_WITH_AES256_") };
+
+import-module tls
+#https://docs.microsoft.com/en-us/powershell/module/tls/get-tlsciphersuite?view=win10-ps
+
+Foreach($suites in Get-TlsCipherSuite){
+  Foreach($suite in $suites){
+    if($ssl_ciphers.IndexOf($suite.Name) -eq -1){
+      Write-Host "Disable-TlsCipherSuite ``$($suite.Name)``"
+      Disable-TlsCipherSuite -Name "$($suite.Name)";
+    }
+  }
+}
+
+Foreach($suite in $ssl_ciphers){
+  Write-Host "Enable ``$suite``"
+  Enable-TlsCipherSuite -Name "$suite"
+}
+
+{{#if form.ocsp}}
+Write-Host "Enable OCSP stapling for SNI"
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\" -Name "EnableOcspStaplingForSni" -PropertyType DWord -Value 1
+{{/if}}
+
+{{#if form.hsts}}
+#https://docs.microsoft.com/en-us/iis/get-started/whats-new-in-iis-10-version-1709/iis-10-version-1709-hsts
+
+Import-Module IISAdministration
+
+Reset-IISServerManager -Confirm:$false
+Start-IISCommitDelay
+
+$ConfigSection = Get-IISConfigSection -SectionPath "system.applicationHost/sites"
+Foreach($SitesCollection in Get-IISConfigCollection -ConfigElement $ConfigSection){
+  foreach($item in $SitesCollection){
+    $siteName = $item.GetAttributeValue("name")
+    $tlsBindings = Get-WebBinding -Name "$siteName" | Where-Object { $_.protocol -eq "https"} | Select-Object -First 1
+    if($tlsBindings -ne $null){
+      Write-Host "Enable HSTS on site ``$($siteName)``"
+      $Site = Get-IISConfigCollectionElement -ConfigCollection $SitesCollection -ConfigAttribute @{"name" = "$siteName"}
+      $Elem = Get-IISConfigElement -ConfigElement $Site -ChildElementName "limits"
+      Set-IISConfigAttributeValue -ConfigElement $Elem -AttributeName "MaxUrlSegments" -AttributeValue 16
+    }
+  }
+}
+
+Stop-IISCommitDelay
+Remove-Module IISAdministration
+{{/if}}

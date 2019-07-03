@@ -28,7 +28,14 @@ export default async function () {
   }
 
   let openssl_ciphers = ssc.openssl_ciphers;
+  let windows_ciphers = [];
   if (configs[server].supportedCiphers) {
+    // todo: for iis do some replace magic here to match suites
+    windows_ciphers = openssl_ciphers.filter(suite => 
+        {
+          var suiteName ='TLS_' + suite.replace(/-/g, '_').replace('_AES128_','_WITH_AES_128_').replace('_AES256_','_WITH_AES_256_');
+          return configs[server].supportedCiphers.indexOf(suiteName) !== -1
+        });
     openssl_ciphers = openssl_ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
   } else {
     openssl_ciphers = openssl_ciphers;
@@ -46,6 +53,7 @@ export default async function () {
     },
     output: {
       ciphers: openssl_ciphers,  // OpenSSL
+      windowsCiphers: windows_ciphers, // Windows and so IIS
       cipherSuites: ssc.openssl_ciphersuites,
       date: date.toISOString().substr(0, 10),
       dhCommand: ssc.dh_param_size >= 2048 ? `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt` : `openssl dhparam ${ssc.dh_param_size}`,

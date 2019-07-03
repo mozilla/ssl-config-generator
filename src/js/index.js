@@ -11,11 +11,13 @@ import ini from 'highlight.js/lib/languages/ini';
 import json from 'highlight.js/lib/languages/json';
 import nginx from 'highlight.js/lib/languages/nginx';
 import yaml from 'highlight.js/lib/languages/yaml';
+import ps from 'highlight.js/lib/languages/powershell';
 hljs.registerLanguage('apache', apache);
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('nginx', nginx);
 hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('ps', ps);
 
 import '../css/index.scss';
 
