@@ -23,7 +23,7 @@
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.1",
     "popper.js": "^1.14.7",
-    "semver": "^6.1.1"
+    "semver": "^6.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -48,8 +48,8 @@
     "regenerator-runtime": "^0.13.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "webpack": "^4.33.0",
+    "webpack": "^4.35.2",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.5"
   }
 }
