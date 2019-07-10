@@ -32,6 +32,15 @@ module.exports = {
     tls13: '0.11.5',
     usesOpenssl: false,
   },
+  dovecot: {
+    highlighter: 'nginx', // TODO: find better
+    latestVersion: '2.3.6',
+    name: 'Dovecot',
+    supportsHsts: false,
+    supportsOcspStapling: false, 
+    tls13: '2.0.0',
+    usesOpenssl: true,
+  },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '1.9.8',

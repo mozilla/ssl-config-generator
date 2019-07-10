@@ -1,0 +1,16 @@
+# {{output.date}}, {{{output.link}}}
+ssl = required
+
+ssl_cert = </path/to/signed_cert_plus_intermediates
+ssl_key = </path/to/private_key
+ssl_ca = </path/to/ca_certificate
+ssl_min_protocol = {{output.protocols.[0]}}
+
+ssl_prefer_server_ciphers = {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}
+{{#if output.ciphers.length}}
+ssl_cipher_list = {{{join output.ciphers ":"}}}
+{{/if}}
+{{#if output.usesDhe}}
+# {{output.dhCommand}} > /path/to/dhparam.pem
+ssl_dh=</path/to/dhparam.pem
+{{/if}}
