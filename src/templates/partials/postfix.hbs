@@ -17,7 +17,7 @@ smtpd_tls_mandatory_ciphers = medium
 smtpd_tls_dh1024_param_file = /path/to/dhparam.pem
 {{/if}}
 
-{{#if output.cipherSuites.length}}
+{{#if output.ciphers.length}}
 tls_medium_cipherlist = {{{join output.ciphers ":"}}}
 {{/if}}
 tls_preempt_cipherlist = {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}
