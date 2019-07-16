@@ -89,11 +89,13 @@ module.exports = {
     tls13: '12.0',
   },
   traefik: {
+    cipherFormat: 'iana',
     highlighter: 'toml',
     latestVersion: '1.7.12',
-    name: 'Traefik',
+    name: 'Traefik (beta)',
     supportsHsts: true,
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
+    usesOpenssl: false,
   },
 };

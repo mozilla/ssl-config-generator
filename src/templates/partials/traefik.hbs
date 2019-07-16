@@ -1,0 +1,30 @@
+# generated {{output.date}}, {{{output.link}}}
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+{{#if form.hsts}}
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+
+{{/if}}
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+      {{#if (eq output.protocols.[0] "TLSv1")}}
+      minVersion = "VersionTLS10"
+      {{else}}
+      minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
+      {{/if}}
+      {{#if output.ciphers.length}}
+      cipherSuites = [
+      {{#each output.ciphers}}
+        "{{this}}"{{#unless @last}},{{/unless}}
+      {{/each}}
+      ]
+      {{/if}}
+
+      [[entryPoints.https.tls.certificates]]
+      certFile = "/path/to/signed_cert_plus_intermediates"
+      keyFile = "/path/to/private_key"
