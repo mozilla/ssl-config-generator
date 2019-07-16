@@ -1,5 +1,6 @@
 // configs for the supported pieces of software
 // hasVersions, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
+// cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
 const noSupportedVersion = '10000.10000.10000';
 
 
@@ -86,5 +87,13 @@ module.exports = {
     supportsHsts: false,
     supportsOcspStapling: false,
     tls13: '12.0',
+  },
+  traefik: {
+    highlighter: 'toml',
+    latestVersion: '1.7.12',
+    name: 'Traefik',
+    supportsHsts: true,
+    supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
+    tls13: '2.0.0',
   },
 };
