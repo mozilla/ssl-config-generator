@@ -20,7 +20,6 @@ hljs.registerLanguage('yaml', yaml);
 import '../css/index.scss';
 
 import { validHashKeys } from './constants.js';
-import analytics from './analytics.js';
 import configs from './configs.js';
 import state from './state.js';
 import { sleep } from './utils.js';

@@ -51,6 +51,11 @@ const plugins = [
       flatten: false
     }
   ]),
+  new CopyWebpackPlugin([
+    {
+      from: 'src/js/analytics.js',
+    }
+  ]),
   new MiniCssExtractPlugin({
     filename: '[hash].index.css',
   })

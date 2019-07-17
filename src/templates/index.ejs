@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-black">
 <head>
+    <!--
+      Read more about our custom configuration and use of Google Analytics here:
+      https://bugzilla.mozilla.org/show_bug.cgi?id=1122305#c8
+    -->
+    <% if (htmlWebpackPlugin.options.production) { %>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66267220-1"></script>
+    <script src="/analytics.js"></script>
+    <% } %>
+
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="<%= htmlWebpackPlugin.options.csp %>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,10 +24,6 @@
     <link rel="shortcut icon" href="/images/favicons/favicon.ico">
 
     <title><%= htmlWebpackPlugin.options.title %></title>
-
-    <% if (htmlWebpackPlugin.options.production) { %>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66267220-1"></script>
-    <% } %>
 </head>
 <body>
   <div class="container pt-4">
