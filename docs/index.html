@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="/images/favicons/favicon.ico">
 
     <title>Mozilla SSL Configuration Generator</title>
-<link href="04ec45145fd5d98b651d.index.css" rel="stylesheet"></head>
+<link href="c703ec55df9fb514b75e.index.css" rel="stylesheet"></head>
 <body>
   <div class="container pt-4">
     <div class="h2 pb-2">
@@ -27,7 +27,7 @@
     <form id="form-generator">
       <div class="form-row">
         <!-- server software, populated from entries in configs.js with names -->
-        <div id="form-server" class="col-12 col-md-4">
+        <div class="col-12 col-md-2 form-server">
           <h5>Server Software</h5>
           
             <div class="form-check">
@@ -36,13 +36,17 @@
                 Apache
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-awselb" value="awselb" >
               <label class="form-check-label" for="server-awselb">
-                AWS Elastic Load Balancer
+                AWS ELB
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-caddy" value="caddy" >
@@ -50,6 +54,8 @@
                 Caddy
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-haproxy" value="haproxy" >
@@ -57,6 +63,8 @@
                 HAProxy
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-lighttpd" value="lighttpd" >
@@ -64,6 +72,8 @@
                 lighttpd
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-mysql" value="mysql" >
@@ -71,6 +81,12 @@
                 MySQL
               </label>
             </div>
+            
+        </div>
+        <div class="col-12 col-md-2 form-server">
+        <h5 class="d-none d-md-block">&nbsp;</h5>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-nginx" value="nginx" checked>
@@ -78,13 +94,17 @@
                 nginx
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-oraclehttp" value="oraclehttp" >
               <label class="form-check-label" for="server-oraclehttp">
-                Oracle HTTP Server
+                Oracle HTTP
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-postfix" value="postfix" >
@@ -92,6 +112,8 @@
                 Postfix
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-postgresql" value="postgresql" >
@@ -99,6 +121,8 @@
                 PostgreSQL
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-traefik" value="traefik" >
@@ -106,12 +130,14 @@
                 Traefik (beta)
               </label>
             </div>
+            
+
           
         </div>
 
         <!-- config -->
         <div class="col-12 col-md-4" id="form-config">
-          <h5>Mozilla Configuration</h5>
+          <h5 class="mt-3 mt-md-0">Mozilla Configuration</h5>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="config" id="config-modern" value="modern">
             <label class="form-check-label" for="config-modern">
@@ -137,7 +163,7 @@
 
         <!-- versions -->
         <div class="col-12 col-md-4" id="form-environment">
-          <h5>Environment</h5>
+          <h5 class="mt-3 mt-md-0">Environment</h5>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Server Version</span>
@@ -223,5 +249,5 @@
       </div>
     </div>
   </footer>
-<script type="text/javascript" src="04ec45145fd5d98b651d.index.js"></script></body>
+<script type="text/javascript" src="c703ec55df9fb514b75e.index.js"></script></body>
 </html>
