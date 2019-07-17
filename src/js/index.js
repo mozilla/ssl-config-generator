@@ -117,7 +117,7 @@ $().ready(() => {
   });
 
   // anytime the server changes, so does the server version
-  $('#form-server').on('change', async () => {
+  $('.form-server').on('change', async () => {
     gHaveSettingsChanged = true;
     const _state = await state();
     $('#server-version').val(_state.output.latestVersion);
