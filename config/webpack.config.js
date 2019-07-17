@@ -28,6 +28,7 @@ const plugins = [
     constants,
     configs,
     csp: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
+    production,
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),

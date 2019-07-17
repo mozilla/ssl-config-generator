@@ -15,6 +15,10 @@
     <link rel="shortcut icon" href="/images/favicons/favicon.ico">
 
     <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <% if (htmlWebpackPlugin.options.production) { %>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66267220-1"></script>
+    <% } %>
 </head>
 <body>
   <div class="container pt-4">
