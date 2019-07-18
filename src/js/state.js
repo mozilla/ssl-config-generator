@@ -61,6 +61,7 @@ export default async function () {
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
+      showSupports: configs[server].showSupports !== false,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,

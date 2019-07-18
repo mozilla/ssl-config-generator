@@ -1,5 +1,5 @@
 // configs for the supported pieces of software
-// hasVersions, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
+// hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
 // cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
 const noSupportedVersion = '10000.10000.10000';
 
@@ -10,6 +10,16 @@ module.exports = {
     latestVersion: '2.4.39',
     name: 'Apache',
     tls13: '2.4.36',
+  },
+  awsalb: {
+    hasVersions: false,
+    highlighter: 'yaml',
+    latestVersion: '2018.7.25',
+    name: 'AWS ALB',
+    showSupports: false,
+    supportsOcspStapling: false,
+    tls13: noSupportedVersion,
+    usesOpenssl: false,
   },
   // supported ciphers generated with:
   // aws elb describe-load-balancer-policies --query "PolicyDescriptions[?PolicyName=='ELBSample-ELBDefaultCipherPolicy'].PolicyAttributeDescriptions[*].AttributeName[]"
@@ -49,6 +59,7 @@ module.exports = {
     highlighter: 'ini',
     latestVersion: '8.0.16',
     name: 'MySQL',
+    showSupports: false,
     supportsHsts: false,
     supportsOcsp: false,
     tls13: '8.0.16',
@@ -76,6 +87,7 @@ module.exports = {
     highlighter: 'nginx',
     latestVersion: '3.4.5',
     name: 'Postfix',
+    showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
     tls13: '3.3.2',
@@ -84,6 +96,7 @@ module.exports = {
     highlighter: 'nginx',
     latestVersion: '11.3',
     name: 'PostgreSQL',
+    showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
     tls13: '12.0',
