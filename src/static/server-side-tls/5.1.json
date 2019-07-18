@@ -1,5 +1,5 @@
 {
-    "href": "https://ssl-config.mozilla.org/config/server-side-tls/5.1.json",
+    "href": "https://ssl-config.mozilla.org/server-side-tls/5.1.json",
     "configurations": {
         "modern": {
             "ciphers": {
