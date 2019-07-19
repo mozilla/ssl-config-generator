@@ -1,5 +1,5 @@
 import configs from './configs.js';
-import sstls from '../../config/server-side-tls-conf-5.0.json';
+import sstls from '../static/server-side-tls/5.1.json';
 import minver from './helpers/minver.js';
 
 
@@ -27,11 +27,11 @@ export default async function () {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
-  let openssl_ciphers = ssc.openssl_ciphers;
+  let ciphers = configs[server].cipherFormat ? ssc.ciphers[configs[server].cipherFormat] : ssc.ciphers.openssl;
   if (configs[server].supportedCiphers) {
-    openssl_ciphers = openssl_ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
+    ciphers = ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
   } else {
-    openssl_ciphers = openssl_ciphers;
+    ciphers = ciphers;
   }
 
   const state = {
@@ -45,7 +45,7 @@ export default async function () {
       serverVersion: form['server-version'].value,      
     },
     output: {
-      ciphers: openssl_ciphers,  // OpenSSL
+      ciphers,
       cipherSuites: ssc.openssl_ciphersuites,
       date: date.toISOString().substr(0, 10),
       dhCommand: ssc.dh_param_size >= 2048 ? `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt` : `openssl dhparam ${ssc.dh_param_size}`,
@@ -56,15 +56,16 @@ export default async function () {
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
-      opensslCiphers: openssl_ciphers,
+      opensslCiphers: ciphers,
       opensslCipherSuites: ssc.openssl_ciphersuites,
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
+      showSupports: configs[server].showSupports !== false,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,
-      usesDhe: openssl_ciphers.join(":").includes(":DHE"), 
+      usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
     sstls,

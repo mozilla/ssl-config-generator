@@ -47,6 +47,12 @@ SSLProtocol             all -SSLv2 {{#unless (includes "SSLv3" output.protocols)
 SSLCipherSuite          {{{join output.ciphers ":"}}}
 {{/if}}
 SSLHonorCipherOrder     {{#if output.serverPreferredOrder}}on{{else}}off{{/if}}
+{{#if (minpatchver "2.2.30" form.serverVersion)}}
+SSLSessionTickets       off
+{{/if}}
+{{#if (minver "2.4.11" form.serverVersion)}}
+SSLSessionTickets       off
+{{/if}}
 {{#if form.ocsp}}
   {{#if (minver "2.4.14" form.serverVersion)}}
 

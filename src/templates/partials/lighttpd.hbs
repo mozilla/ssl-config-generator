@@ -23,20 +23,18 @@ $SERVER["socket"] == ":443" {
     {{/if}}
 {{/if}}
 
-    # ECDH/ECDHE ciphers curve strength (see `openssl ecparam -list_curves`)
-    ssl.ec-curve              = "{{#if (minver "1.4.49" form.serverVersion)}}{{#if (minver "1.1.1" form.opensslVersion)}}X25519:{{/if}}{{/if}}prime256v1{{#if (minver "1.4.48" form.serverVersion)}}{{#if (minver "1.0.2" form.opensslVersion)}}:secp384r1{{/if}}{{/if}}"
-
     # Environment flag for HTTPS enabled
     setenv.add-environment = (
         "HTTPS" => "on"
     )
 
     # {{form.config}} configuration, tweak to your needs
-{{#if (minver "1.4.8" form.serverVersion)}}
-    ssl.openssl.ssl-conf-cmd = ("Protocol" => "all -SSLv2 {{#unless (includes "SSLv3" output.protocols)}}-SSLv3 {{/unless}}{{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} -TLSv1.2{{/unless}}")
+{{#if (minver "1.4.48" form.serverVersion)}}
+    ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
 {{else}}
+    # Please upgrade to 1.4.48 or else you cannot fully disable deprecated protocols
     ssl.use-sslv2 = "disable"
-    ssl.use-sslv3 = {{#if (includes "SSLv3" output.protocols)}}"enable"{{else}}"disable"{{/if}}
+    ssl.use-sslv3 = "disable"
 {{/if}}
     ssl.cipher-list           = "{{{join output.ciphers ":"}}}"
     ssl.honor-cipher-order    = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"

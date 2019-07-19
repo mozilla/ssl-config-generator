@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-black">
 <head>
+    <!--
+      Read more about our custom configuration and use of Google Analytics here:
+      https://bugzilla.mozilla.org/show_bug.cgi?id=1122305#c8
+    -->
+    <% if (htmlWebpackPlugin.options.production) { %>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66267220-1"></script>
+    <script src="/analytics.js"></script>
+    <% } %>
+
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="<%= htmlWebpackPlugin.options.csp %>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,10 +36,10 @@
     <form id="form-generator">
       <div class="form-row">
         <!-- server software, populated from entries in configs.js with names -->
-        <div id="form-server" class="col-12 col-md-4">
+        <div class="col-12 col-md-2 form-server">
           <h5>Server Software</h5>
           <%
-            Object.entries(htmlWebpackPlugin.options.configs).forEach(config => {
+            Object.entries(htmlWebpackPlugin.options.configs).forEach((config, i) => {
               if (config[1].name) {
           %>
             <div class="form-check">
@@ -39,12 +48,18 @@
                 <%= config[1].name %>
               </label>
             </div>
+            <% if (Math.floor(Object.entries(htmlWebpackPlugin.options.configs).length / 2) === (i + 1)) { %>
+        </div>
+        <div class="col-12 col-md-2 form-server">
+        <h5 class="d-none d-md-block">&nbsp;</h5>
+            <% } %>
+
           <% }}) %>
         </div>
 
         <!-- config -->
         <div class="col-12 col-md-4" id="form-config">
-          <h5>Mozilla Configuration</h5>
+          <h5 class="mt-3 mt-md-0">Mozilla Configuration</h5>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="config" id="config-modern" value="modern">
             <label class="form-check-label" for="config-modern">
@@ -70,12 +85,12 @@
 
         <!-- versions -->
         <div class="col-12 col-md-4" id="form-environment">
-          <h5>Environment</h5>
+          <h5 class="mt-3 mt-md-0">Environment</h5>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Server Version</span>
             </div>
-            <input type="text" class="form-control" aria-label="Server Version" aria-described="server-version" id="server-version" value="<%= htmlWebpackPlugin.options.configs.apache.latestVersion %>">
+            <input type="text" class="form-control" aria-label="Server Version" aria-described="server-version" id="server-version" value="<%= htmlWebpackPlugin.options.configs.nginx.latestVersion %>">
           </div>
           <div class="input-group mt-2">
             <div class="input-group-prepend">
