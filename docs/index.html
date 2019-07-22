@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-black">
 <head>
+    <!--
+      Read more about our custom configuration and use of Google Analytics here:
+      https://bugzilla.mozilla.org/show_bug.cgi?id=1122305#c8
+    -->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66267220-1"></script>
+    <script src="/analytics.js"></script>
+    
+
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; connect-src https://www.google-analytics.com; font-src 'self'; img-src 'self' https://www.google-analytics.com; script-src 'self' https://www.google-analytics.com/analytics.js https://www.googletagmanager.com/gtag/js; style-src 'self'">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="April King">
@@ -15,7 +24,7 @@
     <link rel="shortcut icon" href="/images/favicons/favicon.ico">
 
     <title>Mozilla SSL Configuration Generator</title>
-<link href="e07618aebe5aeec2e505.index.css" rel="stylesheet"></head>
+<link href="92cce40521d663be2480.index.css" rel="stylesheet"></head>
 <body>
   <div class="container pt-4">
     <div class="h2 pb-2">
@@ -27,7 +36,7 @@
     <form id="form-generator">
       <div class="form-row">
         <!-- server software, populated from entries in configs.js with names -->
-        <div id="form-server" class="col-12 col-md-4">
+        <div class="col-12 col-md-2 form-server">
           <h5>Server Software</h5>
           
             <div class="form-check">
@@ -36,13 +45,26 @@
                 Apache
               </label>
             </div>
+            
+
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-awsalb" value="awsalb" >
+              <label class="form-check-label" for="server-awsalb">
+                AWS ALB
+              </label>
+            </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-awselb" value="awselb" >
               <label class="form-check-label" for="server-awselb">
-                AWS Elastic Load Balancer
+                AWS ELB
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-caddy" value="caddy" >
@@ -50,6 +72,8 @@
                 Caddy
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-haproxy" value="haproxy" >
@@ -57,6 +81,8 @@
                 HAProxy
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-lighttpd" value="lighttpd" >
@@ -64,6 +90,12 @@
                 lighttpd
               </label>
             </div>
+            
+        </div>
+        <div class="col-12 col-md-2 form-server">
+        <h5 class="d-none d-md-block">&nbsp;</h5>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-mysql" value="mysql" >
@@ -71,6 +103,8 @@
                 MySQL
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-nginx" value="nginx" checked>
@@ -78,13 +112,17 @@
                 nginx
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-oraclehttp" value="oraclehttp" >
               <label class="form-check-label" for="server-oraclehttp">
-                Oracle HTTP Server
+                Oracle HTTP
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-postfix" value="postfix" >
@@ -92,6 +130,8 @@
                 Postfix
               </label>
             </div>
+            
+
           
             <div class="form-check">
               <input class="form-check-input" type="radio" name="server" id="server-postgresql" value="postgresql" >
@@ -99,12 +139,23 @@
                 PostgreSQL
               </label>
             </div>
+            
+
+          
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="server" id="server-traefik" value="traefik" >
+              <label class="form-check-label" for="server-traefik">
+                Traefik (beta)
+              </label>
+            </div>
+            
+
           
         </div>
 
         <!-- config -->
         <div class="col-12 col-md-4" id="form-config">
-          <h5>Mozilla Configuration</h5>
+          <h5 class="mt-3 mt-md-0">Mozilla Configuration</h5>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="config" id="config-modern" value="modern">
             <label class="form-check-label" for="config-modern">
@@ -130,7 +181,7 @@
 
         <!-- versions -->
         <div class="col-12 col-md-4" id="form-environment">
-          <h5>Environment</h5>
+          <h5 class="mt-3 mt-md-0">Environment</h5>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Server Version</span>
@@ -216,5 +267,5 @@
       </div>
     </div>
   </footer>
-<script type="text/javascript" src="e07618aebe5aeec2e505.index.js"></script></body>
+<script type="text/javascript" src="92cce40521d663be2480.index.js"></script></body>
 </html>

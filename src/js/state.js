@@ -1,5 +1,5 @@
 import configs from './configs.js';
-import sstls from '../../config/server-side-tls-conf-5.0.json';
+import sstls from '../static/guidelines/5.1.json';
 import minver from './helpers/minver.js';
 
 
@@ -27,7 +27,7 @@ export default async function () {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
-  let openssl_ciphers = ssc.openssl_ciphers;
+  let openssl_ciphers = configs[server].cipherFormat ? ssc.ciphers[configs[server].cipherFormat] : ssc.ciphers.openssl;
   let windows_ciphers = [];
   if (configs[server].supportedCiphers) {
     // todo: for iis do some replace magic here to match suites
@@ -37,9 +37,7 @@ export default async function () {
           return configs[server].supportedCiphers.indexOf(suiteName) !== -1
         });
     openssl_ciphers = openssl_ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
-  } else {
-    openssl_ciphers = openssl_ciphers;
-  }
+  } 
 
   const state = {
     form: {
@@ -64,15 +62,16 @@ export default async function () {
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
-      opensslCiphers: openssl_ciphers,
+      opensslCiphers: ciphers,
       opensslCipherSuites: ssc.openssl_ciphersuites,
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
+      showSupports: configs[server].showSupports !== false,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: configs[server].supportsOcspStapling !== false,
-      usesDhe: openssl_ciphers.join(":").includes(":DHE"), 
+      usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
     sstls,

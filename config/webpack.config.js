@@ -28,6 +28,7 @@ const plugins = [
     constants,
     configs,
     csp: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
+    production,
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),
@@ -48,6 +49,11 @@ const plugins = [
     {
       from: 'src/static',
       flatten: false
+    }
+  ]),
+  new CopyWebpackPlugin([
+    {
+      from: 'src/js/analytics.js',
     }
   ]),
   new MiniCssExtractPlugin({

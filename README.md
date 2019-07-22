@@ -29,7 +29,8 @@ There are two places that need to be updated in order to add support for a new p
 
 All of the templates are written in [Handlebars.js](https://handlebarsjs.com/), and so therefore support all of its standard features. This includes `if`/`else`/`unless` conditionals and `each` loops, for example. In addition, the configuration generator supports the following helpers:
 
-- `includes(item, stringOrArray`) - `true` if `stringOrArray` contains `item`
+- `eq(item, value)` - `true` if `item` equals `value`
+- `includes(item, stringOrArray)` - `true` if `stringOrArray` contains `item`
 - `join(array, joiner)` - split a array into a string based on `joiner`
   - `{{{join output.ciphers ":"}}}`
 - `last(array)` - returns the last item in the array
