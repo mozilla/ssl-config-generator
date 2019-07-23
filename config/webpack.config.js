@@ -5,11 +5,17 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const BrowserSyncWebpackPlugin = require('browser-sync-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const exec = require('child_process').spawnSync;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const production = process.env.NODE_ENV === 'production';
+
+// function that returns the github short revision
+const revision = () => {
+  return exec('git', ['rev-parse', '--short', 'HEAD'], { encoding: 'ascii' }).stdout.trim();
+}
 
 // the many plugins used
 const plugins = [
@@ -28,7 +34,9 @@ const plugins = [
     constants,
     configs,
     csp: production ? constants.contentSecurityPolicy : constants.localContentSecurityPolicy,
+    date: new Date().toISOString().substr(0, 10),
     production,
+    revision: revision(),
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),
