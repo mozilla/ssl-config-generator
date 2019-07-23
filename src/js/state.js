@@ -46,7 +46,7 @@ export default async function () {
     },
     output: {
       ciphers,
-      cipherSuites: ssc.openssl_ciphersuites,
+      cipherSuites: ssc.ciphersuites,
       date: date.toISOString().substr(0, 10),
       dhCommand: ssc.dh_param_size >= 2048 ? `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt` : `openssl dhparam ${ssc.dh_param_size}`,
       dhParamSize: ssc.dh_param_size,
@@ -57,7 +57,7 @@ export default async function () {
       link,
       oldestClients: ssc.oldest_clients,
       opensslCiphers: ciphers,
-      opensslCipherSuites: ssc.openssl_ciphersuites,
+      opensslCipherSuites: ssc.ciphersuites,
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
