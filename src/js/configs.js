@@ -102,7 +102,7 @@ module.exports = {
     tls13: '12.0',
   },
   traefik: {
-    cipherFormat: 'iana',
+    cipherFormat: 'go',
     highlighter: 'ini',
     latestVersion: '1.7.12',
     name: 'Traefik (beta)',

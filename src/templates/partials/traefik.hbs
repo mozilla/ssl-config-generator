@@ -25,6 +25,8 @@ defaultEntryPoints = ["http", "https"]
       ]
       {{/if}}
 
+      # due to Go limitations, it is highly recommended that you use an ECDHE
+      # certificate, or you may experience compatibility issues
       [[entryPoints.https.tls.certificates]]
       certFile = "/path/to/signed_cert_plus_intermediates"
       keyFile = "/path/to/private_key"

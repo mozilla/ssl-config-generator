@@ -1,5 +1,5 @@
 import configs from './configs.js';
-import sstls from '../static/guidelines/5.1.json';
+import sstls from '../static/guidelines/5.2.json';
 import minver from './helpers/minver.js';
 
 
