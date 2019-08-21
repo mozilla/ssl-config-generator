@@ -95,7 +95,7 @@ function Remove-RegistryValue($path, $name){
 }
 
 # Restrict the use of certain cryptographic algorithms and protocols in Schannel.dll
-# http://support2.microsoft.com/default.aspx?scid=kb;EN-US;245030
+# https://support.microsoft.com/en-us/help/245030/how-to-restrict-the-use-of-certain-cryptographic-algorithms-and-protoc
 Reset-Chihers
 Set-Cipher -name "AES 128/128" -value 0xffffffff
 Set-Cipher -name "AES 256/256" -value 0xffffffff
