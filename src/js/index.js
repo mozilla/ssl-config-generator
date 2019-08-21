@@ -16,8 +16,8 @@ hljs.registerLanguage('apache', apache);
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('nginx', nginx);
-hljs.registerLanguage('yaml', yaml);
 hljs.registerLanguage('ps', ps);
+hljs.registerLanguage('yaml', yaml);
 
 import '../css/index.scss';
 
