@@ -45,10 +45,11 @@ module.exports = {
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.3.6',
+    latestVersion: '2.3.7',
     name: 'Dovecot',
+    showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false, 
+    supportsOcspStapling: false,
     tls13: '2.0.0',
     usesOpenssl: true,
   },
