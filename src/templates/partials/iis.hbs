@@ -1,6 +1,6 @@
 # {{output.date}}, {{{output.link}}}
-function Set-Chipher($name, $value){
-  Write-Host "Set-Chiphers ``$name`` ``$value``"
+function Set-Cipher($name, $value){
+  Write-Host "Set-Ciphers ``$name`` ``$value``"
   $key = [Microsoft.Win32.Registry]::LocalMachine;
   $subKey = $key.CreateSubKey("SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers\$name")
   $return = $subKey.SetValue("Enabled", $value, [Microsoft.Win32.RegistryValueKind]::DWord)
@@ -8,8 +8,8 @@ function Set-Chipher($name, $value){
   $key.Close();
 }
 
-function Reset-Chiphers(){
-  Write-Host "Reset-Chiphers"
+function Reset-Ciphers(){
+  Write-Host "Reset-Ciphers"
   $sChannelKey = "HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Ciphers"
   Remove-Item -Path $sChannelKey -Recurse -Force
   $return = New-Item -Path $sChannelKey
@@ -96,19 +96,19 @@ function Remove-RegistryValue($path, $name){
 
 # Restrict the use of certain cryptographic algorithms and protocols in Schannel.dll
 # http://support2.microsoft.com/default.aspx?scid=kb;EN-US;245030
-Reset-Chiphers
-Set-Chipher -name "AES 128/128" -value 0xffffffff
-Set-Chipher -name "AES 256/256" -value 0xffffffff
-Set-Chipher -name "DES 56/56" -value 0x00000000
-Set-Chipher -name "NULL" -value 0x00000000
-Set-Chipher -name "RC2 128/128" -value 0x00000000
-Set-Chipher -name "RC2 40/128" -value 0x00000000
-Set-Chipher -name "RC2 56/128" -value 0x00000000
-Set-Chipher -name "RC4 128/128" -value 0x00000000
-Set-Chipher -name "RC4 40/128" -value 0x00000000
-Set-Chipher -name "RC4 56/128" -value 0x00000000
-Set-Chipher -name "RC4 64/128" -value 0x00000000
-Set-Chipher -name "Triple DES 168/168" -value 0x00000000
+Reset-Chihers
+Set-Cipher -name "AES 128/128" -value 0xffffffff
+Set-Cipher -name "AES 256/256" -value 0xffffffff
+Set-Cipher -name "DES 56/56" -value 0x00000000
+Set-Cipher -name "NULL" -value 0x00000000
+Set-Cipher -name "RC2 128/128" -value 0x00000000
+Set-Cipher -name "RC2 40/128" -value 0x00000000
+Set-Cipher -name "RC2 56/128" -value 0x00000000
+Set-Cipher -name "RC4 128/128" -value 0x00000000
+Set-Cipher -name "RC4 40/128" -value 0x00000000
+Set-Cipher -name "RC4 56/128" -value 0x00000000
+Set-Cipher -name "RC4 64/128" -value 0x00000000
+Set-Cipher -name "Triple DES 168/168" -value 0x00000000
 
 Reset-Hashes
 Set-Hash -name "MD5" -value 0x00000000
