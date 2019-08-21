@@ -50,8 +50,10 @@ SSLHonorCipherOrder     {{#if output.serverPreferredOrder}}on{{else}}off{{/if}}
 {{#if (minpatchver "2.2.30" form.serverVersion)}}
 SSLSessionTickets       off
 {{/if}}
-{{#if (minver "2.4.11" form.serverVersion)}}
+{{#if (minver "1.0.2l" form.opensslVersion)}}
+  {{#if (minver "2.4.11" form.serverVersion)}}
 SSLSessionTickets       off
+  {{/if}}
 {{/if}}
 {{#if form.ocsp}}
   {{#if (minver "2.4.14" form.serverVersion)}}
