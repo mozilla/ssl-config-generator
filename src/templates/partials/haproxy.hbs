@@ -8,7 +8,7 @@ global
 {{/if}}
 {{#if (minver "1.9.0" form.serverVersion)}}
     {{#if (minver "1.1.1" form.opensslVersion)}}
-    ssl-default-bind-ciphersuites {{{join output.ciphers ":"}}}
+    ssl-default-bind-ciphersuites {{{join output.cipherSuites ":"}}}
     {{/if}}
 {{/if}}
     ssl-default-bind-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
@@ -18,7 +18,7 @@ global
 {{/if}}
 {{#if (minver "1.9.0" form.serverVersion)}}
     {{#if (minver "1.1.1" form.opensslVersion)}}
-    ssl-default-server-ciphersuites {{{join output.ciphers ":"}}}
+    ssl-default-server-ciphersuites {{{join output.cipherSuites ":"}}}
     {{/if}}
 {{/if}}
     ssl-default-server-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
@@ -27,7 +27,6 @@ global
     # {{output.dhCommand}} > /path/to/dhparam.pem
     ssl-dh-param-file /path/to/dhparam.pem
 {{/if}}
-}
 
 frontend ft_test
     mode    http

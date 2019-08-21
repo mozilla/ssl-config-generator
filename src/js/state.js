@@ -1,5 +1,5 @@
 import configs from './configs.js';
-import sstls from '../static/guidelines/5.1.json';
+import sstls from '../static/guidelines/5.2.json';
 import minver from './helpers/minver.js';
 
 
@@ -30,7 +30,6 @@ export default async function () {
   let openssl_ciphers = configs[server].cipherFormat ? ssc.ciphers[configs[server].cipherFormat] : ssc.ciphers.openssl;
   let windows_ciphers = [];
   if (configs[server].supportedCiphers) {
-    // todo: for iis do some replace magic here to match suites
     windows_ciphers = openssl_ciphers.filter(suite => 
         {
           var suiteName ='TLS_' + suite.replace(/-/g, '_').replace('_AES128_','_WITH_AES_128_').replace('_AES256_','_WITH_AES_256_');
@@ -63,7 +62,7 @@ export default async function () {
       link,
       oldestClients: ssc.oldest_clients,
       opensslCiphers: ciphers,
-      opensslCipherSuites: ssc.openssl_ciphersuites,
+      opensslCipherSuites: ssc.ciphersuites,
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,

@@ -150,7 +150,7 @@ module.exports = {
     usesOpenssl: false,
   }, 
   traefik: {
-    cipherFormat: 'iana',
+    cipherFormat: 'go',
     highlighter: 'ini',
     latestVersion: '1.7.12',
     name: 'Traefik (beta)',

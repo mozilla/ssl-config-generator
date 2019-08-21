@@ -167,9 +167,12 @@
             <li><a class="text-white" href="https://github.com/mozilla/ssl-config-generator#creating-templates">Supporting new software</a></li>
           </ul>
         </div>
-
       </div>
     </div>
+
+    <% if (htmlWebpackPlugin.options.production) { %>
+    <div class="w-100 d-none d-md-block pr-3 pb-1 small text-right text-muted"><a class="text-secondary" href="https://github.com/mozilla/ssl-config-generator/commit/<%= htmlWebpackPlugin.options.revision %>">build <%= htmlWebpackPlugin.options.revision %></a>, generated 2019-07-23</div>
+    <% } %>
   </footer>
 </body>
 </html>
