@@ -10,7 +10,11 @@ ssl_dh = </path/to/dhparam.pem
 {{/if}}
 
 # {{form.config}} configuration
+{{#if (minver "2.3.0" form.serverVersion)}}
 ssl_min_protocol = {{output.protocols.[0]}}
+{{else}}
+ssl_protocols = {{join output.protocols " "}}
+{{/if}}
 {{#if output.ciphers.length}}
 ssl_cipher_list = {{{join output.ciphers ":"}}}
 {{/if}}
