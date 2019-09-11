@@ -5,8 +5,12 @@ ssl_cert = </path/to/signed_cert_plus_intermediates
 ssl_key = </path/to/private_key
 {{#if output.usesDhe}}
 
+  {{#if (minver "2.3.0" form.serverVersion)}}
 # {{output.dhCommand}} > /path/to/dhparam.pem
 ssl_dh = </path/to/dhparam.pem
+  {{else}}
+ssl_dh_parameters_length = 2048
+  {{/if}}
 {{/if}}
 
 # {{form.config}} configuration
