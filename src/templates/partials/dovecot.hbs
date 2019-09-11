@@ -9,7 +9,7 @@ ssl_key = </path/to/private_key
 # {{output.dhCommand}} > /path/to/dhparam.pem
 ssl_dh = </path/to/dhparam.pem
   {{else}}
-ssl_dh_parameters_length = 2048
+ssl_dh_parameters_length = {{output.dhParamSize}}
   {{/if}}
 {{/if}}
 
