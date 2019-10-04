@@ -53,6 +53,15 @@ module.exports = {
     tls13: '2.0.0',
     usesOpenssl: true,
   },
+  exim: {
+    highlighter: 'nginx',
+    latestVersion: '4.92.3',
+    name: 'Exim',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4.92.0',
+  },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '1.9.8',
