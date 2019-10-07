@@ -120,6 +120,15 @@ module.exports = {
     supportsOcspStapling: false,
     tls13: '12.0',
   },
+  proftpd: {
+    highlighter: 'apache',
+    latestVersion: '1.3.6',
+    name: 'ProFTPD',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: true,
+    tls13: '1.3.6',
+  },
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
