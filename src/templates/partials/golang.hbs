@@ -1,0 +1,41 @@
+// generated {{output.date}}, {{{output.link}}}
+package main
+
+import (
+    "crypto/tls"
+    "log"
+    "net/http"
+)
+
+func main() {
+    mux := http.NewServeMux()
+    mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+{{#if form.hsts}}
+        w.Header().Add("Strict-Transport-Security", "max-age={{output.hstsMaxAge}}")
+{{/if}}
+        w.Write([]byte("This server is running the Mozilla {{form.config}} configuration.\n"))
+    })
+
+    cfg := &tls.Config{
+        MinVersion:               tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
+        PreferServerCipherSuites: {{#if output.serverPreferredOrder}}true{{else}}false{{/if}},
+        CipherSuites: []uint16{
+      {{#each output.ciphers}}
+            tls.{{this}},
+      {{/each}}
+        },
+    }
+    srv := &http.Server{
+        Addr:         ":443",
+        Handler:      mux,
+        TLSConfig:    cfg,
+        TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
+    }
+
+    // due to Go limitations, it is highly recommended that you use an ECDHE
+    // certificate, or you may experience compatibility issues
+    log.Fatal(srv.ListenAndServeTLS(
+        "/path/to/signed_cert_plus_intermediates",
+        "/path/to/private_key"
+    ))
+}

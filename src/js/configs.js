@@ -62,6 +62,14 @@ module.exports = {
     supportsOcspStapling: false,
     tls13: '4.92.0',
   },
+  golang: {
+    cipherFormat: 'go',
+    highlighter: 'go',
+    latestVersion: '1.13.1',
+    name: 'Golang',
+    supportsOcsp: false,
+    tls13: '1.12.0',
+  },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '1.9.8',
@@ -133,7 +141,7 @@ module.exports = {
     cipherFormat: 'go',
     highlighter: 'ini',
     latestVersion: '1.7.12',
-    name: 'Traefik (beta)',
+    name: 'Traefik',
     supportsHsts: true,
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
