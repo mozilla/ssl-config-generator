@@ -32,7 +32,7 @@ func main() {
         TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
     }
 
-    // due to Go limitations, it is highly recommended that you use an ECDHE
+    // due to Go limitations, it is highly recommended that you use an ECDSA
     // certificate, or you may experience compatibility issues
     log.Fatal(srv.ListenAndServeTLS(
         "/path/to/signed_cert_plus_intermediates",
