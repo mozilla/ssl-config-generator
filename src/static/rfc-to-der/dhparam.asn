@@ -1,0 +1,8 @@
+DHParameter DEFINITIONS ::= BEGIN
+
+DHParameter ::= SEQUENCE {
+  prime INTEGER, -- p
+  base INTEGER, -- g
+  privateValueLength INTEGER OPTIONAL }
+
+END
