@@ -140,7 +140,7 @@ module.exports = {
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
-    latestVersion: '1.7.12',
+    latestVersion: '2.1.1',
     name: 'Traefik',
     supportsHsts: true,
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
