@@ -1,4 +1,5 @@
 # generated {{output.date}}, {{{output.link}}}
+
 {{#if (minver "2.0.0" form.serverVersion)}}
 ## static configuration
 # traefik.toml
@@ -23,7 +24,7 @@
     middlewares = ["redirect"]
     {{/if}}
 
-[http.routers.router-secure]
+  [http.routers.router-secure]
     rule = "Host(`foo.com`)"
     service = "my-service"
     entrypoints = ["web-secure"]
@@ -41,7 +42,7 @@
 {{/if}}
 
 [[tls.certificates]]
-  certFile = /path/to/signed_cert_plus_intermediates"
+  certFile = "/path/to/signed_cert_plus_intermediates"
   keyFile = "/path/to/private_key"
 
 [tls.options]
@@ -53,17 +54,16 @@
     {{/if}}
 
   [tls.options.myTLSOptions]
-      {{#if (eq output.protocols.[0] "TLSv1")}}
-      minVersion = "VersionTLS10"
-      {{else}}
-      minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
-      {{/if}}
-      cipherSuites = [
-      {{#each output.ciphers}}
-        "{{this}}"{{#unless @last}},{{/unless}}
-      {{/each}}
-        ]
-
+    {{#if (eq output.protocols.[0] "TLSv1")}}
+    minVersion = "VersionTLS10"
+    {{else}}
+    minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
+    {{/if}}
+    cipherSuites = [
+    {{#each output.ciphers}}
+      "{{this}}"{{#unless @last}},{{/unless}}
+    {{/each}}
+      ]
 
 {{else}}
 defaultEntryPoints = ["http", "https"]
