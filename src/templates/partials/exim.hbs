@@ -1,0 +1,15 @@
+# {{output.date}}, {{{output.link}}}
+tls_advertise_hosts = *
+tls_certificate = /path/to/signed_cert_plus_intermediates
+tls_privatekey = /path/to/private_key
+{{#if output.usesDhe}}
+
+# {{output.dhCommand}} > /path/to/dhparam.pem
+tls_dhparam = /path/to/dhparam.pem
+{{/if}}
+
+# {{form.config}} configuration
+openssl_options = +no_sslv2 +no_sslv3{{#unless (includes "TLSv1" output.protocols)}} +no_tlsv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} +no_tlsv1_1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} +no_tlsv1_2{{/unless}}
+{{#if output.ciphers.length}}
+tls_require_ciphers = {{{join output.ciphers ":"}}}
+{{/if}}

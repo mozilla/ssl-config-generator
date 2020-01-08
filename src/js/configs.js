@@ -43,6 +43,33 @@ module.exports = {
     tls13: '0.11.5',
     usesOpenssl: false,
   },
+  dovecot: {
+    highlighter: 'nginx', // TODO: find better
+    latestVersion: '2.3.7',
+    name: 'Dovecot',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '2.0.0',
+    usesOpenssl: true,
+  },
+  exim: {
+    highlighter: 'nginx',
+    latestVersion: '4.92.3',
+    name: 'Exim',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4.92.0',
+  },
+  golang: {
+    cipherFormat: 'go',
+    highlighter: 'go',
+    latestVersion: '1.13.1',
+    name: 'Golang',
+    supportsOcsp: false,
+    tls13: '1.12.0',
+  },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '1.9.8',
@@ -149,11 +176,20 @@ module.exports = {
     tls13: noSupportedVersion,
     usesOpenssl: false,
   }, 
+  proftpd: {
+    highlighter: 'apache',
+    latestVersion: '1.3.6',
+    name: 'ProFTPD',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: true,
+    tls13: '1.3.6',
+  },
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
     latestVersion: '1.7.12',
-    name: 'Traefik (beta)',
+    name: 'Traefik',
     supportsHsts: true,
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
