@@ -1,4 +1,51 @@
 # generated {{output.date}}, {{{output.link}}}
+{{#if (minver "2.0.0" form.serverVersion)}}
+{{! traefik 2.0 has a very different configuration style }}
+[http.routers]
+  [http.routers.router-secure]
+    rule = "Host(`foo.com`)"
+    service = "service-id"
+    {{#if form.hsts}}
+    middlewares = ["hsts-header"]
+    {{/if}}
+
+    [http.routers.router-secure.tls]
+      options = "{{form.config}}"
+{{#if form.hsts}}
+
+  [http.routers.router-insecure]
+    rule = "Host(`foo.com`)"
+    service = "service-id"
+    {{#if form.hsts}}
+    middlewares = ["redirect-to-https", "hsts-header"]
+    {{/if}}
+
+[http.middlewares]
+  [http.middlewares.redirect-to-https.redirectScheme]
+    scheme = "https"
+  [http.middlewares.hsts-header.headers]
+    [http.middlewares.hsts-header.headers.customResponseHeaders]
+      Strict-Transport-Security = "max-age={{output.hstsMaxAge}}"
+{{/if}}
+
+# due to Go limitations, it is highly recommended that you use an ECDSA
+# certificate, or you may experience compatibility issues
+[[tls.certificates]]
+  certFile = "/path/to/signed_cert_plus_intermediates"
+  keyFile = "/path/to/private_key"
+
+[tls.options]
+  [tls.options.{{form.config}}]
+    minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
+    {{#if output.ciphers.length}}
+    cipherSuites = [
+    {{#each output.ciphers}}
+      "{{this}}"{{#unless @last}},{{/unless}}
+    {{/each}}
+    ]
+      {{/if}}
+{{else}}
+{{! traefik 1.x configuration style }}
 defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
@@ -30,3 +77,4 @@ defaultEntryPoints = ["http", "https"]
       [[entryPoints.https.tls.certificates]]
       certFile = "/path/to/signed_cert_plus_intermediates"
       keyFile = "/path/to/private_key"
+{{/if}}
