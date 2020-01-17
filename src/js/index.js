@@ -11,12 +11,14 @@ import go from 'highlight.js/lib/languages/go';
 import ini from 'highlight.js/lib/languages/ini';
 import json from 'highlight.js/lib/languages/json';
 import nginx from 'highlight.js/lib/languages/nginx';
+import xml from 'highlight.js/lib/languages/xml';
 import yaml from 'highlight.js/lib/languages/yaml';
 hljs.registerLanguage('apache', apache);
 hljs.registerLanguage('go', go);
 hljs.registerLanguage('ini', ini);
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('nginx', nginx);
+hljs.registerLanguage('xml', xml);
 hljs.registerLanguage('yaml', yaml);
 
 import '../css/index.scss';

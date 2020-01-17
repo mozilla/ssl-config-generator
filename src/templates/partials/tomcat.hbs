@@ -1,0 +1,27 @@
+# generated {{output.date}}, {{{output.link}}}
+{{#if form.hsts}}
+<Connector
+    port="80"
+    redirectPort="443">
+
+{{/if}}
+<Connector
+    port="443"
+    SSLEnabled="true">
+
+    <SSLHostConfig
+{{#if output.ciphers.length}}
+        ciphers="{{{join output.ciphers ":"}}}"
+{{/if}}
+        disableSessionTickets="true"
+        honorCipherOrder="{{#if output.serverPreferredOrder}}true{{else}}false{{/if}}"
+        protocols="{{#each output.protocols}}{{this}}{{#unless @last}} {{/unless}}{{/each}}" >
+
+        <Certificate
+            certificateFile="/path/to/signed_certificate"
+            certificateChainFile="/path/to/intermediate_certificate"
+            certificateKeyFile="/path/to/private_key" />
+    </SSLHostConfig>
+
+    <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
+</Connector>
