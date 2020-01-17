@@ -3,7 +3,7 @@
 {{! traefik 2.0 has a very different configuration style }}
 [http.routers]
   [http.routers.router-secure]
-    rule = "Host(`foo.com`)"
+    rule = "Host(`example.com`)"
     service = "service-id"
     {{#if form.hsts}}
     middlewares = ["hsts-header"]
@@ -14,11 +14,9 @@
 {{#if form.hsts}}
 
   [http.routers.router-insecure]
-    rule = "Host(`foo.com`)"
+    rule = "Host(`example.com`)"
     service = "service-id"
-    {{#if form.hsts}}
     middlewares = ["redirect-to-https", "hsts-header"]
-    {{/if}}
 
 [http.middlewares]
   [http.middlewares.redirect-to-https.redirectScheme]
