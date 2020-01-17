@@ -51,7 +51,6 @@ module.exports = {
     supportsHsts: false,
     supportsOcspStapling: false,
     tls13: '2.0.0',
-    usesOpenssl: true,
   },
   exim: {
     highlighter: 'nginx',
@@ -67,8 +66,9 @@ module.exports = {
     highlighter: 'go',
     latestVersion: '1.13.6',
     name: 'Golang',
-    supportsOcsp: false,
+    supportsOcspStapling: false,
     tls13: '1.12.0',
+    usesOpenssl: false,
   },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
@@ -88,7 +88,7 @@ module.exports = {
     name: 'MySQL',
     showSupports: false,
     supportsHsts: false,
-    supportsOcsp: false,
+    supportsOcspStapling: false,
     tls13: '8.0.16',
   },
   nginx: {
@@ -136,6 +136,15 @@ module.exports = {
     supportsHsts: false,
     supportsOcspStapling: true,
     tls13: '1.3.6',
+  },
+  tomcat: {
+    highlighter: 'xml',
+    latestVersion: '9.0.30',
+    name: 'Tomcat',
+    supportsHsts: true,
+    supportsOcspStapling: false,
+    tls13: '8.0.0',
+    usesOpenssl: false,
   },
   traefik: {
     cipherFormat: 'go',
