@@ -4,7 +4,6 @@ server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
-    # redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
     return 301 https://$host$request_uri;
 }
 
@@ -18,7 +17,6 @@ server {
     listen [::]:443 ssl;
 {{/if}}
 
-    # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /path/to/signed_cert_plus_intermediates;
     ssl_certificate_key /path/to/private_key;
     ssl_session_timeout 1d;
