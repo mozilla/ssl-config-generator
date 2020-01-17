@@ -5,6 +5,9 @@
   [http.routers.router-secure]
     rule = "Host(`foo.com`)"
     service = "service-id"
+    {{#if form.hsts}}
+    middlewares = ["hsts-header"]
+    {{/if}}
 
     [http.routers.router-secure.tls]
       options = "{{form.config}}"
@@ -14,14 +17,14 @@
     rule = "Host(`foo.com`)"
     service = "service-id"
     {{#if form.hsts}}
-    middlewares = ["redirect"]
+    middlewares = ["redirect-to-https", "hsts-header"]
     {{/if}}
 
 [http.middlewares]
-  [http.middlewares.redirect.redirectScheme]
+  [http.middlewares.redirect-to-https.redirectScheme]
     scheme = "https"
-  [http.middlewares.redirect.headers]
-    [http.middlewares.redirect.headers.customResponseHeaders]
+  [http.middlewares.hsts-header.headers]
+    [http.middlewares.hsts-header.headers.customResponseHeaders]
       Strict-Transport-Security = "max-age={{output.hstsMaxAge}}"
 {{/if}}
 
