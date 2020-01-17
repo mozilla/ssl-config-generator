@@ -1,73 +1,49 @@
 # generated {{output.date}}, {{{output.link}}}
 {{#if (minver "2.0.0" form.serverVersion)}}
-## static configuration
-# traefik.toml
-
-[entryPoints.web]
-  address = ":80"
-
-[entryPoints.web-secure]
-  address = ":443"
-
-##---------------------##
-
-## dynamic configuration
-# dynamic-conf.toml
-
+{{! traefik 2.0 has a very different configuration style }}
 [http.routers]
+  [http.routers.router-secure]
+    rule = "Host(`foo.com`)"
+    service = "service-id"
+
+    [http.routers.router-secure.tls]
+      options = "{{form.config}}"
+{{#if form.hsts}}
+
   [http.routers.router-insecure]
     rule = "Host(`foo.com`)"
-    service = "my-service"
-    entrypoints = ["web"]
+    service = "service-id"
     {{#if form.hsts}}
     middlewares = ["redirect"]
     {{/if}}
 
-[http.routers.router-secure]
-    rule = "Host(`foo.com`)"
-    service = "my-service"
-    entrypoints = ["web-secure"]
-    [http.routers.router-secure.tls]
-      options = "myTLSOptions"
-
-[http.services]
-  [[http.services.my-service.loadBalancer.servers]]
-    url = "http://my-backend:80"
-
-{{#if form.hsts}}
 [http.middlewares]
   [http.middlewares.redirect.redirectScheme]
     scheme = "https"
+  [http.middlewares.redirect.headers]
+    [http.middlewares.redirect.headers.customResponseHeaders]
+      Strict-Transport-Security = "max-age={{output.hstsMaxAge}}"
 {{/if}}
 
+# due to Go limitations, it is highly recommended that you use an ECDSA
+# certificate, or you may experience compatibility issues
 [[tls.certificates]]
-  certFile = /path/to/signed_cert_plus_intermediates"
+  certFile = "/path/to/signed_cert_plus_intermediates"
   keyFile = "/path/to/private_key"
 
 [tls.options]
-  [tls.options.default]
-    {{#if (eq output.protocols.[0] "TLSv1")}}
-    minVersion = "VersionTLS10"
-    {{else}}
+  [tls.options.{{form.config}}]
     minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
-    {{/if}}
-
-  [tls.options.myTLSOptions]
-      {{#if (eq output.protocols.[0] "TLSv1")}}
-      minVersion = "VersionTLS10"
-      {{else}}
-      minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
+    {{#if output.ciphers.length}}
+    cipherSuites = [
+    {{#each output.ciphers}}
+      "{{this}}"{{#unless @last}},{{/unless}}
+    {{/each}}
+    ]
       {{/if}}
-      cipherSuites = [
-      {{#each output.ciphers}}
-        "{{this}}"{{#unless @last}},{{/unless}}
-      {{/each}}
-        ]
-
-
 {{else}}
+{{! traefik 1.x configuration style }}
 defaultEntryPoints = ["http", "https"]
-
 
 [entryPoints]
 {{#if form.hsts}}
