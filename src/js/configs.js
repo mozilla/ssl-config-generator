@@ -7,7 +7,7 @@ const noSupportedVersion = '10000.10000.10000';
 module.exports = {
   apache: {
     highlighter: 'apache',
-    latestVersion: '2.4.39',
+    latestVersion: '2.4.41',
     name: 'Apache',
     tls13: '2.4.36',
   },
@@ -36,7 +36,7 @@ module.exports = {
   },
   caddy: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '1.0.0',
+    latestVersion: '1.0.4',
     name: 'Caddy',
     supportedCiphers: ['ECDHE-ECDSA-AES256-GCM-SHA384', 'ECDHE-RSA-AES256-GCM-SHA384', 'ECDHE-ECDSA-AES128-GCM-SHA256', 'ECDHE-RSA-AES128-GCM-SHA256', 'ECDHE-ECDSA-WITH-CHACHA20-POLY1305', 'ECDHE-RSA-WITH-CHACHA20-POLY1305', 'ECDHE-RSA-AES256-CBC-SHA', 'ECDHE-RSA-AES128-CBC-SHA', 'ECDHE-ECDSA-AES256-CBC-SHA', 'ECDHE-ECDSA-AES128-CBC-SHA', 'RSA-AES256-CBC-SHA', 'RSA-AES128-CBC-SHA', 'ECDHE-RSA-3DES-EDE-CBC-SHA', 'RSA-3DES-EDE-CBC-SHA'],
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
@@ -45,7 +45,7 @@ module.exports = {
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.3.7',
+    latestVersion: '2.3.9',
     name: 'Dovecot',
     showSupports: false,
     supportsHsts: false,
@@ -55,7 +55,7 @@ module.exports = {
   },
   exim: {
     highlighter: 'nginx',
-    latestVersion: '4.92.3',
+    latestVersion: '4.93',
     name: 'Exim',
     showSupports: false,
     supportsHsts: false,
@@ -65,14 +65,14 @@ module.exports = {
   golang: {
     cipherFormat: 'go',
     highlighter: 'go',
-    latestVersion: '1.13.1',
+    latestVersion: '1.13.6',
     name: 'Golang',
     supportsOcsp: false,
     tls13: '1.12.0',
   },
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
-    latestVersion: '1.9.8',
+    latestVersion: '2.1',
     name: 'HAProxy',
     tls13: '1.9.1',
   },
@@ -84,7 +84,7 @@ module.exports = {
   },
   mysql: {
     highlighter: 'ini',
-    latestVersion: '8.0.16',
+    latestVersion: '8.0.19',
     name: 'MySQL',
     showSupports: false,
     supportsHsts: false,
@@ -94,12 +94,12 @@ module.exports = {
   nginx: {
     checked: true,
     highlighter: 'nginx',
-    latestVersion: '1.17.0',
+    latestVersion: '1.17.7',
     name: 'nginx',
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '1.1.1c',
+    latestVersion: '1.1.1d',
     tls13: '1.1.1',
   },
   oraclehttp: {
@@ -112,7 +112,7 @@ module.exports = {
   },
   postfix: {
     highlighter: 'nginx',
-    latestVersion: '3.4.5',
+    latestVersion: '3.4.8',
     name: 'Postfix',
     showSupports: false,
     supportsHsts: false,
@@ -121,7 +121,7 @@ module.exports = {
   },
   postgresql: {
     highlighter: 'nginx',
-    latestVersion: '11.3',
+    latestVersion: '12.1',
     name: 'PostgreSQL',
     showSupports: false,
     supportsHsts: false,
@@ -140,7 +140,7 @@ module.exports = {
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
-    latestVersion: '2.1.1',
+    latestVersion: '2.1.2',
     name: 'Traefik',
     supportsHsts: true,
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
