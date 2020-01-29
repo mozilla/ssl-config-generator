@@ -1,4 +1,5 @@
-# {{output.date}}, {{{output.link}}}
+# {{output.header}}
+# {{{output.link}}}
 {{#if form.hsts}}
 <VirtualHost *:80>
     RewriteEngine On
@@ -16,7 +17,7 @@
 {{/if}}
 </VirtualHost>
 
-# {{form.config}} configuration, tweak to your needs
+# {{form.config}} configuration
 SSLProtocol             All {{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
 SSLCipherSuite          {{{join output.ciphers ":"}}}
 SSLHonorCipherOrder     on

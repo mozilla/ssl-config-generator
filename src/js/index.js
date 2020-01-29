@@ -44,7 +44,7 @@ const render = async () => {
   const _state = await state();
 
   // enable and disable the appropriate fields
-  $('#server-version').toggleClass('text-disabled', _state.output.hasVersions === false);
+  $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
   $('#openssl-version').toggleClass('text-disabled', _state.output.usesOpenssl === false);
   $('#hsts').prop('disabled', _state.output.supportsHsts === false);
   $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
@@ -81,9 +81,17 @@ $().ready(() => {
 
     const params = new URLSearchParams(window.location.hash.substr(1));
 
-    // set the default server version, if we're loading and have "server" but not "server-version"
-    if (params.get('server') !== null && params.get('server-version') === null) {
-      $('#server-version').val(configs[params.get('server')].latestVersion);
+    // some parameters have been renamed from the old SSL Configuration Generator
+    if (params.get('server-version') !== null) {
+      params.set('version', params.get('server-version'));
+    }
+    if (params.get('openssl-version') !== null) {
+      params.set('openssl', params.get('openssl-version'));
+    }
+
+    // set the default server version, if we're loading and have "server" but not "version"
+    if (params.get('server') !== null && params.get('version') === null) {
+      $('#version').val(configs[params.get('server')].latestVersion);
     }
 
     for (let entry of params.entries()) {
@@ -124,7 +132,7 @@ $().ready(() => {
   $('.form-server').on('change', async () => {
     gHaveSettingsChanged = true;
     const _state = await state();
-    $('#server-version').val(_state.output.latestVersion);
+    $('#version').val(_state.output.latestVersion);
 
     render();
   });

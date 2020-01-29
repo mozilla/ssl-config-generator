@@ -1,5 +1,7 @@
-# generated {{output.date}}, {{{output.link}}}
-# requires mod_ssl{{#if form.hsts}}{{#if form.ocsp}}, mod_socache_shmcb{{/if}}, mod_rewrite, and mod_headers{{else if form.ocsp}} and mod_socache_shmcb{{/if}}
+# {{output.header}}
+# {{{output.link}}}
+
+# this configuration requires mod_ssl{{#if form.hsts}}{{#if form.ocsp}}, mod_socache_shmcb{{/if}}, mod_rewrite, and mod_headers{{else if form.ocsp}} and mod_socache_shmcb{{/if}}
 {{#if form.hsts}}
 <VirtualHost *:80>
     RewriteEngine On

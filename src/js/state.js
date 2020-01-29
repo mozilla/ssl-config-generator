@@ -12,18 +12,26 @@ export default async function () {
   const url = new URL(document.location);
 
   // generate the fragment
-  let fragment = `server=${server}&server-version=${form['server-version'].value}`;
+  let fragment = `server=${server}&version=${form['version'].value}`;
   fragment += configs[server].supportsConfigs !== false ? `&config=${config}` : '';
-  fragment += configs[server].usesOpenssl !== false && form['openssl-version'].value !== configs['openssl'].latestVersion ? `&openssl-version=${form['openssl-version'].value}` : '';
+  fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
   fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
   fragment += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `&ocsp=false` : '';
+  fragment += `&guideline=${sstls.version}`;
 
-  const date = new Date();
+  // generate the header
+  const date = new Date().toISOString().substr(0, 10);
+  let header = `generated ${date}, Mozilla Guideline v${sstls.version}, ${configs[server].name} ${form['version'].value}`;
+  header += configs[server].usesOpenssl !== false ? `, OpenSSL ${form['openssl'].value}` : '';
+  header += `, ${form['config'].value} configuration`;
+  header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
+  header += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `, no OCSP` : '';
+
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
   // we need to remove TLS 1.3 from the supported protocols if the software is too old
   let protocols = ssc.tls_versions;
-  if (minver(configs[server].tls13, form['server-version'].value) === false || minver(configs['openssl'].tls13, form['openssl-version'].value) === false) {
+  if (minver(configs[server].tls13, form['version'].value) === false || minver(configs['openssl'].tls13, form['openssl'].value) === false) {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
@@ -39,19 +47,20 @@ export default async function () {
       config: form['config'].value,
       hsts: form['hsts'].checked && configs[server].supportsHsts !== false,
       ocsp: form['ocsp'].checked && configs[server].supportsOcspStapling !== false,
-      opensslVersion: form['openssl-version'].value,
+      opensslVersion: form['openssl'].value,
       server,
       serverName: document.querySelector(`label[for=server-${server}]`).innerText,
-      serverVersion: form['server-version'].value,      
+      serverVersion: form['version'].value,
     },
     output: {
       ciphers,
       cipherSuites: ssc.ciphersuites,
-      date: date.toISOString().substr(0, 10),
+      date,
       dhCommand: ssc.dh_param_size >= 2048 ? `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt` : `openssl dhparam ${ssc.dh_param_size}`,
       dhParamSize: ssc.dh_param_size,
       fragment,
       hasVersions: configs[server].hasVersions !== false,
+      header,
       hstsMaxAge: ssc.hsts_min_age,
       latestVersion: configs[server].latestVersion,
       link,
