@@ -74,7 +74,7 @@ module.exports = {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '2.1',
     name: 'HAProxy',
-    tls13: '1.9.1',
+    tls13: '1.8.0',
   },
   lighttpd: {
     highlighter: 'nginx',
