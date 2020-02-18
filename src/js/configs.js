@@ -14,7 +14,7 @@ module.exports = {
   awsalb: {
     hasVersions: false,
     highlighter: 'yaml',
-    latestVersion: '2018.7.25',
+    latestVersion: '2019.8.1',
     name: 'AWS ALB',
     showSupports: false,
     supportsOcspStapling: false,
