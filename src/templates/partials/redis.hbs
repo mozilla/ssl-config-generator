@@ -1,0 +1,31 @@
+# {{output.header}}
+# {{{output.link}}}
+
+# Running Redis with TLS requires you to build Redis specifically for TLS
+# This can be done when making redis using "make && make BUILD_TLS=yes"
+
+################################# TLS/SSL #####################################
+port 0
+tls-port 6379
+tls-cert-file redis.crt
+tls-key-file redis.key
+tls-ca-cert-file ca.crt
+tls-ca-cert-dir /etc/ssl/certs
+tls-auth-clients yes
+tls-replication yes
+tls-cluster yes
+{{#unless (includes "old" form.config)}}
+# Running Redis with TLS 1.3 requires OpenSSL 1.1.1 or greater
+{{/unless}}
+{{#if (includes "intermediate" form.config)}}
+tls-protocols "TLSv1.2 TLSv1.3"
+{{/if}}
+{{#if (includes "modern" form.config)}}
+tls-protocols TLSv1.3
+{{/if}}
+{{#if (includes "intermediate" form.config)}}
+tls-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+{{/if}}
+{{#if (includes "modern" form.config)}}
+tls-prefer-server-ciphers yes
+{{/if}}
