@@ -11,5 +11,11 @@ ssl_key_file = '/path/to/private_key'
 ssl_dh_params_file = '/path/to/dhparam.pem'
   {{/if}}
 {{/if}}
+{{#if output.ciphers.length}}
 
 ssl_ciphers = '{{{join output.ciphers ":"}}}'
+{{/if}}
+{{#if (minver "12.0.0" form.serverVersion)}}
+
+ssl_min_protocol_version = '{{output.protocols.[0]}}'
+{{/if}}
