@@ -1,6 +1,6 @@
 # {{output.header}}
 # {{{output.link}}}
-
+{{#if (minver "6.0" form.serverVersion)}}
 # Running Redis with TLS requires you to build Redis specifically for TLS
 # This can be done when making redis using "make && make BUILD_TLS=yes"
 
@@ -14,18 +14,21 @@ tls-ca-cert-dir /etc/ssl/certs
 tls-auth-clients yes
 tls-replication yes
 tls-cluster yes
-{{#unless (includes "old" form.config)}}
 # Running Redis with TLS 1.3 requires OpenSSL 1.1.1 or greater
-{{/unless}}
-{{#if (includes "intermediate" form.config)}}
-tls-protocols "TLSv1.2 TLSv1.3"
+tls-protocols "{{#each output.protocols}}{{this}}{{#unless @last}} {{/unless}}{{/each}}"
+{{#if (minver "1.1.1" form.opensslVersion)}}
+{{#if output.cipherSuites.length}}
+tls-ciphersuites {{{join output.cipherSuites ":"}}}
 {{/if}}
-{{#if (includes "modern" form.config)}}
-tls-protocols TLSv1.3
 {{/if}}
-{{#if (includes "intermediate" form.config)}}
-tls-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+{{#if output.ciphers.length}}
+tls-ciphers {{{join output.ciphers ":"}}}
 {{/if}}
-{{#if (includes "modern" form.config)}}
-tls-prefer-server-ciphers yes
+{{#if output.usesDhe}}
+# {{output.dhCommand}} > dhparam.dh
+tls-dh-params-file dhparam.dh
+{{/if}}
+tls-prefer-server-ciphers {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}
+{{else}}
+# unfortunately, {{form.serverName}}{{#if output.hasVersions}} {{form.serverVersion}}{{/if}} {{#if output.usesOpenssl}}and OpenSSL {{form.opensslVersion}} {{/if}}does not support the {{form.config}} configuration
 {{/if}}
