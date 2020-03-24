@@ -2,16 +2,18 @@
 # {{{output.link}}}
 {{#if form.hsts}}
 $SERVER["socket"] == ":80" {
+{{#if (minver "1.4.50" form.serverVersion)}}
+    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
+{{else}}
     $HTTP["host"] =~ ".*" {
         url.redirect = (".*" => "https://%0$0")
     }
+{{/if}}
 }
 
 {{/if}}
 $SERVER["socket"] == ":443" {
-    protocol     = "https://"
     ssl.engine   = "enable"
-    ssl.disable-client-renegotiation = "enable"
 
     # pemfile is cert+privkey, ca-file is the intermediate chain in one file
     ssl.pemfile               = "/path/to/signed_cert_plus_private_key.pem"
@@ -23,11 +25,6 @@ $SERVER["socket"] == ":443" {
     ssl.dh-file               = "/path/to/dhparam.pem"
     {{/if}}
 {{/if}}
-
-    # Environment flag for HTTPS enabled
-    setenv.add-environment = (
-        "HTTPS" => "on"
-    )
 
     # {{form.config}} configuration, tweak to your needs
 {{#if (minver "1.4.48" form.serverVersion)}}

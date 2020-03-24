@@ -78,7 +78,7 @@ module.exports = {
   },
   lighttpd: {
     highlighter: 'nginx',
-    latestVersion: '1.4.54',
+    latestVersion: '1.4.55',
     name: 'lighttpd',
     tls13: '1.4.53'
   },
