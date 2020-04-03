@@ -18,7 +18,7 @@ TLSECCertificateKeyFile       /path/to/private_key
 TLSDHParamFile                /path/to/dhparam
 {{/if}}
 
-# {{form.config}} configuration, tweak to your needs
+# {{form.config}} configuration
 TLSProtocol                  {{#each output.protocols}} {{this}}{{/each}}
 {{#if output.ciphers.length}}
 TLSCipherSuite                {{{join output.ciphers ":"}}}

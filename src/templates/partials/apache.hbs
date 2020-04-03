@@ -36,7 +36,7 @@
 {{/if}}
 </VirtualHost>
 
-# {{form.config}} configuration, tweak to your needs
+# {{form.config}} configuration
 {{#if (minver "2.3.16" form.serverVersion)}}
 SSLProtocol             all {{#unless (includes "SSLv3" output.protocols)}}-SSLv3{{/unless}}
                             {{~#unless (includes "TLSv1" output.protocols)}} -TLSv1{{/unless}}
