@@ -137,6 +137,16 @@ module.exports = {
     supportsOcspStapling: true,
     tls13: '1.3.6',
   },
+  redis: {
+    highlighter: 'nginx',
+    latestVersion: '6.0',
+    name: 'Redis',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '6.0',
+    usesOpenssl: true,
+  },
   tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
@@ -155,14 +165,5 @@ module.exports = {
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
     usesOpenssl: false,
-  },
-  redis: {
-    highlighter: 'nginx',
-    latestVersion: '6.0',
-    name: 'Redis',
-    supportsHsts: false,
-    supportsOcspStapling: false,
-    tls13: '6.0',
-    usesOpenssl: true,
   },
 };
