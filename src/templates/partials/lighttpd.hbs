@@ -26,7 +26,7 @@ $SERVER["socket"] == ":443" {
     {{/if}}
 {{/if}}
 
-    # {{form.config}} configuration, tweak to your needs
+    # {{form.config}} configuration
 {{#if (minver "1.4.48" form.serverVersion)}}
     ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
 {{else}}
@@ -38,7 +38,7 @@ $SERVER["socket"] == ":443" {
     ssl.honor-cipher-order    = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
 {{#if form.hsts}}
 
-    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds
+    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
     setenv.add-response-header  = (
         "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
     )
