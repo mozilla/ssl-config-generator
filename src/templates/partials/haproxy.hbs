@@ -26,8 +26,8 @@ global
 {{#if output.usesDhe}}
 
     {{#if (minver "1.6.0" form.serverVersion)}}
-    # {{output.dhCommand}} > /path/to/dhparam.pem
-    ssl-dh-param-file /path/to/dhparam.pem
+    # {{output.dhCommand}} > /path/to/dhparam
+    ssl-dh-param-file /path/to/dhparam
     {{else}}
     tune.ssl.default-dh-param 2048
     {{/if}}

@@ -7,8 +7,8 @@ ssl_key_file = '/path/to/private_key'
 {{#if output.usesDhe}}
   {{#if (minver "10.0.0" form.serverVersion)}}
 
-# {{output.dhCommand}} > /path/to/dhparam.pem
-ssl_dh_params_file = '/path/to/dhparam.pem'
+# {{output.dhCommand}} > /path/to/dhparam
+ssl_dh_params_file = '/path/to/dhparam'
   {{/if}}
 {{/if}}
 {{#if output.ciphers.length}}

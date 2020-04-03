@@ -5,8 +5,8 @@ tls_certificate = /path/to/signed_cert_plus_intermediates
 tls_privatekey = /path/to/private_key
 {{#if output.usesDhe}}
 
-# {{output.dhCommand}} > /path/to/dhparam.pem
-tls_dhparam = /path/to/dhparam.pem
+# {{output.dhCommand}} > /path/to/dhparam
+tls_dhparam = /path/to/dhparam
 {{/if}}
 
 # {{form.config}} configuration

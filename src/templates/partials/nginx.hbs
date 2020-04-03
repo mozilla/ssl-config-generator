@@ -29,8 +29,8 @@ server {
 {{/if}}
 
 {{#if output.usesDhe}}
-    # {{output.dhCommand}} > /path/to/dhparam.pem
-    ssl_dhparam /path/to/dhparam.pem;
+    # {{output.dhCommand}} > /path/to/dhparam
+    ssl_dhparam /path/to/dhparam;
 
 {{/if}}
     # {{form.config}} configuration
