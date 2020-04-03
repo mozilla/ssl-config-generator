@@ -156,4 +156,13 @@ module.exports = {
     tls13: '2.0.0',
     usesOpenssl: false,
   },
+  redis: {
+    highlighter: 'nginx',
+    latestVersion: '6.0',
+    name: 'Redis',
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '6.0',
+    usesOpenssl: true,
+  },
 };

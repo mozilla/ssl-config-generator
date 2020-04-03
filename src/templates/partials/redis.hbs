@@ -1,0 +1,34 @@
+# {{output.header}}
+# {{{output.link}}}
+{{#if (minver "6.0" form.serverVersion)}}
+# Running Redis with TLS requires you to build Redis specifically for TLS
+# This can be done when making redis using "make && make BUILD_TLS=yes"
+
+################################# TLS/SSL #####################################
+port 0
+tls-port 6379
+tls-cert-file redis.crt
+tls-key-file redis.key
+tls-ca-cert-file ca.crt
+tls-ca-cert-dir /etc/ssl/certs
+tls-auth-clients yes
+tls-replication yes
+tls-cluster yes
+# Running Redis with TLS 1.3 requires OpenSSL 1.1.1 or greater
+tls-protocols "{{#each output.protocols}}{{this}}{{#unless @last}} {{/unless}}{{/each}}"
+{{#if (minver "1.1.1" form.opensslVersion)}}
+{{#if output.cipherSuites.length}}
+tls-ciphersuites {{{join output.cipherSuites ":"}}}
+{{/if}}
+{{/if}}
+{{#if output.ciphers.length}}
+tls-ciphers {{{join output.ciphers ":"}}}
+{{/if}}
+{{#if output.usesDhe}}
+# {{output.dhCommand}} > dhparam.dh
+tls-dh-params-file dhparam.dh
+{{/if}}
+tls-prefer-server-ciphers {{#if output.serverPreferredOrder}}yes{{else}}no{{/if}}
+{{else}}
+# unfortunately, {{form.serverName}}{{#if output.hasVersions}} {{form.serverVersion}}{{/if}} {{#if output.usesOpenssl}}and OpenSSL {{form.opensslVersion}} {{/if}}does not support the {{form.config}} configuration
+{{/if}}
