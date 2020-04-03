@@ -16,8 +16,8 @@ $SERVER["socket"] == ":443" {
     ssl.engine   = "enable"
 
     # pemfile is cert+privkey, ca-file is the intermediate chain in one file
-    ssl.pemfile               = "/path/to/signed_cert_plus_private_key.pem"
-    ssl.ca-file               = "/path/to/intermediate_certificate.pem"
+    ssl.pemfile               = "/path/to/signed_cert_plus_private_key"
+    ssl.ca-file               = "/path/to/intermediate_certificate"
 {{#if output.usesDhe}}
     {{#if (minver "1.4.29" form.serverVersion)}}
 
