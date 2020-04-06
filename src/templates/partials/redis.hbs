@@ -19,7 +19,7 @@ tls-dh-params-file /path/to/dhparam
 {{/if}}
 
 # {{form.config}} configuration
-tls-protocols {{#each output.protocols}}{{this}}{{#unless @last}} {{/unless}}{{/each}}
+tls-protocols "{{#each output.protocols}}{{this}}{{#unless @last}} {{/unless}}{{/each}}"
 {{#if output.ciphers.length}}
 tls-ciphers {{{join output.ciphers ":"}}}
 {{/if}}
