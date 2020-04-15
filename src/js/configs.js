@@ -76,6 +76,16 @@ module.exports = {
     name: 'HAProxy',
     tls13: '1.8.0',
   },
+  jetty: {
+    cipherFormat: 'iana',
+    highlighter: 'xml',
+    latestVersion: '9.4.28',
+    name: 'Jetty',
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '9.4.12',
+    usesOpenssl: false,
+  },
   lighttpd: {
     highlighter: 'nginx',
     latestVersion: '1.4.55',

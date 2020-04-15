@@ -1,0 +1,31 @@
+<!-- {{output.header}}
+     {{{output.link}}} -->
+<Configure id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
+  <Set name="KeyStorePath">
+    <Property name="jetty.home" default="." />
+    <Property name="jetty.sslContext.keyStorePath" default="/path/to/key_store" />
+  </Set>
+
+  <!-- TLS 1.3 requires Java 11 or higher -->
+  <Set name="IncludeProtocols">
+    <Array type="java.lang.String">
+      {{#each output.protocols}}
+        <Item>{{this}}</Item>
+      {{/each}}
+    </Array>
+  </Set>
+
+{{#if output.ciphers.length}}
+  <Set name="IncludeCipherSuites">
+    <Array type="String">
+  {{#each output.ciphers}}
+      <Item>{{this}}</Item>
+  {{/each}}
+    </Array>
+  </Set>
+{{/if}}
+
+  <Set name="useCipherSuitesOrder">
+    <Property name="jetty.sslContext.useCipherSuitesOrder" default="{{#if output.serverPreferredOrder}}true{{else}}false{{/if}}" />
+  </Set>
+</Configure>
