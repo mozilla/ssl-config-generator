@@ -6,6 +6,9 @@ import (
     "crypto/tls"
     "log"
     "net/http"
+{{#if form.hsts}}
+    "time"
+{{/if}}
 )
 
 func main() {
@@ -16,6 +19,19 @@ func main() {
 {{/if}}
         w.Write([]byte("This server is running the Mozilla {{form.config}} configuration.\n"))
     })
+{{#if form.hsts}}
+
+    go func() {
+        redirectToHTTPS := func(w http.ResponseWriter, req *http.Request) {
+            http.Redirect(w, req, "https://"+req.Host+req.RequestURI, http.StatusMovedPermanently)
+        }
+        srv := &http.Server{
+            Handler:     http.HandlerFunc(redirectToHTTPS),
+            ReadTimeout: 60 * time.Second, WriteTimeout: 60 * time.Second,
+        }
+        log.Fatal(srv.ListenAndServe())
+    }()
+{{/if}}
 
     cfg := &tls.Config{
         MinVersion: tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
