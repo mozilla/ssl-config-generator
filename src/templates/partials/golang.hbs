@@ -18,14 +18,19 @@ func main() {
     })
 
     cfg := &tls.Config{
-        MinVersion:               tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
-        PreferServerCipherSuites: {{#if output.serverPreferredOrder}}true{{else}}false{{/if}},
+        MinVersion: tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
+{{#if output.serverPreferredOrder}}
+        PreferServerCipherSuites: true,
+{{/if}}
+{{#if output.ciphers.length}}
         CipherSuites: []uint16{
       {{#each output.ciphers}}
             tls.{{this}},
       {{/each}}
         },
+{{/if}}
     }
+
     srv := &http.Server{
         Addr:         ":443",
         Handler:      mux,
