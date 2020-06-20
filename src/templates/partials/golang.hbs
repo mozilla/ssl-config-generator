@@ -32,10 +32,9 @@ func main() {
     }
 
     srv := &http.Server{
-        Addr:         ":443",
-        Handler:      mux,
-        TLSConfig:    cfg,
-        TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
+        Addr:      ":443",
+        Handler:   mux,
+        TLSConfig: cfg,
     }
 
     // due to Go limitations, it is highly recommended that you use an ECDSA
