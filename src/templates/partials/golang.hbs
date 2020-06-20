@@ -41,6 +41,6 @@ func main() {
 
     log.Fatal(srv.ListenAndServeTLS(
         "/path/to/signed_cert_plus_intermediates",
-        "/path/to/private_key"
+        "/path/to/private_key",
     ))
 }
