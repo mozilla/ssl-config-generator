@@ -64,8 +64,8 @@ module.exports = {
   golang: {
     cipherFormat: 'go',
     highlighter: 'go',
-    latestVersion: '1.13.6',
-    name: 'Golang',
+    latestVersion: '1.14.4',
+    name: 'Go',
     supportsOcspStapling: false,
     tls13: '1.12.0',
     usesOpenssl: false,
