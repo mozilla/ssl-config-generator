@@ -37,8 +37,6 @@ func main() {
         TLSConfig: cfg,
     }
 
-    // due to Go limitations, it is highly recommended that you use an ECDSA
-    // certificate, or you may experience compatibility issues
     log.Fatal(srv.ListenAndServeTLS(
         "/path/to/signed_cert_plus_intermediates",
         "/path/to/private_key"
