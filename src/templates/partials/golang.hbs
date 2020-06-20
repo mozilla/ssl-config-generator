@@ -35,6 +35,8 @@ func main() {
         Addr:      ":443",
         Handler:   mux,
         TLSConfig: cfg,
+        // Consider setting ReadTimeout, WriteTimeout, and IdleTimeout
+        // to prevent connections from taking resources indefinitely.
     }
 
     log.Fatal(srv.ListenAndServeTLS(
