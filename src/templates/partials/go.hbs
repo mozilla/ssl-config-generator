@@ -33,6 +33,11 @@ func main() {
     }()
 {{/if}}
 
+{{#if output.ciphers.length}}
+  {{#if (includes "intermediate" form.config)}}
+    // Due to a lack of DHE support, you -must- use an ECDSA cert to support IE 11 on Windows 7
+  {{/if}}
+{{/if}}
     cfg := &tls.Config{
         MinVersion: tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
 {{#if output.serverPreferredOrder}}

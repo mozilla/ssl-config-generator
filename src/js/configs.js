@@ -61,7 +61,7 @@ module.exports = {
     supportsOcspStapling: false,
     tls13: '4.92.0',
   },
-  golang: {
+  go: {
     cipherFormat: 'go',
     highlighter: 'go',
     latestVersion: '1.14.4',
