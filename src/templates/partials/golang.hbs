@@ -6,6 +6,9 @@ import (
     "crypto/tls"
     "log"
     "net/http"
+{{#if form.hsts}}
+    "time"
+{{/if}}
 )
 
 func main() {
@@ -16,27 +19,44 @@ func main() {
 {{/if}}
         w.Write([]byte("This server is running the Mozilla {{form.config}} configuration.\n"))
     })
+{{#if form.hsts}}
+
+    go func() {
+        redirectToHTTPS := func(w http.ResponseWriter, req *http.Request) {
+            http.Redirect(w, req, "https://"+req.Host+req.RequestURI, http.StatusMovedPermanently)
+        }
+        srv := &http.Server{
+            Handler:     http.HandlerFunc(redirectToHTTPS),
+            ReadTimeout: 60 * time.Second, WriteTimeout: 60 * time.Second,
+        }
+        log.Fatal(srv.ListenAndServe())
+    }()
+{{/if}}
 
     cfg := &tls.Config{
-        MinVersion:               tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
-        PreferServerCipherSuites: {{#if output.serverPreferredOrder}}true{{else}}false{{/if}},
+        MinVersion: tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
+{{#if output.serverPreferredOrder}}
+        PreferServerCipherSuites: true,
+{{/if}}
+{{#if output.ciphers.length}}
         CipherSuites: []uint16{
       {{#each output.ciphers}}
             tls.{{this}},
       {{/each}}
         },
-    }
-    srv := &http.Server{
-        Addr:         ":443",
-        Handler:      mux,
-        TLSConfig:    cfg,
-        TLSNextProto: make(map[string]func(*http.Server, *tls.Conn, http.Handler), 0),
+{{/if}}
     }
 
-    // due to Go limitations, it is highly recommended that you use an ECDSA
-    // certificate, or you may experience compatibility issues
+    srv := &http.Server{
+        Addr:      ":443",
+        Handler:   mux,
+        TLSConfig: cfg,
+        // Consider setting ReadTimeout, WriteTimeout, and IdleTimeout
+        // to prevent connections from taking resources indefinitely.
+    }
+
     log.Fatal(srv.ListenAndServeTLS(
         "/path/to/signed_cert_plus_intermediates",
-        "/path/to/private_key"
+        "/path/to/private_key",
     ))
 }
