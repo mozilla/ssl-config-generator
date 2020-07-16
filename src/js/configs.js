@@ -50,7 +50,7 @@ module.exports = {
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
-    tls13: '2.0.0',
+    tls13: noSupportedVersion,
   },
   exim: {
     highlighter: 'nginx',
