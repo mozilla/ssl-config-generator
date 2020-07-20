@@ -36,7 +36,7 @@ module.exports = {
   },
   caddy: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '1.0.4',
+    latestVersion: '2.1.1',
     name: 'Caddy',
     supportedCiphers: ['ECDHE-ECDSA-AES256-GCM-SHA384', 'ECDHE-RSA-AES256-GCM-SHA384', 'ECDHE-ECDSA-AES128-GCM-SHA256', 'ECDHE-RSA-AES128-GCM-SHA256', 'ECDHE-ECDSA-WITH-CHACHA20-POLY1305', 'ECDHE-RSA-WITH-CHACHA20-POLY1305', 'ECDHE-RSA-AES256-CBC-SHA', 'ECDHE-RSA-AES128-CBC-SHA', 'ECDHE-ECDSA-AES256-CBC-SHA', 'ECDHE-ECDSA-AES128-CBC-SHA', 'RSA-AES256-CBC-SHA', 'RSA-AES128-CBC-SHA', 'ECDHE-RSA-3DES-EDE-CBC-SHA', 'RSA-3DES-EDE-CBC-SHA'],
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
