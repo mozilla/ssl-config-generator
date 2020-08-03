@@ -12,7 +12,7 @@ global
     ssl-default-bind-ciphersuites {{{join output.cipherSuites ":"}}}
     {{/if}}
 {{/if}}
-    ssl-default-bind-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
+    ssl-default-bind-options{{#if (minver "1.8.0" form.serverVersion)}}{{#unless output.serverPreferredOrder}} prefer-client-ciphers{{/unless}}{{/if}}{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
 
 {{#if output.ciphers.length}}
     ssl-default-server-ciphers {{{join output.ciphers ":"}}}
