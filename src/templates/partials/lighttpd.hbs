@@ -43,9 +43,11 @@ ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.prot
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
   {{/if}}
 ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{{else}}-{{/if}}ServerPreference")
+   {{#if output.ciphers.length}}
 # TLS modules besides mod_openssl might name ciphers differently
 # See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
 ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+   {{/if}}
 # OCSP stapling (input file must be maintained by external script)
 # https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
 #ssl.stapling-file = "/path/to/cert-staple.der"
@@ -53,7 +55,9 @@ ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
 ssl.use-sslv2 = "disable"
 ssl.use-sslv3 = "disable"
 ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
+   {{#if output.ciphers.length}}
 ssl.cipher-list = "{{{join output.ciphers ":"}}}"
+   {{/if}}
  {{/if}}
 {{else}}
 $SERVER["socket"] == ":443" {
@@ -91,7 +95,9 @@ $SERVER["socket"] == ":443" {
     ssl.use-sslv3 = "disable"
  {{/if}}
     ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
+ {{#if output.ciphers.length}}
     ssl.cipher-list = "{{{join output.ciphers ":"}}}"
+ {{/if}}
 }
 #$SERVER["socket"] == "[::]:443" { ... } # repeat entire $SERVER["socket"] == ":443" { ... } config above for IPv6
 {{/if}}
