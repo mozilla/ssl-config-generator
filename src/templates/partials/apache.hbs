@@ -5,6 +5,7 @@
 {{#if form.hsts}}
 <VirtualHost *:80>
     RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/\.well\-known/acme\-challenge/
     RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]
 </VirtualHost>
 
