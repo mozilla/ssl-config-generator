@@ -1,7 +1,13 @@
 # {{output.header}}
 # {{{output.link}}}
+#server.modules += ("mod_redirect")
+#server.modules += ("mod_setenv")
+#server.modules += ("mod_openssl")
+#server.port = 80
+$SERVER["socket"] == "[::]:80" { }
+
 {{#if form.hsts}}
-$SERVER["socket"] == ":80" {
+$HTTP["scheme"] == "http" {
 {{#if (minver "1.4.50" form.serverVersion)}}
     url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
 {{else}}
@@ -11,36 +17,49 @@ $SERVER["socket"] == ":80" {
 {{/if}}
 }
 
+$HTTP["scheme"] == "https" {
+    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
+    setenv.add-response-header = (
+        "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
+    )
+}
 {{/if}}
-$SERVER["socket"] == ":443" {
-    ssl.engine   = "enable"
 
+$SERVER["socket"] == ":443" {
+    ssl.engine  = "enable"
+
+  {{#if (minver "1.4.53" form.serverVersion)}}
+    ssl.privkey = "/path/to/private_key"
+    ssl.pemfile = "/path/to/signed_cert"
+    ssl.ca-file = "/path/to/intermediate_certificate"
+  {{else}}
     # pemfile is cert+privkey, ca-file is the intermediate chain in one file
-    ssl.pemfile               = "/path/to/signed_cert_plus_private_key"
-    ssl.ca-file               = "/path/to/intermediate_certificate"
+    ssl.pemfile = "/path/to/signed_cert_plus_private_key"
+    ssl.ca-file = "/path/to/intermediate_certificate"
+  {{/if}}
 {{#if output.usesDhe}}
     {{#if (minver "1.4.29" form.serverVersion)}}
 
     # {{output.dhCommand}} > /path/to/dhparam
-    ssl.dh-file               = "/path/to/dhparam"
+    ssl.dh-file = "/path/to/dhparam"
     {{/if}}
 {{/if}}
 
     # {{form.config}} configuration
-{{#if (minver "1.4.48" form.serverVersion)}}
-    ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
-{{else}}
-    # Please upgrade to 1.4.48 or else you cannot fully disable deprecated protocols
+ {{#if (minver "1.4.48" form.serverVersion)}}
+  {{#if (minver "1.1.0" form.opensslVersion)}}
+    ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}}, "Options" => "-SessionTicket")
+  {{else if (minver "1.0.2" form.opensslVersion)}}
+    ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}", "Options" => "-SessionTicket")
+  {{else}}
     ssl.use-sslv2 = "disable"
     ssl.use-sslv3 = "disable"
-{{/if}}
-    ssl.cipher-list           = "{{{join output.ciphers ":"}}}"
-    ssl.honor-cipher-order    = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
-{{#if form.hsts}}
-
-    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
-    setenv.add-response-header  = (
-        "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
-    )
-{{/if}}
+  {{/if}}
+ {{else}}
+    ssl.use-sslv2 = "disable"
+    ssl.use-sslv3 = "disable"
+ {{/if}}
+    ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
+    ssl.cipher-list = "{{{join output.ciphers ":"}}}"
 }
+#$SERVER["socket"] == "[::]:443" { ... } # repeat entire $SERVER["socket"] == ":443" { ... } config above for IPv6
