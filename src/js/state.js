@@ -68,6 +68,7 @@ export default async function () {
       opensslCiphers: ciphers,
       opensslCipherSuites: ssc.ciphersuites,
       origin: url.origin,
+      permanentRedirect: ssc.permanent_redirect || 301,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
       showSupports: configs[server].showSupports !== false,
