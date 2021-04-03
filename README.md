@@ -55,6 +55,13 @@ To publish to GitHub Pages, simply run:
 $ npm run build
 ```
 
+## History
+
+The SSL Config Generator was kept in [the `mozilla/server-side-tls` repository](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move)
+prior to mid 2019 at which point it was moved to this dedicated repository. It
+was initially created [at the end of 2014](https://github.com/mozilla/server-side-tls/commit/b201a1191ba38e6f933cd02a4f425f683ffa9be4)
+and started out supporting Apache HTTP, Nginx and HAProxy.
+
 ## Authors
 
 * [April King](https://github.com/april)
