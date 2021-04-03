@@ -35,7 +35,7 @@ $HTTP["scheme"] == "https" {
 $SERVER["socket"] ==     ":443" { ssl.engine = "enable" }
 $SERVER["socket"] == "[::]:443" { ssl.engine = "enable" }
 ssl.privkey = "/path/to/private_key"
-ssl.pemfile = "/path/to/signed_cert_plus_intermediates"
+ssl.pemfile = "/path/to/signed_cert_followed_by_intermediates"
  {{#if (minver "1.0.2" form.opensslVersion)}}
   {{#if (minver "1.1.0" form.opensslVersion)}}
 ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}})
