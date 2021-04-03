@@ -43,11 +43,11 @@ ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.prot
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
   {{/if}}
 ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{{else}}-{{/if}}ServerPreference")
-   {{#if output.ciphers.length}}
+  {{#if output.ciphers.length}}
 # TLS modules besides mod_openssl might name ciphers differently
 # See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
 ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
-   {{/if}}
+  {{/if}}
 # OCSP stapling (input file must be maintained by external script)
 # https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
 #ssl.stapling-file = "/path/to/cert-staple.der"
@@ -55,30 +55,30 @@ ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
 ssl.use-sslv2 = "disable"
 ssl.use-sslv3 = "disable"
 ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
-   {{#if output.ciphers.length}}
+  {{#if output.ciphers.length}}
 ssl.cipher-list = "{{{join output.ciphers ":"}}}"
-   {{/if}}
+  {{/if}}
  {{/if}}
 {{else}}
 $SERVER["socket"] == ":443" {
     ssl.engine  = "enable"
 
-  {{#if (minver "1.4.53" form.serverVersion)}}
+ {{#if (minver "1.4.53" form.serverVersion)}}
     ssl.privkey = "/path/to/private_key"
     ssl.pemfile = "/path/to/signed_cert"
     ssl.ca-file = "/path/to/intermediate_certificate"
-  {{else}}
+ {{else}}
     # pemfile is cert+privkey, ca-file is the intermediate chain in one file
     ssl.pemfile = "/path/to/signed_cert_plus_private_key"
     ssl.ca-file = "/path/to/intermediate_certificate"
-  {{/if}}
-{{#if output.usesDhe}}
-    {{#if (minver "1.4.29" form.serverVersion)}}
+ {{/if}}
+ {{#if output.usesDhe}}
+  {{#if (minver "1.4.29" form.serverVersion)}}
 
     # {{output.dhCommand}} > /path/to/dhparam
     ssl.dh-file = "/path/to/dhparam"
-    {{/if}}
-{{/if}}
+  {{/if}}
+ {{/if}}
 
     # {{form.config}} configuration
  {{#if (minver "1.4.48" form.serverVersion)}}
