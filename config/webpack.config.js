@@ -40,30 +40,26 @@ const plugins = [
     title: 'Mozilla SSL Configuration Generator',
     template: 'src/templates/index.ejs'
   }),
-  new CopyWebpackPlugin([
-    {
-      from: 'src/images',
-      to: 'images/',
-      flatten: false
-    }
-  ]),
-  new CopyWebpackPlugin([
-    {
-      from: 'config/CNAME',
-      flatten: false
-    }
-  ]),
-  new CopyWebpackPlugin([
-    {
-      from: 'src/static',
-      flatten: false
-    }
-  ]),
-  new CopyWebpackPlugin([
-    {
-      from: 'src/js/analytics.js',
-    }
-  ]),
+  new CopyWebpackPlugin({
+    patterns: [
+        {from: 'src/images', to: 'images/'}
+    ]
+  }),
+  new CopyWebpackPlugin({
+    patterns: [
+        {from: 'config/CNAME'}
+    ]
+  }),
+  new CopyWebpackPlugin({
+    patterns: [
+        {from: 'src/static'}
+    ]
+  }),
+  new CopyWebpackPlugin({
+    patterns: [
+        {from: 'src/js/analytics.js'}
+    ]
+  }),
   new MiniCssExtractPlugin({
     filename: '[hash].index.css',
   })
