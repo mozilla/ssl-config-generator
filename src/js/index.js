@@ -5,7 +5,7 @@ import { sep } from 'path';
 
 // Import only the used highlights from highlight.js (saves about 1MB)
 // import hljs from 'highlight.js';
-import hljs from 'highlight.js/lib/highlight';
+import hljs from 'highlight.js/lib/core';
 import apache from 'highlight.js/lib/languages/apache';
 import go from 'highlight.js/lib/languages/go';
 import ini from 'highlight.js/lib/languages/ini';
