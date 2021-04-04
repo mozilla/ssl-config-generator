@@ -48,9 +48,11 @@ ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{
 # See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
 ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
   {{/if}}
+  {{#if form.ocsp}}
 # OCSP stapling (input file must be maintained by external script)
 # https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
-#ssl.stapling-file = "/path/to/cert-staple.der"
+ssl.stapling-file = "/path/to/cert-staple.der"
+  {{/if}}
  {{else}}
 ssl.use-sslv2 = "disable"
 ssl.use-sslv3 = "disable"
