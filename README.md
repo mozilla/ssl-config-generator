@@ -34,9 +34,9 @@ All of the templates are written in [Handlebars.js](https://handlebarsjs.com/), 
 - `join(array, joiner)` - split a array into a string based on `joiner`
   - `{{{join output.ciphers ":"}}}`
 - `last(array)` - returns the last item in the array
-- `minpatchver(minimumver, curver)` - `true` if `curver` is greater `minimumver` and both versions are the same patch version, e.g. `2.2`
+- `minpatchver(minimumver, curver)` - `true` if `curver` is greater than or equal to `minimumver`, and both versions are the same patch version, e.g. `2.2`
   - `{{#if (minpatchver "2.4.3" form.serverVersion)}}`
-- `minver(minimumver, curver)` - `true` if `curver` is greater than `minver`
+- `minver(minimumver, curver)` - `true` if `curver` is greater than or equal to `minver`
   - `{{#if (minver "1.9.5" form.serverVersion)}}`
 - `replace(string, whattoreplace, replacement)` - replaces whatToReplace with replacement
   - `replace(protocol, "TLSv", "TLS ")`
