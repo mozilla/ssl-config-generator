@@ -25,25 +25,62 @@ $HTTP["scheme"] == "https" {
 }
 {{/if}}
 
+{{#if (minver "1.4.56" form.serverVersion)}}
+# select one TLS module: "mod_openssl" "mod_mbedtls" "mod_gnutls" "mod_wolfssl" "mod_nss"
+#server.modules += ("mod_openssl")
+
+# lighttpd 1.4.56 and later will inherit ssl.* from the global scope if
+# $SERVER["socket"] contains ssl.engine = "enable" and no other ssl.* options
+# (to avoid having to repeat ssl.* directives in both ":443" and "[::]:443")
+$SERVER["socket"] ==     ":443" { ssl.engine = "enable" }
+$SERVER["socket"] == "[::]:443" { ssl.engine = "enable" }
+ssl.privkey = "/path/to/private_key"
+ssl.pemfile = "/path/to/signed_cert_followed_by_intermediates"
+ {{#if (minver "1.0.2" form.opensslVersion)}}
+  {{#if (minver "1.1.0" form.opensslVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}})
+  {{else}}
+ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
+  {{/if}}
+ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{{else}}-{{/if}}ServerPreference")
+  {{#if output.ciphers.length}}
+# TLS modules besides mod_openssl might name ciphers differently
+# See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
+ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+  {{/if}}
+  {{#if form.ocsp}}
+# OCSP stapling (input file must be maintained by external script)
+# https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
+ssl.stapling-file = "/path/to/cert-staple.der"
+  {{/if}}
+ {{else}}
+ssl.use-sslv2 = "disable"
+ssl.use-sslv3 = "disable"
+ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
+  {{#if output.ciphers.length}}
+ssl.cipher-list = "{{{join output.ciphers ":"}}}"
+  {{/if}}
+ {{/if}}
+{{else}}
 $SERVER["socket"] == ":443" {
     ssl.engine  = "enable"
 
-  {{#if (minver "1.4.53" form.serverVersion)}}
+ {{#if (minver "1.4.53" form.serverVersion)}}
     ssl.privkey = "/path/to/private_key"
     ssl.pemfile = "/path/to/signed_cert"
     ssl.ca-file = "/path/to/intermediate_certificate"
-  {{else}}
+ {{else}}
     # pemfile is cert+privkey, ca-file is the intermediate chain in one file
     ssl.pemfile = "/path/to/signed_cert_plus_private_key"
     ssl.ca-file = "/path/to/intermediate_certificate"
-  {{/if}}
-{{#if output.usesDhe}}
-    {{#if (minver "1.4.29" form.serverVersion)}}
+ {{/if}}
+ {{#if output.usesDhe}}
+  {{#if (minver "1.4.29" form.serverVersion)}}
 
     # {{output.dhCommand}} > /path/to/dhparam
     ssl.dh-file = "/path/to/dhparam"
-    {{/if}}
-{{/if}}
+  {{/if}}
+ {{/if}}
 
     # {{form.config}} configuration
  {{#if (minver "1.4.48" form.serverVersion)}}
@@ -60,6 +97,9 @@ $SERVER["socket"] == ":443" {
     ssl.use-sslv3 = "disable"
  {{/if}}
     ssl.honor-cipher-order = "{{#if output.serverPreferredOrder}}enable{{else}}disable{{/if}}"
+ {{#if output.ciphers.length}}
     ssl.cipher-list = "{{{join output.ciphers ":"}}}"
+ {{/if}}
 }
 #$SERVER["socket"] == "[::]:443" { ... } # repeat entire $SERVER["socket"] == ":443" { ... } config above for IPv6
+{{/if}}
