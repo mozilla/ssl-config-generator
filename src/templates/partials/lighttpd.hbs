@@ -14,6 +14,13 @@ $HTTP["scheme"] == "https" {
     )
 }
 else $HTTP["scheme"] == "http" {
+ {{#unless (includes "old" form.config)}}
+ {{#unless (minver "1.4.75" form.serverVersion)}}
+ {{#if (minver "1.4.31" form.serverVersion)}}
+    url.redirect-code = 308
+ {{/if}}
+ {{/unless}}
+ {{/unless}}
  {{#if (minver "1.4.50" form.serverVersion)}}
     url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
  {{else}}
