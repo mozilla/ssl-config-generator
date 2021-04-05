@@ -7,21 +7,20 @@
 $SERVER["socket"] == "[::]:80" { }
 
 {{#if form.hsts}}
-$HTTP["scheme"] == "http" {
-{{#if (minver "1.4.50" form.serverVersion)}}
-    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
-{{else}}
-    $HTTP["host"] =~ ".*" {
-        url.redirect = (".*" => "https://%0$0")
-    }
-{{/if}}
-}
-
 $HTTP["scheme"] == "https" {
     # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
     setenv.add-response-header = (
         "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
     )
+}
+else $HTTP["scheme"] == "http" {
+ {{#if (minver "1.4.50" form.serverVersion)}}
+    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
+ {{else}}
+    $HTTP["host"] =~ ".*" {
+        url.redirect = (".*" => "https://%0$0")
+    }
+ {{/if}}
 }
 {{/if}}
 
