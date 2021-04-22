@@ -157,6 +157,16 @@ module.exports = {
     tls13: '6.0',
     usesOpenssl: true,
   },
+  stunnel: {
+    highlighter: 'ini',
+    latestVersion: '5.58',
+    name: 'stunnel',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '5.50',
+    usesOpenssl: true,
+  },
   tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
