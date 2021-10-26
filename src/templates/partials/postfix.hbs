@@ -7,6 +7,7 @@ smtpd_tls_key_file = /path/to/private_key
 smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, !TLSv1.2{{/unless}}
 smtpd_tls_protocols = !SSLv2, !SSLv3{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, !TLSv1.2{{/unless}}
 {{#if output.ciphers.length}}
+smtpd_tls_ciphers = medium
 smtpd_tls_mandatory_ciphers = medium
 {{/if}}
 {{#if output.usesDhe}}
