@@ -44,7 +44,7 @@
     "lodash.assign": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
     "regenerator-runtime": "^0.13.7",
