@@ -85,6 +85,8 @@ To publish to GitHub Pages, simply run:
 $ npm run build
 ```
 
+Then commit the newly built `docs/` files and push the commit to GitHub
+
 ## History
 
 The SSL Config Generator was kept in [the `mozilla/server-side-tls` repository](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move)
