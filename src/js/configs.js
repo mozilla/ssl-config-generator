@@ -159,7 +159,7 @@ module.exports = {
   },
   squid: {
     highlighter: 'nginx',  // TODO: find better
-    latestVersion: '4.14',
+    latestVersion: '5.6',
     name: 'Squid',
     showSupports: false,
     supportsHsts: false,
