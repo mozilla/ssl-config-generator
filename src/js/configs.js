@@ -164,7 +164,7 @@ module.exports = {
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
-    tls13: '3.5',
+    tls13: '4',
   },
   tomcat: {
     highlighter: 'xml',
