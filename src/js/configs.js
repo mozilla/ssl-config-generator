@@ -157,6 +157,15 @@ module.exports = {
     tls13: '6.0',
     usesOpenssl: true,
   },
+  squid: {
+    highlighter: 'nginx',  // TODO: find better
+    latestVersion: '5.6',
+    name: 'Squid',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4',
+  },
   tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
