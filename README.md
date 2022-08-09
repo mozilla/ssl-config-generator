@@ -18,6 +18,19 @@ $ npm run watch
 
 This starts a local webserver that will automatically reload your changes.
 
+Alternatively, you can use [Docker](https://www.docker.com/) to run the local webserver to avoid
+cluttering your local environment with npm dependencies. You first need to build the docker:
+
+```bash
+docker build -t moz-ssl-config-gen:latest .
+```
+
+You can then run the webserver:
+
+```bash
+docker run -p 3001:3001 -p 5500:5500 moz-ssl-config-gen:latest
+```
+
 ## Adding new software
 
 There are two places that need to be updated in order to add support for a new piece of software:
