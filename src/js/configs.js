@@ -45,12 +45,12 @@ module.exports = {
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.3.9',
+    latestVersion: '2.3.16',
     name: 'Dovecot',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
-    tls13: noSupportedVersion,
+    tls13: '2.3.15',
   },
   exim: {
     highlighter: 'nginx',
@@ -88,9 +88,9 @@ module.exports = {
   },
   lighttpd: {
     highlighter: 'nginx',
-    latestVersion: '1.4.55',
+    latestVersion: '1.4.65',
     name: 'lighttpd',
-    tls13: '1.4.53'
+    tls13: '1.4.48'
   },
   mysql: {
     highlighter: 'ini',
@@ -109,7 +109,7 @@ module.exports = {
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '1.1.1d',
+    latestVersion: '1.1.1k',
     tls13: '1.1.1',
   },
   oraclehttp: {
@@ -157,6 +157,15 @@ module.exports = {
     tls13: '6.0',
     usesOpenssl: true,
   },
+  squid: {
+    highlighter: 'nginx',  // TODO: find better
+    latestVersion: '5.6',
+    name: 'Squid',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4',
+  },
   stunnel: {
     highlighter: 'ini',
     latestVersion: '5.58',
@@ -167,7 +176,7 @@ module.exports = {
     tls13: '5.50',
     usesOpenssl: true,
   },
-  tomcat: {
+tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',
