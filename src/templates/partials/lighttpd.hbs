@@ -19,18 +19,40 @@ ssl.privkey = "/path/to/private_key"
 ssl.pemfile = "/path/to/signed_cert_followed_by_intermediates"
  {{#if (minver "1.0.2" form.opensslVersion)}}
   {{#if (minver "1.1.0" form.opensslVersion)}}
-ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}})
+   {{#if (includes "TLSv1" output.protocols)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1")
+   {{else if (includes "TLSv1.1" output.protocols)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.1")
+   {{else if (includes "TLSv1.2" output.protocols)}}
+    {{#unless (minver "1.4.56" form.serverVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")
+    {{/unless}}
+   {{else}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")
+   {{/if}}
   {{else}}
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
   {{/if}}
+  {{#if (minver "1.4.68" form.serverVersion)}}
+   {{#if output.serverPreferredOrder}}
+ssl.openssl.ssl-conf-cmd += ("Options" => "+ServerPreference")
+   {{/if}}
+  {{else}}
 ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{{else}}-{{/if}}ServerPreference")
+  {{/if}}
   {{#if output.ciphers.length}}
+   {{#if (minver "1.4.68" form.serverVersion)}}
+    {{#if (includes "old" form.config)}}
+ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+    {{/if}}
+   {{else}}
 # TLS modules besides mod_openssl might name ciphers differently
 # See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
 ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+   {{/if}}
   {{/if}}
   {{#if form.ocsp}}
-# OCSP stapling (input file must be maintained by external script)
+# OCSP stapling (input file must be maintained by external script, e.g. cert-staple.sh)
 # https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
 ssl.stapling-file = "/path/to/cert-staple.der"
   {{/if}}
