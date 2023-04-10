@@ -1,0 +1,14 @@
+# {{output.header}}
+# {{{output.link}}}
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+tlsCertFile: /path/to/ca.crt
+tlsPrivateKeyFile: /path/to/privkey.pem
+tlsCipherSuites: '{{{join output.ciphers ","}}}'
+{{#if (includes "intermediate" form.config)}}
+tlsMinVersion: TLSv1.2
+{{else if (includes "modern" form.config)}}
+tlsMinVersion: TLSv1.3
+{{else}}
+tlsMinVersion: TLSv1.0
+{{/if}}

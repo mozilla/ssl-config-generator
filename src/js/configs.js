@@ -175,6 +175,15 @@ module.exports = {
     tls13: '8.0.0',
     usesOpenssl: false,
   },
+  kubelet: {
+    cipherFormat: 'go',
+    highlighter: 'yaml',
+    hasVersions: false,
+    name: 'Kubernetes',
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    usesOpenssl: false,
+  },
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
