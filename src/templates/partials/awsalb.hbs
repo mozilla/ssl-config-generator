@@ -40,7 +40,7 @@ Resources:
       LoadBalancerArn: !Ref ExampleALB
       Port: 443
       Protocol: HTTPS
-      SslPolicy: {{#if (includes "TLSv1" output.protocols)}}ELBSecurityPolicy-TLS-1-0-2015-04{{else}}ELBSecurityPolicy-FS-1-2-Res-2019-08{{/if}}
+      SslPolicy: {{#if (includes "TLSv1" output.protocols)}}ELBSecurityPolicy-TLS-1-0-2015-04{{else}}{{#if (includes "TLSv1.2" output.protocols)}}ELBSecurityPolicy-TLS13-1-2-2021-06{{else}}ELBSecurityPolicy-TLS13-1-3-2021-06{{/if}}{{/if}}
 {{#if form.hsts}}
 
   # {{form.serverName}} doesn't support HSTS, but it can redirect to HTTPS
