@@ -14,11 +14,11 @@ module.exports = {
   awsalb: {
     hasVersions: false,
     highlighter: 'yaml',
-    latestVersion: '2019.8.1',
+    latestVersion: '2023.3.22',
     name: 'AWS ALB',
     showSupports: false,
     supportsOcspStapling: false,
-    tls13: noSupportedVersion,
+    tls13: '2023.3.22',
     usesOpenssl: false,
   },
   // supported ciphers generated with:
