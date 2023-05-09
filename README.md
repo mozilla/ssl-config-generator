@@ -87,6 +87,11 @@ $ npm run build
 
 Then commit the newly built `docs/` files and push the commit to GitHub
 
+## Changelog
+
+The Changelog that captures the history of changes to Mozilla's recommendations
+as represented in the JSON guideline files can be found at [`/src/static/guidelines/CHANGELOG.md`](/src/static/guidelines/CHANGELOG.md)
+
 ## History
 
 The SSL Config Generator was kept in [the `mozilla/server-side-tls` repository](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move)
