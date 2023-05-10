@@ -43,6 +43,15 @@ module.exports = {
     tls13: '0.11.5',
     usesOpenssl: false,
   },
+  coturn: {
+    highlighter: 'ini',
+    latestVersion: '4.6.2',
+    name: 'Coturn',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4.6.2',
+  },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
     latestVersion: '2.3.16',
