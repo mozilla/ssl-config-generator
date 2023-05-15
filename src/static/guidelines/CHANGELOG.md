@@ -7,6 +7,13 @@ This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.
 
 ## [Unreleased]
 
+## [5.7] - 2023-05-15
+
+### Changed
+
+- `intermediate` configuration in order to append `TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256`
+  to the bottom of the cipher list for `iana` and `openssl`. [mozilla/server-side-tls#285](https://github.com/mozilla/server-side-tls/issues/285)
+
 ## [5.6] - 2020-07-24
 
 ### Added
@@ -98,6 +105,7 @@ This release has breaking changes due to the renaming of some JSON keys
 Initial version
 
 [unreleased]: https://github.com/mozilla/ssl-config-generator/compare/9e999856e19e604a06b06cfbc2e949d184c5f4d3...HEAD
+[5.7]: https://github.com/mozilla/ssl-config-generator/compare/9e999856e19e604a06b06cfbc2e949d184c5f4d3...HEAD
 [5.6]: https://github.com/mozilla/ssl-config-generator/compare/aa0718d93437a17258e92313cda708d1b209abd4...9e999856e19e604a06b06cfbc2e949d184c5f4d3
 [5.5]: https://github.com/mozilla/ssl-config-generator/compare/c48ecf5dcf43d3ed0f1f0e6a85ca1ae336984f4c...aa0718d93437a17258e92313cda708d1b209abd4
 [5.4]: https://github.com/mozilla/ssl-config-generator/compare/477459e9ebeb4ccf7e68aaad6c1c5f7c7a44174b...c48ecf5dcf43d3ed0f1f0e6a85ca1ae336984f4c
