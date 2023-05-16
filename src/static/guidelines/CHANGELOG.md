@@ -104,8 +104,8 @@ This release has breaking changes due to the renaming of some JSON keys
 
 Initial version
 
-[unreleased]: https://github.com/mozilla/ssl-config-generator/compare/9e999856e19e604a06b06cfbc2e949d184c5f4d3...HEAD
-[5.7]: https://github.com/mozilla/ssl-config-generator/compare/9e999856e19e604a06b06cfbc2e949d184c5f4d3...HEAD
+[unreleased]: https://github.com/mozilla/ssl-config-generator/compare/c21325296b09df39ee34782ed8c1fa6adfcc8af7...HEAD
+[5.7]: https://github.com/mozilla/ssl-config-generator/compare/9e999856e19e604a06b06cfbc2e949d184c5f4d3...c21325296b09df39ee34782ed8c1fa6adfcc8af7
 [5.6]: https://github.com/mozilla/ssl-config-generator/compare/aa0718d93437a17258e92313cda708d1b209abd4...9e999856e19e604a06b06cfbc2e949d184c5f4d3
 [5.5]: https://github.com/mozilla/ssl-config-generator/compare/c48ecf5dcf43d3ed0f1f0e6a85ca1ae336984f4c...aa0718d93437a17258e92313cda708d1b209abd4
 [5.4]: https://github.com/mozilla/ssl-config-generator/compare/477459e9ebeb4ccf7e68aaad6c1c5f7c7a44174b...c48ecf5dcf43d3ed0f1f0e6a85ca1ae336984f4c
