@@ -12,12 +12,18 @@ server {
 
 {{/if}}
 server {
-{{#if (minver "1.9.5" form.serverVersion)}}
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-{{else}}
+{{#if (minver "1.25.1" form.serverVersion)}}
     listen 443 ssl;
     listen [::]:443 ssl;
+    http2 on;
+{{else}}
+    {{#if (minver "1.9.5" form.serverVersion)}}
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+    {{else}}
+        listen 443 ssl;
+        listen [::]:443 ssl;
+    {{/if}}
 {{/if}}
 
     ssl_certificate /path/to/signed_cert_plus_intermediates;
