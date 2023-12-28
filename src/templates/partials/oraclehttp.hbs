@@ -20,4 +20,4 @@
 # {{form.config}} configuration
 SSLProtocol             All {{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
 SSLCipherSuite          {{{join output.ciphers ":"}}}
-SSLHonorCipherOrder     on
+SSLHonorCipherOrder     {{#if output.serverPreferredOrder}}on{{else}}off{{/if}}
