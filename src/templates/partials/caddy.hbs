@@ -39,5 +39,5 @@ tls {
 {{#if form.hsts}}
 
 # HSTS ({{output.hstsMaxAge}} seconds)
-header / Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
+header Strict-Transport-Security "max-age={{output.hstsMaxAge}}"
 {{/if}}
