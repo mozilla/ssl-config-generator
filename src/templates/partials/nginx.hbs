@@ -18,11 +18,11 @@ server {
     http2 on;
 {{else}}
     {{#if (minver "1.9.5" form.serverVersion)}}
-        listen 443 ssl http2;
-        listen [::]:443 ssl http2;
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
     {{else}}
-        listen 443 ssl;
-        listen [::]:443 ssl;
+    listen 443 ssl;
+    listen [::]:443 ssl;
     {{/if}}
 {{/if}}
 
