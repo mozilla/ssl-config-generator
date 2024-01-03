@@ -1,6 +1,6 @@
 // configs for the supported pieces of software
 // hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
-// cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
+// cipherFormat is assumed to be 'openssl' unless defined otherwise
 const noSupportedVersion = '10000.10000.10000';
 
 
@@ -45,12 +45,12 @@ module.exports = {
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.3.9',
+    latestVersion: '2.3.16',
     name: 'Dovecot',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: false,
-    tls13: noSupportedVersion,
+    tls13: '2.3.15',
   },
   exim: {
     highlighter: 'nginx',
@@ -88,7 +88,7 @@ module.exports = {
   },
   lighttpd: {
     highlighter: 'nginx',
-    latestVersion: '1.4.59',
+    latestVersion: '1.4.67',
     name: 'lighttpd',
     tls13: '1.4.48'
   },
@@ -140,12 +140,12 @@ module.exports = {
   },
   proftpd: {
     highlighter: 'apache',
-    latestVersion: '1.3.6',
+    latestVersion: '1.3.7',
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: true,
-    tls13: '1.3.6',
+    tls13: '1.3.7',
   },
   redis: {
     highlighter: 'nginx',
@@ -157,7 +157,26 @@ module.exports = {
     tls13: '6.0',
     usesOpenssl: true,
   },
-  tomcat: {
+  squid: {
+    highlighter: 'nginx',  // TODO: find better
+    latestVersion: '5.6',
+    name: 'Squid',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4',
+  },
+  stunnel: {
+    highlighter: 'ini',
+    latestVersion: '5.71',
+    name: 'stunnel',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '5.50',
+    usesOpenssl: true,
+  },
+tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',

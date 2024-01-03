@@ -66,7 +66,7 @@ const render = async () => {
   // syntax highlight and enter into the page
   const highlighter = configs[_state.form.server].highlighter;
 
-  document.getElementById('output-config').innerHTML = hljs.highlight(highlighter, renderedTemplate, true).value;
+  document.getElementById('output-config').innerHTML = hljs.highlight(renderedTemplate, {language: highlighter, ignoreIllegals: true}).value;
 };
 
 

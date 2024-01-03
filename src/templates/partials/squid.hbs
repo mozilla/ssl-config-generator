@@ -1,0 +1,34 @@
+# {{output.header}}
+# {{{output.link}}}
+
+# The following example shows Squid configured as a cache proxy with SSL bump enabled
+
+http_port 3128 ssl-bump \
+  {{#if (minver "4" form.serverVersion)}}tls-{{/if}}cert=/path/to/ca_signing_cert \
+  {{#if (minver "4" form.serverVersion)}}tls-{{/if}}key=/path/to/ca_signing_private_key \
+{{#if output.ciphers.length}}
+  cipher={{{join output.ciphers ":"}}} \
+{{/if}}
+{{#if output.usesDhe}}
+  tls-dh=/path/to/dhparam \  # {{output.dhCommand}} > /path/to/dhparam
+{{/if}}
+  options={{#if (minver "4" form.serverVersion)}}NO_SSLv3{{else}}NO_SSLv2,NO_SSLv3{{/if}}{{#unless (includes "TLSv1" output.protocols)}},NO_TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}},NO_TLSv1_1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}},NO_TLSv1_2{{/unless}},NO_TICKET
+
+sslcrtd_program /usr/lib/squid/{{#if (minver "4" form.serverVersion)}}security_file_certgen{{else}}ssl_crtd{{/if}} -s /var/cache/squid/ssl_db -M 4MB
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump all
+
+
+# The following example shows Squid configured as a reverse Proxy / Accelerator
+
+https_port 443 accel defaultsite=example.net \
+  {{#if (minver "4" form.serverVersion)}}tls-{{/if}}cert=/path/to/signed_cert_plus_intermediates \
+  {{#if (minver "4" form.serverVersion)}}tls-{{/if}}key=/path/to/private_key \
+{{#if output.ciphers.length}}
+  cipher={{{join output.ciphers ":"}}} \
+{{/if}}
+{{#if output.usesDhe}}
+  tls-dh=/path/to/dhparam \  # {{output.dhCommand}} > /path/to/dhparam
+{{/if}}
+  options={{#if (minver "4" form.serverVersion)}}NO_SSLv3{{else}}NO_SSLv2,NO_SSLv3{{/if}}{{#unless (includes "TLSv1" output.protocols)}},NO_TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}},NO_TLSv1_1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}},NO_TLSv1_2{{/unless}},NO_TICKET
