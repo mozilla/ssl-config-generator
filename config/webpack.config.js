@@ -44,7 +44,6 @@ const plugins = [
   }),
   new CopyWebpackPlugin({
     patterns: [
-        {from: 'src/images', to: 'images/'},
         {from: 'config/CNAME'},
         {from: 'src/static'},
         {from: 'src/js/analytics.js'}
@@ -153,20 +152,6 @@ module.exports = {
           },
           'sass-loader'
         ]
-      },
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        type: 'asset/resource',
-        // generator: {
-        //   outputPath: 'fonts/',
-        // }
-      },
-      {
-        test: /\.(svg)$/,
-        type: 'asset/resource',
-        generator: {
-          outputPath: 'img/',
-        }
       }
     ]
   },
