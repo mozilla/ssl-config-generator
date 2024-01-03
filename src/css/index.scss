@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 @import '../../node_modules/highlight.js/styles/github.css';
-@import '_fonts.scss';
+@import url(https://code.cdn.mozilla.net/fonts/zilla-slab.css);
 
 #copy {
   bottom: 4rem;

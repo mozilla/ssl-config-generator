@@ -1,6 +1,6 @@
 // configs for the supported pieces of software
 // hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
-// cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
+// cipherFormat is assumed to be 'openssl' unless defined otherwise
 const noSupportedVersion = '10000.10000.10000';
 
 
@@ -88,7 +88,7 @@ module.exports = {
   },
   lighttpd: {
     highlighter: 'nginx',
-    latestVersion: '1.4.65',
+    latestVersion: '1.4.67',
     name: 'lighttpd',
     tls13: '1.4.48'
   },
@@ -140,12 +140,12 @@ module.exports = {
   },
   proftpd: {
     highlighter: 'apache',
-    latestVersion: '1.3.6',
+    latestVersion: '1.3.7',
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: true,
-    tls13: '1.3.6',
+    tls13: '1.3.7',
   },
   redis: {
     highlighter: 'nginx',
