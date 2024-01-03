@@ -1,0 +1,45 @@
+# {{output.header}}
+# {{{output.link}}}
+
+{{#if (minver "1.0.1" form.opensslVersion)}}
+    {{#if (minver "5.50" form.serverVersion)}}
+        {{#if (minver "1.1.0" form.opensslVersion)}}
+            {{#if (minver "1.1.1" form.opensslVersion)}}
+sslVersionMin = TLSv1.3
+ciphersuites = {{{join output.cipherSuites ":"}}}
+            {{ else }}
+sslVersionMin = TLSv1.2
+ciphers = {{{join output.ciphers ":"}}}
+            {{/if}}
+        {{ else }}
+options = NO_TLSv1
+options = NO_TLSv1.1
+ciphers = {{{join output.ciphers ":"}}}
+        {{/if}}
+    {{ else }}
+options = NO_TLSv1
+options = NO_TLSv1.1
+ciphers = {{{join output.ciphers ":"}}}
+    {{/if}}
+{{ else }}
+options = NO_SSLv2
+options = NO_SSLv3
+{{/if}}
+
+; Using client mode to proxy gmail imap server
+[imap-proxy-server]
+client = yes
+accept = 127.0.0.1:143
+connect = imap.example.com:993
+CApath = /etc/ssl/certs
+{{#if (minver "1.0.2" form.opensslVersion)}}
+checkHost = imap.example.com
+{{/if}}
+verifyChain = yes
+
+[https-server]
+accept  = 443
+connect = 80
+CAfile = /path/to/ca-cert
+cert = /path/to/cert
+key = /path/to/private_key
