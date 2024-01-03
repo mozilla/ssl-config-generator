@@ -1,6 +1,6 @@
 // configs for the supported pieces of software
 // hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
-// cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
+// cipherFormat is assumed to be 'openssl' unless defined otherwise
 const noSupportedVersion = '10000.10000.10000';
 
 
