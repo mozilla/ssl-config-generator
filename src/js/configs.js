@@ -140,12 +140,12 @@ module.exports = {
   },
   proftpd: {
     highlighter: 'apache',
-    latestVersion: '1.3.6',
+    latestVersion: '1.3.7',
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: true,
-    tls13: '1.3.6',
+    tls13: '1.3.7',
   },
   redis: {
     highlighter: 'nginx',

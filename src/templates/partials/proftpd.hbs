@@ -28,7 +28,7 @@ TLSServerCipherPreference     {{#if output.serverPreferredOrder}}on{{else}}off{{
 {{/if}}
 {{#if (minver "1.0.2l" form.opensslVersion)}}
   {{#if (minver "1.3.6" form.serverVersion)}}
-TLSSessionTickets              off
+TLSSessionTickets             off
   {{/if}}
 {{/if}}
 {{#if form.ocsp}}
