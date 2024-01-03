@@ -166,7 +166,17 @@ module.exports = {
     supportsOcspStapling: false,
     tls13: '4',
   },
-  tomcat: {
+  stunnel: {
+    highlighter: 'ini',
+    latestVersion: '5.71',
+    name: 'stunnel',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '5.50',
+    usesOpenssl: true,
+  },
+tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',
