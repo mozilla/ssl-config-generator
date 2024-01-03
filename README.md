@@ -79,13 +79,13 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 
 ## Building
 
-To publish to GitHub Pages, simply run:
+To publish to GitHub Pages, first generate new `docs/` files by running 
 
 ```bash
 $ npm run build
 ```
 
-Then commit the newly built `docs/` files and push the commit to GitHub
+Then commit the newly built `docs/` files and push the commit to GitHub.
 
 ## Changelog
 
