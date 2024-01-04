@@ -34,8 +34,8 @@ TLSSessionTickets             off
 {{#if form.ocsp}}
   {{#if (minver "1.3.6" form.serverVersion)}}
 
-# requires mod_tls_shmcache
 TLSStapling                   on
-TLSStaplingCache              "shmcb:logs/ssl_stapling(32768)"
+# requires mod_tls_shmcache
+TLSStaplingCache              shm:/file=/var/ftpd/ocsp_pcache
   {{/if}}
 {{/if}}
