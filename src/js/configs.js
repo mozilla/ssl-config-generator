@@ -1,6 +1,6 @@
 // configs for the supported pieces of software
 // hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
-// cipherFormat is assumed to be 'openssl' unless defined otherwise (currently only 'iana' is supported)
+// cipherFormat is assumed to be 'openssl' unless defined otherwise
 const noSupportedVersion = '10000.10000.10000';
 
 
@@ -42,6 +42,15 @@ module.exports = {
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
     tls13: '0.11.5',
     usesOpenssl: false,
+  },
+  coturn: {
+    highlighter: 'ini',
+    latestVersion: '4.6.2',
+    name: 'Coturn',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '4.6.2',
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
@@ -140,12 +149,12 @@ module.exports = {
   },
   proftpd: {
     highlighter: 'apache',
-    latestVersion: '1.3.6',
+    latestVersion: '1.3.7',
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
     supportsOcspStapling: true,
-    tls13: '1.3.6',
+    tls13: '1.3.7',
   },
   redis: {
     highlighter: 'nginx',
@@ -166,7 +175,17 @@ module.exports = {
     supportsOcspStapling: false,
     tls13: '4',
   },
-  tomcat: {
+  stunnel: {
+    highlighter: 'ini',
+    latestVersion: '5.71',
+    name: 'stunnel',
+    showSupports: false,
+    supportsHsts: false,
+    supportsOcspStapling: false,
+    tls13: '5.50',
+    usesOpenssl: true,
+  },
+tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',

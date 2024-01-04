@@ -37,31 +37,20 @@ const plugins = [
     date: new Date().toISOString().substr(0, 10),
     production,
     revision: revision(),
+
     title: 'Mozilla SSL Configuration Generator',
-    template: 'src/templates/index.ejs'
+    template: 'src/templates/index.ejs',
+    favicon: 'src/images/favicon.png'
   }),
   new CopyWebpackPlugin({
     patterns: [
-        {from: 'src/images', to: 'images/'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-        {from: 'config/CNAME'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-        {from: 'src/static'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
+        {from: 'config/CNAME'},
+        {from: 'src/static'},
         {from: 'src/js/analytics.js'}
     ]
   }),
   new MiniCssExtractPlugin({
-    filename: '[hash].index.css',
+    filename: '[contenthash].index.css',
   })
 ];
 
@@ -69,7 +58,7 @@ const plugins = [
 if (process.env.NODE_ENV === 'analyze') {
   plugins.push(
     new BundleAnalyzerPlugin({})
-  )
+  );
 } else {
   plugins.push(
     new BrowserSyncWebpackPlugin({
@@ -79,7 +68,7 @@ if (process.env.NODE_ENV === 'analyze') {
         baseDir: 'build'
       }
     })
-  )
+  );
 }
 
 module.exports = {
@@ -88,7 +77,16 @@ module.exports = {
     library: 'SSLConfigGenerator',
     libraryTarget: 'var',
     path: production ? path.resolve(__dirname, '..', 'docs') : path.resolve(__dirname, '..', 'build'),
-    filename: '[hash].[name]'
+    filename: '[contenthash].[name]'
+  },
+  stats: {
+    errorDetails: true,
+    children: true
+  },
+  resolve: {
+    fallback: {
+      "path": require.resolve("path-browserify")
+    }
   },
   entry: {
     'index.js': ['regenerator-runtime/runtime', path.resolve(__dirname, '..', 'src', 'js', 'index.js')]
@@ -99,9 +97,7 @@ module.exports = {
     rules: [
       {
         test: /\.ejs$/,
-        use: {
-          loader: 'ejs-loader',
-        }
+        use: ['ejs-easy-loader'],
       },
       {
         test: /\.hbs$/,
@@ -138,40 +134,24 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         //include: path.resolve(__dirname, '..', 'src'),
-        use: [{
-          loader: MiniCssExtractPlugin.loader
-        },
-        'css-loader',
-        {
-          loader: 'postcss-loader', // Run post css actions
-          options: {
-            plugins: function () { // post css plugins, can be exported to postcss.config.js
-              return [
-                require('precss'),
-                require('autoprefixer')
-              ];
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader', // Run post css actions
+            options: {
+              postcssOptions: {
+                plugins: function () { // post css plugins, can be exported to postcss.config.js
+                  return [
+                    require('precss'),
+                    require('autoprefixer')
+                  ];
+                }
+              }
             }
-          }
-        },
-        'sass-loader'
-      ]},
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'img/[name].[ext]'
-          }
-        }
+          },
+          'sass-loader'
+        ]
       }
     ]
   },
