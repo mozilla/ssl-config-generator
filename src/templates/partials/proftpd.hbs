@@ -19,7 +19,7 @@ TLSDHParamFile                /path/to/dhparam
 {{/if}}
 
 # {{form.config}} configuration
-TLSProtocol                  {{#each output.protocols}} {{this}}{{/each}}
+TLSProtocol                   {{join output.protocols " "}}
 {{#if output.ciphers.length}}
 TLSCipherSuite                {{{join output.ciphers ":"}}}
 {{/if}}

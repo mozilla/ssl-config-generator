@@ -7,4 +7,4 @@ ssl-key = /path/to/private_key
 {{#if output.ciphers.length}}
 ssl-cipher = {{{join output.ciphers ":"}}}
 {{/if}}
-tls_version = {{#each output.protocols}}{{this}}{{#unless @last}},{{/unless}}{{/each}}
+tls_version = {{join output.protocols ","}}
