@@ -42,7 +42,7 @@ server {
 
 {{/if}}
     # {{form.config}} configuration
-    ssl_protocols{{#each output.protocols}} {{this}}{{/each}};
+    ssl_protocols {{join output.protocols " "}};
 {{#if output.ciphers.length}}
     ssl_ciphers {{{join output.ciphers ":"}}};
 {{/if}}

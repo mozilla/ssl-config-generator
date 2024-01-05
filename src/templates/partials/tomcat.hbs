@@ -17,7 +17,7 @@
 {{/if}}
         disableSessionTickets="true"
         honorCipherOrder="{{#if output.serverPreferredOrder}}true{{else}}false{{/if}}"
-        protocols="{{#each output.protocols}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}">
+        protocols="{{join output.protocols ", "}}">
 
         <Certificate
             certificateFile="/path/to/signed_certificate"
