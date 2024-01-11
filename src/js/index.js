@@ -45,7 +45,7 @@ const render = async () => {
 
   // enable and disable the appropriate fields
   $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
-  $('#openssl-version').toggleClass('text-disabled', _state.output.usesOpenssl === false);
+  $('#openssl').toggleClass('text-disabled', _state.output.usesOpenssl === false);
   $('#hsts').prop('disabled', _state.output.supportsHsts === false);
   $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
 
