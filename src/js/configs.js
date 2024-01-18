@@ -185,7 +185,7 @@ module.exports = {
     tls13: '5.50',
     usesOpenssl: true,
   },
-tomcat: {
+  tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',
@@ -197,7 +197,8 @@ tomcat: {
   kubelet: {
     cipherFormat: 'go',
     highlighter: 'yaml',
-    hasVersions: false,
+    tls13: '1.14',
+    latestVersion: '1.29',
     name: 'Kubernetes',
     supportsHsts: false,
     supportsOcspStapling: false,
