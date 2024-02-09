@@ -185,13 +185,23 @@ module.exports = {
     tls13: '5.50',
     usesOpenssl: true,
   },
-tomcat: {
+  tomcat: {
     highlighter: 'xml',
     latestVersion: '9.0.30',
     name: 'Tomcat',
     supportsHsts: true,
     supportsOcspStapling: false,
     tls13: '8.0.0',
+    usesOpenssl: false,
+  },
+  kubelet: {
+    cipherFormat: 'go',
+    highlighter: 'yaml',
+    tls13: '1.14',
+    latestVersion: '1.29',
+    name: 'Kubernetes',
+    supportsHsts: false,
+    supportsOcspStapling: false,
     usesOpenssl: false,
   },
   traefik: {
