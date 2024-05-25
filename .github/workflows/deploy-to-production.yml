@@ -1,10 +1,10 @@
 name: deploy-to-production
 
 on:
+  workflow_dispatch: # allow manual runs
   push:
-    branches: ["master"]
-  # Allows workflow run manually from Actions tab:
-  workflow_dispatch:
+    branches:
+      - master
 
 permissions:
   contents: read
@@ -12,12 +12,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-defaults:
-  run:
-    shell: bash
+  group: github-pages
+  cancel-in-progress: false # skip any intermediate builds but let finish
 
 jobs:
   build:
