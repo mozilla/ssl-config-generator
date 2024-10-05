@@ -12,7 +12,7 @@
 {{/if}}
 <VirtualHost *:443>
     SSLEngine on
-{{#if (minver "2.4.8" form.serverVersion)}}
+{{#if (minver "2.4.7" form.serverVersion)}}
   {{#if output.usesDhe}}
 
     # {{output.dhCommand}} >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
