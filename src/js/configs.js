@@ -7,7 +7,7 @@ const noSupportedVersion = '10000.10000.10000';
 module.exports = {
   apache: {
     highlighter: 'apache',
-    latestVersion: '2.4.41',
+    latestVersion: '2.4.60',
     name: 'Apache',
     tls13: '2.4.36',
   },
