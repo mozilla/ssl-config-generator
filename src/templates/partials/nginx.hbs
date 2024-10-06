@@ -30,11 +30,13 @@ server {
     ssl_certificate_key /path/to/private_key;
     ssl_session_timeout 1d;
     ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions
+{{#unless (minver "1.23.2" form.serverVersion)}}
 {{#if (minver "1.0.2l" form.opensslVersion)}}
   {{#if (minver "1.5.9" form.serverVersion)}}
     ssl_session_tickets off;
   {{/if}}
 {{/if}}
+{{/unless}}
 
 {{#if output.usesDhe}}
     # {{output.dhCommand}} > /path/to/dhparam
