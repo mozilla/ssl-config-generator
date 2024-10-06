@@ -113,12 +113,12 @@ module.exports = {
   nginx: {
     checked: true,
     highlighter: 'nginx',
-    latestVersion: '1.17.7',
+    latestVersion: '1.26.0',
     name: 'nginx',
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '1.1.1k',
+    latestVersion: '1.1.1w',
     tls13: '1.1.1',
   },
   oraclehttp: {
