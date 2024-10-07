@@ -1,14 +1,11 @@
 # {{output.header}}
 # {{{output.link}}}
-#server.modules += ("mod_redirect")
-#server.modules += ("mod_setenv")
-#server.modules += ("mod_openssl")
 #server.port = 80
 $SERVER["socket"] == "[::]:80" { }
 
 {{#if (minver "1.4.56" form.serverVersion)}}
 # select one TLS module: "mod_openssl" "mod_mbedtls" "mod_gnutls" "mod_wolfssl" "mod_nss"
-#server.modules += ("mod_openssl")
+server.modules += ("mod_openssl")
 
 # lighttpd 1.4.56 and later will inherit ssl.* from the global scope if
 # $SERVER["socket"] contains ssl.engine = "enable" and no other ssl.* options
@@ -74,6 +71,9 @@ ssl.cipher-list = "{{{join output.ciphers ":"}}}"
   {{/if}}
  {{/if}}
 {{else}}
+ {{#if (minver "1.4.46" form.serverVersion)}}
+#server.modules += ("mod_openssl")
+ {{/if}}
 $SERVER["socket"] == ":443" {
     ssl.engine  = "enable"
 
@@ -117,6 +117,13 @@ $SERVER["socket"] == ":443" {
 {{/if}}
 
 {{#if form.hsts}}
+ {{#if (minver "1.4.56" form.serverVersion)}}
+server.modules += ("mod_redirect")
+server.modules += ("mod_setenv")
+ {{else}}
+#server.modules += ("mod_redirect")
+#server.modules += ("mod_setenv")
+ {{/if}}
 $HTTP["scheme"] == "https" {
     # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
     setenv.add-response-header = (
