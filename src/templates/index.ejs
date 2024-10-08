@@ -12,7 +12,6 @@
 
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="<%= htmlWebpackPlugin.options.csp %>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="<%= htmlWebpackPlugin.options.constants.author %>">
     <meta name="description" content="<%= htmlWebpackPlugin.options.constants.description %>">
@@ -141,32 +140,31 @@
           <h5>Company</h5>
           <ul class="list-unstyled">
             <li><a class="text-white" href="https://www.mozilla.org/about/">About</a></li>
-            <li><a class="text-white" href="https://blog.mozilla.org/press/">Press Center</a></li>
-            <li><a class="text-white" href="https://careers.mozilla.org/?utm_source=ssl-config.mozilla.org&utm_medium=referral&utm_campaign=footer&utm_content=company">Careers</a></li>
+            <li><a class="text-white" href="https://www.mozilla.org/contribute/">Get involved</a></li>
+            <li><a class="text-white" href="https://www.mozilla.org/careers/">Careers</a></li>
           </ul>
         </div>
-
         <div class="col-12 col-md-4">
           <h5>Resources</h5>
           <ul class="list-unstyled">
-            <li><a class="text-white" href="https://developer.mozilla.org/">Mozilla Developer Network</a></li>
-            <li><a class="text-white" href="https://observatory.mozilla.org/">Mozilla Observatory</a></li>
+            <li><a class="text-white" href="https://wiki.mozilla.org/Security/Server_Side_TLS">Mozilla Server Side TLS configurations</a></li>
+            <li><a class="text-white" href="https://infosec.mozilla.org/guidelines/web_security">Mozilla's own Web Security guidelines</a></li>
+            <li><a class="text-white" href="https://developer.mozilla.org/docs/Web/Security/Transport_Layer_Security">Transport Layer Security on MDN</a></li>
+            <li><a class="text-white" href="https://observatory.mozilla.org/">Mozilla HTTP Observatory</a></li>
             <li><a class="text-white" href="https://www.ssllabs.com/ssltest/">Qualys SSL Labs Server Test</a></li>
-            <li><a class="text-white" href="https://wiki.mozilla.org/Security/Server_Side_TLS">Server Side TLS guidelines</a></li>
-            <li><a class="text-white" href="https://infosec.mozilla.org/guidelines/web_security">Web Security guidelines</a></li>
           </ul>
         </div>
-
         <div class="col-12 col-md-4">
-          <h5>Product Help</h5>
+          <h5>Contribute & report issues</h5>
           <ul class="list-unstyled">
             <li><a class="text-white" href="https://github.com/mozilla/ssl-config-generator/issues">File a bug</a></li>
             <li><a class="text-white" href="https://github.com/mozilla/ssl-config-generator#creating-templates">Supporting new software</a></li>
+            <li><a class="text-white" href="https://github.com/mozilla/ssl-config-generator/releases">Changelog and version history</a></li>
           </ul>
         </div>
       </div>
-    </div>
 
+    </div>
     <% if (htmlWebpackPlugin.options.production) { %>
     <div class="w-100 d-none d-md-block pr-3 pb-1 small text-right text-muted"><a class="text-secondary" href="https://github.com/mozilla/ssl-config-generator/commit/<%= htmlWebpackPlugin.options.revision %>">build <%= htmlWebpackPlugin.options.revision %></a>, generated <%= htmlWebpackPlugin.options.date %></div>
     <% } %>
