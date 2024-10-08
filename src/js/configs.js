@@ -88,7 +88,7 @@ module.exports = {
   jetty: {
     cipherFormat: 'iana',
     highlighter: 'xml',
-    latestVersion: '9.4.28',
+    latestVersion: '12.0.12',
     name: 'Jetty',
     supportsHsts: false,
     supportsOcspStapling: false,
