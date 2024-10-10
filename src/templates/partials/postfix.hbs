@@ -10,10 +10,19 @@ smtpd_tls_protocols = !SSLv2, !SSLv3{{#unless (includes "TLSv1" output.protocols
 smtpd_tls_mandatory_ciphers = medium
 {{/if}}
 {{#if output.usesDhe}}
+{{#if (minver "3.7.0" form.serverVersion)}}
+{{#unless (minver "3.0.0" form.opensslVersion)}}
 
 # {{output.dhCommand}} > /path/to/dhparam
 # not actually 1024 bits, this applies to all DHE >= 1024 bits
 smtpd_tls_dh1024_param_file = /path/to/dhparam
+{{/unless}}
+{{else}}
+
+# {{output.dhCommand}} > /path/to/dhparam
+# not actually 1024 bits, this applies to all DHE >= 1024 bits
+smtpd_tls_dh1024_param_file = /path/to/dhparam
+{{/if}}
 {{/if}}
 
 {{#if output.ciphers.length}}

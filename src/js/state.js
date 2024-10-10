@@ -41,6 +41,16 @@ export default async function () {
   } else {
     ciphers = ciphers;
   }
+  if (form['config'].value === 'old' && configs[server].usesOpenssl !== false) {
+    // set SECLEVEL=0 for openssl 3 to support TLSv1 and TLSv1.1 for Old config
+    if (minver('3.0.0', form['openssl'].value) === true) {
+      if (['awselb','caddy','go','jetty','traefik'].includes(form['server'].value) === false) {
+        if (ciphers[0] !== '@SECLEVEL=0') {
+          ciphers.unshift('@SECLEVEL=0');
+        }
+      }
+    }
+  }
 
   const state = {
     form: {
