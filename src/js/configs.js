@@ -118,7 +118,7 @@ module.exports = {
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '1.1.1w',
+    latestVersion: '3.3.2',
     tls13: '1.1.1',
   },
   oraclehttp: {
