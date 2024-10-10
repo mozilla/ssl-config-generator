@@ -15,21 +15,18 @@
 {{#if (minver "2.4.8" form.serverVersion)}}
   {{#if output.usesDhe}}
    {{#if (minver "2.4.52" form.serverVersion)}}
-    {{#if (minver "1.1.0" form.opensslVersion)}}
-    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
-    {{else}}
+    {{#unless (minver "1.1.0" form.opensslVersion)}}
 
-    # {{output.dhCommand}} >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
-    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams
-    {{/if}}
+    # {{output.dhCommand}} >> /path/to/dhparams
+    SSLOpenSSLConfCmd DHParameters "/path/to/dhparams"
+    {{/unless}}
    {{else}}
 
-    # {{output.dhCommand}} >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
-    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams
+    # {{output.dhCommand}} >> /path/to/dhparams
+    SSLOpenSSLConfCmd DHParameters "/path/to/dhparams"
    {{/if}}
-  {{else}}
-    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
   {{/if}}
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
 {{else}}
     SSLCertificateFile      /path/to/signed_certificate
     SSLCertificateChainFile /path/to/intermediate_certificate
