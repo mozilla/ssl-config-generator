@@ -177,7 +177,7 @@ module.exports = {
   },
   stunnel: {
     highlighter: 'ini',
-    latestVersion: '5.71',
+    latestVersion: '5.73',
     name: 'stunnel',
     showSupports: false,
     supportsHsts: false,
