@@ -1,32 +1,34 @@
-# {{output.header}}
-# {{{output.link}}}
+; {{output.header}}
+; {{{output.link}}}
 
-{{#if (minver "1.0.1" form.opensslVersion)}}
-    {{#if (minver "5.50" form.serverVersion)}}
-        {{#if (minver "1.1.0" form.opensslVersion)}}
-            {{#if (minver "1.1.1" form.opensslVersion)}}
+{{#if (minver "5.50" form.serverVersion)}}
+{{#unless (includes "TLSv1" output.protocols)}}
+{{#unless (includes "TLSv1.1" output.protocols)}}
+{{#if (includes "TLSv1.2" output.protocols)}}
+sslVersionMin = TLSv1.2
+{{else if (includes "TLSv1.3" output.protocols)}}
 sslVersionMin = TLSv1.3
 ciphersuites = {{{join output.cipherSuites ":"}}}
-            {{ else }}
-sslVersionMin = TLSv1.2
-ciphers = {{{join output.ciphers ":"}}}
-            {{/if}}
-        {{ else }}
-options = NO_TLSv1
+{{/if}}
+{{/unless}}
+{{/unless}}
+{{else}}
+{{#unless (includes "TLSv1.1" output.protocols)}}
 options = NO_TLSv1.1
-ciphers = {{{join output.ciphers ":"}}}
-        {{/if}}
-    {{ else }}
+{{/unless}}
+{{#unless (includes "TLSv1" output.protocols)}}
 options = NO_TLSv1
-options = NO_TLSv1.1
-ciphers = {{{join output.ciphers ":"}}}
-    {{/if}}
-{{ else }}
-options = NO_SSLv2
+{{/unless}}
+{{/if}}
+{{#unless (minver "1.0.1" form.opensslVersion)}}
 options = NO_SSLv3
+options = NO_SSLv2
+{{/unless}}
+{{#if output.ciphers.length}}
+ciphers = {{{join output.ciphers ":"}}}
 {{/if}}
 
-; Using client mode to proxy gmail imap server
+; Example using client mode to proxy IMAP server
 [imap-proxy-server]
 client = yes
 accept = 127.0.0.1:143
@@ -37,6 +39,7 @@ checkHost = imap.example.com
 {{/if}}
 verifyChain = yes
 
+; Example serving HTTPS for HTTP service
 [https-server]
 accept  = 443
 connect = 80
