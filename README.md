@@ -6,10 +6,35 @@ This tool is built and deployed to https://ssl-config.mozilla.org/
 
 To be notified when the Mozilla [Server Side TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) configuration guidelines are updated (infrequent), use github notifications to subscribe to Releases on this repository (mozilla/ssl-config-generator).
 
-To modify and build this tool locally, please read on:
+To modify and build this tool locally, please see Installation and Development sections below.
 
+## JSON guidelines
+
+Each revision of the Mozilla Server Side TLS guidelines is published in a machine-readable format from this repository as a [JSON specification](/src/static/guidelines/) that can be found at [`/src/static/guidelines/`](/src/static/guidelines/) 📟
+
+## Changelog
+
+The [Changelog](/src/static/guidelines/CHANGELOG.md) that tracks the history of changes to Mozilla's configuration guidelines is available along the versioned JSON guideline files at [`/src/static/guidelines/CHANGELOG.md`](/src/static/guidelines/CHANGELOG.md) 🔬
+
+## Contributing
+
+The project is written in JavaScript, and uses Webpack for development and production builds.
+
+We keep a list of things that would make a great contribution tagged with [*help wanted*](https://github.com/mozilla/ssl-config-generator/labels/help%20wanted), [*good first issue*](https://github.com/mozilla/ssl-config-generator/labels/good%20first%20issue), and [*new software support*](https://github.com/mozilla/ssl-config-generator/labels/new%20software%20support) labels.
+
+If you'd like to see your favorite tool added or compatibility expanded, we're always happy to mentor a PR or receive a bug report to make the configs better for everyone.
+
+Even when you don't feel comfortable contributing actual templates, posting some nice verified configs or compatibility hints is equally welcome! 💝
+
+Get involved by sharing your ideas or joining the conversation in the [Discussions](https://github.com/mozilla/ssl-config-generator/discussions) tab. 🗨️
+
+This repository is governed by Mozilla's [Community Participation Guidelines](/CODE_OF_CONDUCT.md)
+so please make yourself familiar with it to get the idea of what level of developer etiquette and standards are expected across Mozilla projects.
 
 ## Installation
+
+NodeJS and npm are required to install and run the project locally:
+Node v22 is recommended and we use that in production, but the codebase may be compatible with other versions too.
 
 ```bash
 $ npm install
@@ -20,7 +45,7 @@ $ npm install
 Once you've installed, you can simply run:
 
 ```bash
-$ npm run watch
+$ npm start   # or: npm run watch
 ```
 
 This starts a local webserver that will automatically reload your changes.
@@ -85,26 +110,23 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 
 ## Building
 
-Generate production files in `docs/` files by running
+Production builds have different CSP headers, included scripts, and version info added to the output, so to verify that locally you can inspect the exact production-level artifacts as used in deployment after running:
+
 
 ```bash
 $ npm run build
 ```
 
-However, doing so is not necessary for production deployment.
+However, this step is not necessary for production deployment.
+Automation publishes the production site via GitHub Pages, so once your PR merges the changes deploy within a minute or two.
 GitHub Pages are published upon commit to the master branch
 via .github/workflows/deploy-to-production.yml
 
-## Changelog
-
-The Changelog that captures the history of changes to Mozilla's recommendations
-as represented in the JSON guideline files can be found at [`/src/static/guidelines/CHANGELOG.md`](/src/static/guidelines/CHANGELOG.md)
-
 ## History
 
-The SSL Config Generator was kept in [the `mozilla/server-side-tls` repository](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move)
-prior to mid 2019 at which point it was moved to this dedicated repository. It
-was initially created [at the end of 2014](https://github.com/mozilla/server-side-tls/commit/b201a1191ba38e6f933cd02a4f425f683ffa9be4)
+The SSL Config Generator was originally part of [`mozilla/server-side-tls@v5.0`](https://github.com/mozilla/server-side-tls/tree/12fda41) ([last-revision-before-move](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move))
+prior to mid-2019 at which point it was moved to this dedicated repository. It
+was initially created [at the end of 2014](https://github.com/mozilla/server-side-tls/commit/b201a11)
 and [started out supporting Apache HTTP, Nginx and HAProxy](https://web.archive.org/web/20141026012016/https://mozilla.github.io/server-side-tls/ssl-config-generator/).
 
 ## Authors
@@ -115,4 +137,5 @@ and [started out supporting Apache HTTP, Nginx and HAProxy](https://web.archive.
 
 ## License
 
-* Mozilla Public License Version 2.0
+This software is licensed under the [MPL version 2.0](https://www.mozilla.org/MPL/). For more
+information, read this repository's [LICENSE](LICENSE).
