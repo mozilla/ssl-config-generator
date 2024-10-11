@@ -37,7 +37,7 @@ module.exports = {
   caddy: {
     cipherFormat: 'caddy',
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.1.1',
+    latestVersion: '2.8.4',
     name: 'Caddy',
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
     tls13: '0.11.5',
