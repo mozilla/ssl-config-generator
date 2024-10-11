@@ -21,13 +21,21 @@ ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1")
    {{else if (includes "TLSv1.1" output.protocols)}}
 ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.1")
    {{else if (includes "TLSv1.2" output.protocols)}}
-    {{#unless (minver "1.4.56" form.serverVersion)}}
+    {{#if (minver "1.4.78" form.serverVersion)}}
 ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")
     {{else}}
+     {{#unless (minver "1.4.56" form.serverVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")
+     {{else}}
 #ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")  # lighttpd {{form.serverVersion}} TLS default
-    {{/unless}}
-   {{else}}
+     {{/unless}}
+    {{/if}}
+   {{else if (includes "TLSv1.3" output.protocols)}}
+    {{#unless (minver "1.4.78" form.serverVersion)}}
 ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")
+    {{else}}
+#ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")  # lighttpd {{form.serverVersion}} TLS default
+    {{/unless}}
    {{/if}}
   {{else}}
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
