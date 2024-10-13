@@ -80,9 +80,9 @@ All of the templates are written in [Handlebars.js](https://handlebarsjs.com/), 
 
 Highlighted items from src/js/state.js for use in templates.  See src/js/state.js for more.
 
-- `form.serverName` - Server Name
-- `form.serverVersion` - Server Version
-- `form.opensslVersion` - OpenSSL Version
+- `form.serverName` - display name of the server
+- `form.serverVersion` - desired server version
+- `form.opensslVersion` - desired OpenSSL version
 - `form.config` - configuration name ([ "modern" | "intermediate" | "old" ])
 - `form.hsts` - HTTP Strict Transport Security form checkbox (boolean true/false)
 - `form.ocsp` - OCSP Stapling form checkbox (boolean true/false)
@@ -90,16 +90,16 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `output.header` - description of rendered config (`# {{output.header}}`)
 - `output.link` - URL to rendered config (`# {{{output.link}}}`)
 - `output.protocols` - protocol list (e.g. zero or more of: "TLSv1" "TLSv1.1" "TLSv1.2" "TLSv1.3")
-- `output.ciphers` - TLSv1.2- cipher list (`{{join output.ciphers ":"}}`)
+- `output.ciphers` - TLSv1.2- cipher list for given config and server support (`{{join output.ciphers ":"}}`)
 - `output.cipherSuites` - TLSv1.3+ cipher suites list
 - `output.serverPreferredOrder` - enforce ServerPreference for ordering cipher list (boolean true/false)
 - `output.hstsMaxAge` - max-age (seconds) for Strict-Transport-Security: max-age=... HTTP response header
 - `output.latestVersion` - server latest version
 - `output.usesOpenssl` - server uses openssl (boolean true/false)
-- `output.usesDhe` - server might use Diffie-Hellmann key exchange (boolean true/false)
+- `output.usesDhe` - config includes Diffie-Hellmann key exchange (boolean true/false)
 - `output.dhCommand` - command to generate Diffie-Hellman (DH) parameters
-- `output.hasVersions` - server config has versions (boolean true/false)
-- `output.supportsConfigs` - supports modern, intermediate, old configs (boolean true/false)
+- `output.hasVersions` - config supports several server versions (boolean true/false)
+- `output.supportsConfigs` - _(unused)_ server can support different recommendations (boolean true/false)
 - `output.supportsHsts` - supports HTTP Strict Transport Security (HSTS) (boolean true/false)
 - `output.supportsOcspStapling` - supports OCSP Stapling (boolean true/false)
 - `output.tls13` - minimum server version supporting TLSv1.3
