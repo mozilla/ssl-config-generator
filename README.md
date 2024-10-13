@@ -58,9 +58,9 @@ All of the templates are written in javascript.  The configuration generator sup
 
 Highlighted items from src/js/state.js for use in templates.  See src/js/state.js for more.
 
-- `form.serverName` - Server Name
-- `form.serverVersion` - Server Version
-- `form.opensslVersion` - OpenSSL Version
+- `form.serverName` - display name of the server
+- `form.serverVersion` - requested server version
+- `form.opensslVersion` - requested OpenSSL version
 - `form.config` - configuration name ([ "modern" | "intermediate" | "old" ])
 - `form.hsts` - HTTP Strict Transport Security form checkbox (boolean true/false)
 - `form.ocsp` - OCSP Stapling form checkbox (boolean true/false)
@@ -68,8 +68,8 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `output.header` - description of rendered config
 - `output.link` - URL to rendered config
 - `output.protocols` - protocol list (e.g. zero or more of: "TLSv1" "TLSv1.1" "TLSv1.2" "TLSv1.3")
-- `output.ciphers` - cipher list
-- `output.cipherSuites` - cipher suites list
+- `output.ciphers` - TLSv1.2 (and older) cipher list
+- `output.cipherSuites` - TLSv1.3+ cipher suites list
 - `output.serverPreferredOrder` - enforce ServerPreference for ordering cipher list (boolean true/false)
 - `output.hstsMaxAge` - max-age (seconds) for Strict-Transport-Security: max-age=... HTTP response header
 - `output.hstsRedirectCode` - HTTP status code to use for HSTS redirect from http:// to https://
@@ -77,7 +77,7 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `output.usesOpenssl` - server uses openssl (boolean true/false)
 - `output.usesDhe` - server might use (<= TLSv1.2 kDHE) Diffie-Hellmann key exchange (boolean true/false)
 - `output.dhCommand` - command to generate Diffie-Hellman (DH) parameters
-- `output.hasVersions` - server config has versions (boolean true/false)
+- `output.hasVersions` - config supports several server versions (boolean true/false)
 - `output.supportsHsts` - supports HTTP Strict Transport Security (HSTS) (boolean true/false)
 - `output.supportsOcspStapling` - server version supporting OCSP Stapling in config
 - `output.tls13` - server version supporting TLSv1.3
