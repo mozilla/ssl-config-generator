@@ -122,6 +122,7 @@ module.exports = {
     tls13: '1.1.1',
   },
   oraclehttp: {
+    cipherFormat: 'iana',
     highlighter: 'apache',
     latestVersion: '12.2.1',
     name: 'Oracle HTTP',
