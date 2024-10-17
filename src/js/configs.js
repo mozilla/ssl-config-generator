@@ -185,9 +185,9 @@ module.exports = {
     tls13: '5.50',
     usesOpenssl: true,
   },
-tomcat: {
+  tomcat: {
     highlighter: 'xml',
-    latestVersion: '9.0.30',
+    latestVersion: '9.0.96',
     name: 'Tomcat',
     supportsHsts: true,
     supportsOcspStapling: false,
