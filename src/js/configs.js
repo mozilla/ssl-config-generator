@@ -122,12 +122,14 @@ module.exports = {
     tls13: '1.1.1',
   },
   oraclehttp: {
+    cipherFormat: 'iana',
     highlighter: 'apache',
     latestVersion: '12.2.1',
     name: 'Oracle HTTP',
     supportsHsts: true,
-    supportsOcspStapling: false,  // TODO: fix this, but Oracle's documentation is terrible
+    supportsOcspStapling: false,
     tls13: noSupportedVersion,
+    usesOpenssl: false,
   },
   postfix: {
     highlighter: 'nginx',
