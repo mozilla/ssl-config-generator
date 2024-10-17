@@ -38,14 +38,10 @@
 </VirtualHost>
 
 # {{form.config}} configuration
-{{#if (minver "2.3.16" form.serverVersion)}}
-SSLProtocol             all {{#unless (includes "SSLv3" output.protocols)}}-SSLv3{{/unless}}
-                            {{~#unless (includes "TLSv1" output.protocols)}} -TLSv1{{/unless}}
-                            {{~#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
-                            {{~#unless (includes "TLSv1.2" output.protocols)}} -TLSv1.2{{/unless}}
-{{else}}
-SSLProtocol             all -SSLv2 {{#unless (includes "SSLv3" output.protocols)}}-SSLv3 {{/unless}}{{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} -TLSv1.2{{/unless}}
-{{/if}}
+SSLProtocol             all {{#unless (minver "2.3.16" form.serverVersion)}}-SSLv2 {{/unless}}-SSLv3
+                        {{~#unless (includes "TLSv1" output.protocols)}} -TLSv1{{/unless}}
+                        {{~#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
+                        {{~#unless (includes "TLSv1.2" output.protocols)}} -TLSv1.2{{/unless}}
 {{#if output.ciphers.length}}
 SSLCipherSuite          {{{join output.ciphers ":"}}}
 {{/if}}
