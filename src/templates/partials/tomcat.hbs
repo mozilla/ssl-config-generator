@@ -10,14 +10,14 @@
     port="443"
     SSLEnabled="true">
 
-    <!-- TLS 1.3 requires Java 11 or higher -->
+    {{#if (includes "TLSv1.3" output.protocols)}}<!-- TLSv1.3 requires Java 11 or higher -->{{/if}}
     <SSLHostConfig
 {{#if output.ciphers.length}}
-        ciphers="{{{join output.ciphers ":"}}}"
+        ciphers="{{#if (includes "TLSv1.3" output.protocols)}}{{{join output.cipherSuites ":"}}}:{{/if}}{{{join output.ciphers ":"}}}"
 {{/if}}
         disableSessionTickets="true"
         honorCipherOrder="{{#if output.serverPreferredOrder}}true{{else}}false{{/if}}"
-        protocols="{{join output.protocols ", "}}">
+        protocols="{{join output.protocols ","}}">
 
         <Certificate
             certificateFile="/path/to/signed_certificate"
