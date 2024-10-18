@@ -14,6 +14,30 @@
     SSLEngine on
 {{#if (minver "2.4.8" form.serverVersion)}}
   {{#if output.usesDhe}}
+   {{#if (minver "2.4.52" form.serverVersion)}}
+    {{#unless (minver "1.1.0" form.opensslVersion)}}
+
+    # {{output.dhCommand}} >> /path/to/dhparams
+    SSLOpenSSLConfCmd DHParameters "/path/to/dhparams"
+    {{/unless}}
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
+   {{else}}
+    {{#if (minver "3.0.0" form.opensslVersion)}}
+
+    # {{output.dhCommand}} >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams
+    {{else}}
+
+    # {{output.dhCommand}} >> /path/to/dhparams
+    SSLOpenSSLConfCmd DHParameters "/path/to/dhparams"
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
+    {{/if}}
+   {{/if}}
+  {{else}}
+    SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs
+  {{/if}}
+{{else if (minver "2.4.7" form.serverVersion)}}
+  {{#if output.usesDhe}}
 
     # {{output.dhCommand}} >> /path/to/signed_cert_and_intermediate_certs_and_dhparams
     SSLCertificateFile      /path/to/signed_cert_and_intermediate_certs_and_dhparams

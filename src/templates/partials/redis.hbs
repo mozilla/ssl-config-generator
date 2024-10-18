@@ -14,8 +14,15 @@ tls-ca-cert-file /path/to/ca_certificates.crt
 tls-ca-cert-dir /path/to/ca_certificates
 
 {{#if output.usesDhe}}
+{{#if (minver "6.2.7" form.serverVersion)}}
+{{#unless (minver "3.0.0" form.opensslVersion)}}
 # {{output.dhCommand}} > /path/to/dhparam
 tls-dh-params-file /path/to/dhparam
+{{/unless}}
+{{else}}
+# {{output.dhCommand}} > /path/to/dhparam
+tls-dh-params-file /path/to/dhparam
+{{/if}}
 {{/if}}
 
 # {{form.config}} configuration
