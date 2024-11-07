@@ -1,6 +1,6 @@
 {
   "name": "mozilla-ssl-config-generator",
-  "version": "5.7.1",
+  "version": "5.7.2",
   "description": "Mozilla SSL Configuration Generator",
   "license": "MPL-2.0",
   "scripts": {
