@@ -1,33 +1,11 @@
 # {{output.header}}
 # {{{output.link}}}
-#server.modules += ("mod_redirect")
-#server.modules += ("mod_setenv")
-#server.modules += ("mod_openssl")
 #server.port = 80
 $SERVER["socket"] == "[::]:80" { }
 
-{{#if form.hsts}}
-$HTTP["scheme"] == "http" {
-{{#if (minver "1.4.50" form.serverVersion)}}
-    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
-{{else}}
-    $HTTP["host"] =~ ".*" {
-        url.redirect = (".*" => "https://%0$0")
-    }
-{{/if}}
-}
-
-$HTTP["scheme"] == "https" {
-    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
-    setenv.add-response-header = (
-        "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
-    )
-}
-{{/if}}
-
 {{#if (minver "1.4.56" form.serverVersion)}}
 # select one TLS module: "mod_openssl" "mod_mbedtls" "mod_gnutls" "mod_wolfssl" "mod_nss"
-#server.modules += ("mod_openssl")
+server.modules += ("mod_openssl")
 
 # lighttpd 1.4.56 and later will inherit ssl.* from the global scope if
 # $SERVER["socket"] contains ssl.engine = "enable" and no other ssl.* options
@@ -38,19 +16,58 @@ ssl.privkey = "/path/to/private_key"
 ssl.pemfile = "/path/to/signed_cert_followed_by_intermediates"
  {{#if (minver "1.0.2" form.opensslVersion)}}
   {{#if (minver "1.1.0" form.opensslVersion)}}
-ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}})
+   {{#if (includes "TLSv1" output.protocols)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1")
+   {{else if (includes "TLSv1.1" output.protocols)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.1")
+   {{else if (includes "TLSv1.2" output.protocols)}}
+    {{#if (minver "1.4.78" form.serverVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")
+    {{else}}
+     {{#unless (minver "1.4.56" form.serverVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")
+     {{else}}
+#ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.2")  # lighttpd {{form.serverVersion}} TLS default
+     {{/unless}}
+    {{/if}}
+   {{else if (includes "TLSv1.3" output.protocols)}}
+    {{#unless (minver "1.4.78" form.serverVersion)}}
+ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")
+    {{else}}
+#ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")  # lighttpd {{form.serverVersion}} TLS default
+    {{/unless}}
+   {{/if}}
   {{else}}
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
   {{/if}}
+  {{#if (minver "1.4.68" form.serverVersion)}}
+   {{#if output.serverPreferredOrder}}
+ssl.openssl.ssl-conf-cmd += ("Options" => "+ServerPreference")
+   {{/if}}
+  {{else}}
 ssl.openssl.ssl-conf-cmd += ("Options" => "{{#if output.serverPreferredOrder}}+{{else}}-{{/if}}ServerPreference")
+  {{/if}}
   {{#if output.ciphers.length}}
-# TLS modules besides mod_openssl might name ciphers differently
-# See https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL
+   {{#if (minver "1.4.68" form.serverVersion)}}
+    {{#if (includes "old" form.config)}}
 ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+    {{else}}
+
+# lighttpd TLS defaults are widely supported by clients and should be preferred
+# See https://wiki.lighttpd.net/Docs_SSL
+# Uncomment to better match the less restricted Mozilla {{form.config}} spec.
+#ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+    {{/if}}
+   {{else}}
+# TLS modules besides mod_openssl might name ciphers differently
+# See https://wiki.lighttpd.net/Docs_SSL
+ssl.openssl.ssl-conf-cmd += ("CipherString" => "{{{join output.ciphers ":"}}}")
+   {{/if}}
   {{/if}}
   {{#if form.ocsp}}
-# OCSP stapling (input file must be maintained by external script)
-# https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_SSL#OCSP-Stapling
+
+# OCSP stapling (input file must be maintained by external script, e.g. cert-staple.sh)
+# https://wiki.lighttpd.net/Docs_SSL#OCSP-Stapling
 ssl.stapling-file = "/path/to/cert-staple.der"
   {{/if}}
  {{else}}
@@ -62,6 +79,9 @@ ssl.cipher-list = "{{{join output.ciphers ":"}}}"
   {{/if}}
  {{/if}}
 {{else}}
+ {{#if (minver "1.4.46" form.serverVersion)}}
+#server.modules += ("mod_openssl")
+ {{/if}}
 $SERVER["socket"] == ":443" {
     ssl.engine  = "enable"
 
@@ -85,7 +105,7 @@ $SERVER["socket"] == ":443" {
     # {{form.config}} configuration
  {{#if (minver "1.4.48" form.serverVersion)}}
   {{#if (minver "1.1.0" form.opensslVersion)}}
-    ssl.openssl.ssl-conf-cmd = ("MinProtocol" => {{#if (includes "TLSv1" output.protocols)}}"TLSv1"{{else if (includes "TLSv1.1" output.protocols)}}"TLSv1.1"{{else if (includes "TLSv1.2" output.protocols)}}"TLSv1.2"{{else}}"TLSv1.3"{{/if}}, "Options" => "-SessionTicket")
+    ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "{{output.protocols.[0]}}", "Options" => "-SessionTicket")
   {{else if (minver "1.0.2" form.opensslVersion)}}
     ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}", "Options" => "-SessionTicket")
   {{else}}
@@ -102,4 +122,29 @@ $SERVER["socket"] == ":443" {
  {{/if}}
 }
 #$SERVER["socket"] == "[::]:443" { ... } # repeat entire $SERVER["socket"] == ":443" { ... } config above for IPv6
+{{/if}}
+
+{{#if form.hsts}}
+ {{#if (minver "1.4.56" form.serverVersion)}}
+server.modules += ("mod_redirect")
+server.modules += ("mod_setenv")
+ {{else}}
+#server.modules += ("mod_redirect")
+#server.modules += ("mod_setenv")
+ {{/if}}
+$HTTP["scheme"] == "https" {
+    # HTTP Strict Transport Security ({{output.hstsMaxAge}} seconds)
+    setenv.add-response-header = (
+        "Strict-Transport-Security" => "max-age={{output.hstsMaxAge}}"
+    )
+}
+else $HTTP["scheme"] == "http" {
+ {{#if (minver "1.4.50" form.serverVersion)}}
+    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
+ {{else}}
+    $HTTP["host"] =~ ".*" {
+        url.redirect = (".*" => "https://%0$0")
+    }
+ {{/if}}
+}
 {{/if}}
