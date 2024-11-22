@@ -41,6 +41,11 @@ export default async function () {
   } else {
     ciphers = ciphers;
   }
+  if (ciphers.length && ciphers[0] === '@SECLEVEL=0') ciphers.shift();
+  if (configs[server].usesOpenssl !== false && minver('3.0.0', form['openssl'].value)) {
+    // set SECLEVEL=0 via cipher string to support TLSv1-1.1 "old" with OpenSSL 3.x
+    if (protocols.includes('TLSv1.1')) ciphers.unshift('@SECLEVEL=0');
+  }
 
   const state = {
     form: {
