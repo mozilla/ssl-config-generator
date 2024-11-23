@@ -9,6 +9,7 @@ module.exports = {
     latestVersion: '2.4.60',
     eolBefore: '2.4.0',
     name: 'Apache',
+    supportsOcspStapling: '2.4.13',
     tls13: '2.4.36',
   },
   awsalb: {
@@ -105,6 +106,7 @@ module.exports = {
     latestVersion: '1.4.76',
     eolBefore: '1.4.69',
     name: 'lighttpd',
+    supportsOcspStapling: '1.4.56',
     tls13: '1.4.48',
   },
   mysql: {
@@ -123,6 +125,7 @@ module.exports = {
     latestVersion: '1.27.3',
     eolBefore: '1.26.0',
     name: 'nginx',
+    supportsOcspStapling: '1.3.7',
     tls13: '1.13.0',
   },
   openssl: {
@@ -165,6 +168,7 @@ module.exports = {
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
+    supportsOcspStapling: '1.3.6',
     tls13: '1.3.7',
   },
   redis: {

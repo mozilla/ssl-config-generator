@@ -55,9 +55,7 @@ SSLSessionTickets       off
   {{/if}}
 {{/if}}
 {{#if form.ocsp}}
-  {{#if (minver "2.4.13" form.serverVersion)}}
 
 SSLUseStapling On
 SSLStaplingCache "shmcb:logs/ssl_stapling(32768)"
-  {{/if}}
 {{/if}}

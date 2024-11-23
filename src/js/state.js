@@ -8,6 +8,11 @@ export default async function () {
   const config = form['config'].value;
   const server = form['server'].value;
   const ssc = sstls.configurations[form['config'].value];  // server side tls config for that level
+  const supportsOcspStapling =
+    typeof configs[server].supportsOcspStapling === 'undefined'
+        || configs[server].supportsOcspStapling === true
+        || (configs[server].supportsOcspStapling !== false
+            && minver(configs[server].supportsOcspStapling, form['version'].value));
   
   const url = new URL(document.location);
 
@@ -16,7 +21,7 @@ export default async function () {
   fragment += configs[server].supportsConfigs !== false ? `&config=${config}` : '';
   fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
   fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
-  fragment += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `&ocsp=false` : '';
+  fragment += supportsOcspStapling && !form['ocsp'].checked ? `&ocsp=false` : '';
   fragment += `&guideline=${sstls.version}`;
 
   // generate the version tags
@@ -37,7 +42,7 @@ export default async function () {
   const date = new Date().toISOString().substr(0, 10);
   let header = `generated ${date}, Mozilla Guideline v${sstls.version}, ${version_tags}`;
   header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
-  header += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `, no OCSP` : '';
+  header += supportsOcspStapling && !form['ocsp'].checked ? `, no OCSP` : '';
 
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
@@ -65,7 +70,7 @@ export default async function () {
     form: {
       config: form['config'].value,
       hsts: form['hsts'].checked && configs[server].supportsHsts !== false,
-      ocsp: form['ocsp'].checked && configs[server].supportsOcspStapling !== false,
+      ocsp: form['ocsp'].checked && supportsOcspStapling,
       opensslVersion: form['openssl'].value,
       server,
       serverName: document.querySelector(`label[for=server-${server}]`).innerText,
@@ -93,7 +98,7 @@ export default async function () {
       showSupports: configs[server].showSupports !== false,
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
-      supportsOcspStapling: configs[server].supportsOcspStapling !== false,
+      supportsOcspStapling: supportsOcspStapling,
       usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
