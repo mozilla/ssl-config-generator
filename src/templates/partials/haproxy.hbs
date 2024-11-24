@@ -12,7 +12,7 @@ global
     ssl-default-bind-ciphersuites {{{join output.cipherSuites ":"}}}
     {{/if}}
 {{/if}}
-    ssl-default-bind-options{{#if (minver "1.8.0" form.serverVersion)}}{{#unless output.serverPreferredOrder}} prefer-client-ciphers{{/unless}}{{/if}}{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
+    ssl-default-bind-options{{#if (minver "1.8.0" form.serverVersion)}}{{#unless output.serverPreferredOrder}} prefer-client-ciphers{{/unless}}{{/if}}{{#if (minver "2.2.0" form.serverVersion)}} ssl-min-ver {{#if (includes "TLSv1" output.protocols)}}TLSv1.0{{else}}{{output.protocols.[0]}}{{/if}}{{else}}{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}}{{/if}} no-tls-tickets
 
 {{#if output.ciphers.length}}
     ssl-default-server-ciphers {{{join output.ciphers ":"}}}
@@ -22,7 +22,7 @@ global
     ssl-default-server-ciphersuites {{{join output.cipherSuites ":"}}}
     {{/if}}
 {{/if}}
-    ssl-default-server-options{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}} no-tls-tickets
+    ssl-default-server-options{{#if (minver "2.2.0" form.serverVersion)}} ssl-min-ver {{#if (includes "TLSv1" output.protocols)}}TLSv1.0{{else}}{{output.protocols.[0]}}{{/if}}{{else}}{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}}{{/if}} no-tls-tickets
 {{#if output.usesDhe}}
 
     {{#if (minver "1.6.0" form.serverVersion)}}
