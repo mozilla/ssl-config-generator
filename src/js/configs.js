@@ -7,6 +7,7 @@ module.exports = {
   apache: {
     highlighter: 'apache',
     latestVersion: '2.4.60',
+    eolBefore: '2.4.0',
     name: 'Apache',
     tls13: '2.4.36',
   },
@@ -36,6 +37,7 @@ module.exports = {
     cipherFormat: 'caddy',
     highlighter: 'nginx', // TODO: find better
     latestVersion: '2.8.4',
+    eolBefore: '2.0.0',
     name: 'Caddy',
     supportsOcspStapling: false, // actually true; can't be disabled in Caddy
     tls13: '0.11.5',
@@ -52,7 +54,8 @@ module.exports = {
   },
   dovecot: {
     highlighter: 'nginx', // TODO: find better
-    latestVersion: '2.3.16',
+    latestVersion: '2.3.21',
+    eolBefore: '2.2.36', // https://dovecot.org/list/dovecot/2018-August/112536.html
     name: 'Dovecot',
     showSupports: false,
     supportsHsts: false,
@@ -61,7 +64,8 @@ module.exports = {
   },
   exim: {
     highlighter: 'nginx',
-    latestVersion: '4.93',
+    latestVersion: '4.98',
+    eolBefore: '4.98',
     name: 'Exim',
     showSupports: false,
     supportsHsts: false,
@@ -71,7 +75,8 @@ module.exports = {
   go: {
     cipherFormat: 'go',
     highlighter: 'go',
-    latestVersion: '1.14.4',
+    latestVersion: '1.23.3',
+    eolBefore: '1.22.0',
     name: 'Go',
     supportsOcspStapling: false,
     tls13: '1.13.0',
@@ -80,13 +85,15 @@ module.exports = {
   haproxy: {
     highlighter: 'nginx',  // TODO: find better
     latestVersion: '3.0',
+    eolBefore: '2.2',
     name: 'HAProxy',
     tls13: '1.8.0',
   },
   jetty: {
     cipherFormat: 'iana',
     highlighter: 'xml',
-    latestVersion: '12.0.12',
+    latestVersion: '12.0.15',
+    eolBefore: '12.0.0',
     name: 'Jetty',
     supportsHsts: false,
     supportsOcspStapling: false,
@@ -96,12 +103,14 @@ module.exports = {
   lighttpd: {
     highlighter: 'nginx',
     latestVersion: '1.4.76',
+    eolBefore: '1.4.69',
     name: 'lighttpd',
     tls13: '1.4.48',
   },
   mysql: {
     highlighter: 'ini',
-    latestVersion: '8.0.19',
+    latestVersion: '9.1.0',
+    eolBefore: '8.0.0',
     name: 'MySQL',
     showSupports: false,
     supportsHsts: false,
@@ -111,12 +120,14 @@ module.exports = {
   nginx: {
     checked: true,
     highlighter: 'nginx',
-    latestVersion: '1.26.0',
+    latestVersion: '1.27.3',
+    eolBefore: '1.26.0',
     name: 'nginx',
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '1.1.1w',
+    latestVersion: '3.4.0',
+    eolBefore: '3.0.0',
     tls13: '1.1.1',
   },
   oraclehttp: {
@@ -130,6 +141,7 @@ module.exports = {
   postfix: {
     highlighter: 'nginx',
     latestVersion: '3.9.0',
+    eolBefore: '3.6.0',
     name: 'Postfix',
     showSupports: false,
     supportsHsts: false,
@@ -138,7 +150,8 @@ module.exports = {
   },
   postgresql: {
     highlighter: 'nginx',
-    latestVersion: '12.1',
+    latestVersion: '17.2',
+    eolBefore: '13.0',
     name: 'PostgreSQL',
     showSupports: false,
     supportsHsts: false,
@@ -147,7 +160,8 @@ module.exports = {
   },
   proftpd: {
     highlighter: 'apache',
-    latestVersion: '1.3.7',
+    latestVersion: '1.3.8',
+    eolBefore: '1.3.8',  // http://www.proftpd.org/docs/howto/Versioning.html
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
@@ -155,7 +169,8 @@ module.exports = {
   },
   redis: {
     highlighter: 'nginx',
-    latestVersion: '6.0',
+    latestVersion: '7.4.1',
+    eolBefore: '7.4.0',
     name: 'Redis',
     showSupports: false,
     supportsHsts: false,
@@ -164,7 +179,8 @@ module.exports = {
   },
   squid: {
     highlighter: 'nginx',  // TODO: find better
-    latestVersion: '5.6',
+    latestVersion: '6.12',
+    eolBefore: '6.0',
     name: 'Squid',
     showSupports: false,
     supportsHsts: false,
@@ -181,7 +197,8 @@ module.exports = {
   },
   tomcat: {
     highlighter: 'xml',
-    latestVersion: '9.0.96',
+    latestVersion: '11.0.1',
+    eolBefore: '9.0.0',
     name: 'Tomcat',
     supportsOcspStapling: false,
     tls13: '8.0.0',
@@ -190,7 +207,8 @@ module.exports = {
   traefik: {
     cipherFormat: 'go',
     highlighter: 'ini',
-    latestVersion: '2.1.2',
+    latestVersion: '3.2.1',
+    eolBefore: '2.11.0',
     name: 'Traefik',
     supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
