@@ -19,11 +19,23 @@ export default async function () {
   fragment += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `&ocsp=false` : '';
   fragment += `&guideline=${sstls.version}`;
 
+  // generate the version tags
+  let version_tags = `${configs[server].name} ${form['version'].value}`;
+  if (configs[server].eolBefore
+      && !minver(configs[server].eolBefore, form['version'].value)) {
+    version_tags += ' (UNSUPPORTED; end-of-life)';
+  }
+  if (configs[server].usesOpenssl !== false) {
+    version_tags += `, OpenSSL ${form['openssl'].value}`;
+    if (!minver(configs['openssl'].eolBefore, form['openssl'].value)) {
+      version_tags += ' (UNSUPPORTED; end-of-life)';
+    }
+  }
+  version_tags += `, ${form['config'].value} config`;
+
   // generate the header
   const date = new Date().toISOString().substr(0, 10);
-  let header = `generated ${date}, Mozilla Guideline v${sstls.version}, ${configs[server].name} ${form['version'].value}`;
-  header += configs[server].usesOpenssl !== false ? `, OpenSSL ${form['openssl'].value}` : '';
-  header += `, ${form['config'].value} configuration`;
+  let header = `generated ${date}, Mozilla Guideline v${sstls.version}, ${version_tags}`;
   header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
   header += configs[server].supportsOcspStapling !== false && !form['ocsp'].checked ? `, no OCSP` : '';
 
@@ -58,6 +70,7 @@ export default async function () {
       server,
       serverName: document.querySelector(`label[for=server-${server}]`).innerText,
       serverVersion: form['version'].value,
+      version_tags,
     },
     output: {
       ciphers,
