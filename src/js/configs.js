@@ -132,7 +132,7 @@ module.exports = {
   },
   postfix: {
     highlighter: 'nginx',
-    latestVersion: '3.4.8',
+    latestVersion: '3.9.0',
     name: 'Postfix',
     showSupports: false,
     supportsHsts: false,
