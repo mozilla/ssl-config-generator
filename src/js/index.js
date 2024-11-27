@@ -57,11 +57,19 @@ const render = async () => {
   // render the output header
   document.getElementById('output-header').innerHTML = templates.header(_state);
 
-  // and the config file for whichever server software we're using
-  const renderedTemplate = _state.output.protocols.length === 0 ? templates['nosupport'](_state) : templates[_state.form.server](_state);
+  if (_state.output.protocols.length === 0) {
+    document.getElementById('output-config').innerHTML =
+      `# unfortunately, ${_state.form.version_tags} is not supported with these software versions.`;
+    // hide copy button
+    document.getElementById('copy').classList.toggle('d-none', true);
+    return;
+  }
 
-  // show / hide the copy button as needed
-  document.getElementById('copy').classList.toggle('d-none', _state.output.protocols.length === 0);
+  // render the config file for whichever server software we're using
+  const renderedTemplate = templates[_state.form.server](_state);
+
+  // show copy button
+  document.getElementById('copy').classList.toggle('d-none', false);
   
   // syntax highlight and enter into the page
   const highlighter = configs[_state.form.server].highlighter;
