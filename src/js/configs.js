@@ -112,7 +112,6 @@ module.exports = {
     tls13: '8.0.16',
   },
   nginx: {
-    checked: true,
     highlighter: 'nginx',
     latestVersion: '1.27.3',
     eolBefore: '1.26.0',
