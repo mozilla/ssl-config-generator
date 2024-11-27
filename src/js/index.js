@@ -55,7 +55,11 @@ const render = async () => {
   }
   
   // render the output header
-  document.getElementById('output-header').innerHTML = templates.header(_state);
+  let header = `<h3>${_state.form.version_tags}</h3>\n`;
+  if (_state.output.showSupports) {
+    header += '<h6 id="output-clients">\n  Supports '+_state.output.oldestClients.join(', ')+'</h6>\n';
+  }
+  document.getElementById('output-header').innerHTML = header;
 
   if (_state.output.protocols.length === 0) {
     document.getElementById('output-config').innerHTML =
