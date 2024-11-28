@@ -27,6 +27,17 @@ global
 
     {{#if (minver "1.6.0" form.serverVersion)}}
     # {{output.dhCommand}} > /path/to/dhparam
+    {{#if (eq output.dhParamSize 1024)}}
+    {{#if (minver "3.0.0" form.opensslVersion)}}
+    {{#if (minver "3.0.0" form.serverVersion)}}
+    {{#if (includes "TLSv1" output.protocols)}}
+    ssl-security-level 0
+    {{else}}
+    ssl-security-level 1
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
     ssl-dh-param-file /path/to/dhparam
     {{else}}
     tune.ssl.default-dh-param 2048
