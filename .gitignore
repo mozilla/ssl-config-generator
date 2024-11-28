@@ -1,2 +1,25 @@
-build
-node_modules
+build/
+# Env
+node_modules/
+.env*
+.idea
+.vscode*
+# Cache
+.npm
+.cache
+.eslintcache
+.stylelintcache
+.sass-cache
+# Temp
+*~
+Desktop.ini
+.DS_Store
+*.lock
+pids
+*.pid
+*.seed
+*.tgz
+*.log
+logs
+npm-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
