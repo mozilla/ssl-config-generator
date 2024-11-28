@@ -89,17 +89,6 @@ module.exports = {
         use: ['ejs-easy-loader'],
       },
       {
-        test: /\.hbs$/,
-        use: {
-          loader: 'handlebars-loader',
-          options: {
-            'helperDirs': [
-              path.resolve(__dirname, '..', 'src', 'js', 'helpers')
-            ]
-          }
-        }
-      },
-      {
         test: /\.js$/,
         include: path.resolve(__dirname, '..', 'src'),
         use: [{
