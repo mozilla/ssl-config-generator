@@ -36,6 +36,7 @@
 [tls.options]
   [tls.options.{{form.config}}]
     minVersion = "{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}"
+    curvePreferences = ["X25519", "CurveP256", "CurveP384"]
     {{#if output.ciphers.length}}
     cipherSuites = [
     {{#each output.ciphers}}

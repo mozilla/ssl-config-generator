@@ -20,6 +20,7 @@ ssl_min_protocol = {{output.protocols.[0]}}
 {{else}}
 ssl_protocols = {{join output.protocols " "}}
 {{/if}}
+ssl_curve_list = {{{join output.tlsCurves ":"}}}
 {{#if output.ciphers.length}}
 ssl_cipher_list = {{{join output.ciphers ":"}}}
 {{/if}}

@@ -24,6 +24,9 @@ options = NO_TLSv1
 options = NO_SSLv3
 options = NO_SSLv2
 {{/unless}}
+{{#if (minver "1.1.1" form.opensslVersion)}}
+curves = {{{join output.tlsCurves ":"}}}
+{{/if}}
 {{#if output.ciphers.length}}
 ciphers = {{{join output.ciphers ":"}}}
 {{/if}}

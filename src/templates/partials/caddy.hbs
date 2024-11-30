@@ -14,9 +14,10 @@ example.com {
 
   {{/if}}
     # Note: Caddy automatically configures safe TLS settings,
-    # so 'ciphers' may safely be commented out to use Caddy defaults.
+    # so 'ciphers' and 'curves' may safely be commented out to use Caddy defaults.
     ciphers {{{join output.ciphers " "}}}
 {{/if}}
+    curves x25519 secp256r1 secp384r1
 {{#if (includes "TLSv1.2" output.protocols)}}
   {{#if (includes "TLSv1.1" output.protocols)}}
     # Note: Caddy supports only TLSv1.2 and later

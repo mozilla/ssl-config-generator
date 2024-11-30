@@ -20,6 +20,9 @@ TLSDHParamFile                /path/to/dhparam
 
 # {{form.config}} configuration
 TLSProtocol                   {{join output.protocols " "}}
+{{#if (minver "1.0.2" form.opensslVersion)}}
+TLSECDHCurve                  {{{join output.tlsCurves ":"}}}
+{{/if}}
 {{#if output.ciphers.length}}
 TLSCipherSuite                {{{join output.ciphers ":"}}}
 {{/if}}

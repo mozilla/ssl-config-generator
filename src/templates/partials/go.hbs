@@ -42,6 +42,12 @@ func main() {
 {{/if}}
     cfg := &tls.Config{
         MinVersion: tls.{{#if (eq output.protocols.[0] "TLSv1")}}VersionTLS10{{else}}{{{replace output.protocols.[0] "TLSv1." "VersionTLS1"}}}{{/if}},
+        CurvePreferences: []tls.CurveID{
+            tls.X25519, // Go 1.8+
+            tls.CurveP256,
+            tls.CurveP384,
+            //tls.x25519Kyber768Draft00, // Go 1.23+
+        },
 {{#if output.serverPreferredOrder}}
         PreferServerCipherSuites: true,
 {{/if}}
