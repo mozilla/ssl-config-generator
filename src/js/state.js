@@ -9,10 +9,8 @@ export default async function () {
   const server = form['server'].value;
   const ssc = sstls.configurations[form['config'].value];  // server side tls config for that level
   const supportsOcspStapling =
-    typeof configs[server].supportsOcspStapling === 'undefined'
-        || configs[server].supportsOcspStapling === true
-        || (configs[server].supportsOcspStapling !== false
-            && minver(configs[server].supportsOcspStapling, form['version'].value));
+    configs[server].supportsOcspStapling
+    && minver(configs[server].supportsOcspStapling, form['version'].value);
   
   const url = new URL(document.location);
 
