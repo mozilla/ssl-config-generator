@@ -19,6 +19,17 @@ const revision = () => {
 
 // the many plugins used
 const plugins = [
+  new CleanWebpackPlugin(
+    ['build/*/*/*', 'build/*/*', 'build/*', 'docs/*/*/*', 'docs/*/*', 'docs/*'],
+    {
+      root: path.resolve(__dirname, '..'),
+      verbose: true
+    }
+  ),
+  new webpack.ProvidePlugin({
+    jQuery: 'jquery',
+    $: 'jquery',
+  }),
   new HtmlWebpackPlugin({
     constants,
     configs,
@@ -107,7 +118,7 @@ module.exports = {
           options: {
             babelrc: false,
             plugins: [
-              '@babel/plugin-transform-object-rest-spread'
+              '@babel/plugin-proposal-object-rest-spread'
             ],
             presets: [
               ['@babel/preset-env', {
@@ -132,6 +143,7 @@ module.exports = {
               postcssOptions: {
                 plugins: function () { // post css plugins, can be exported to postcss.config.js
                   return [
+                    require('precss'),
                     require('autoprefixer')
                   ];
                 }

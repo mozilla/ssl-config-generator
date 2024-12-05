@@ -1,7 +1,7 @@
-@use '_bootstrap.scss';
-@use 'bs-4.6.2.css';
+@import '_bootstrap.scss';
+@import '~bootstrap/scss/bootstrap';
 
-@use '../../node_modules/highlight.js/styles/github.css';
+@import '../../node_modules/highlight.js/styles/github.css';
 @import url(https://code.cdn.mozilla.net/fonts/zilla-slab.css);
 
 #copy {
@@ -15,10 +15,6 @@
   fill: currentColor;
   height: 1rem;
   margin-bottom: 4px;
-}
-
-#copy-tooltip {
-  text-align: right;
 }
 
 #output-header {
