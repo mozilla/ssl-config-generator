@@ -1,3 +1,5 @@
+import $ from 'jquery';
+import 'bootstrap';
 import ClipboardJS from 'clipboard';
 import { sep } from 'path';
 
@@ -42,14 +44,13 @@ const render = async () => {
   const _state = await state();
 
   // enable and disable the appropriate fields
-  document.getElementById('version').classList.toggle('text-disabled', _state.output.hasVersions === false);
-  document.getElementById('openssl').classList.toggle('text-disabled', _state.output.usesOpenssl === false);
-  document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
-  document.getElementById('ocsp').classList.toggle('d-none', _state.output.supportsOcspStapling === false);
+  $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
+  $('#openssl').toggleClass('text-disabled', _state.output.usesOpenssl === false);
+  $('#hsts').prop('disabled', _state.output.supportsHsts === false);
+  $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
 
   // update the fragment
   if (gHaveSettingsChanged) {
-    gHaveSettingsChanged = false;
     window.location.hash = _state.output.fragment;
   }
   
@@ -69,7 +70,10 @@ const render = async () => {
 };
 
 
-function form_config_init() {
+// set a listen on the form to update the state
+$().ready(() => {
+  // set all the buttons to the right thing
+  if (window.location.hash.length > 0) {
     const mappings = {
       'true': true,
       'false': false,
@@ -87,8 +91,7 @@ function form_config_init() {
 
     // set the default server version, if we're loading and have "server" but not "version"
     if (params.get('server') !== null && params.get('version') === null) {
-      const e_version = document.getElementById('version')
-      e_version.value = configs[params.get('server')].latestVersion;
+      $('#version').val(configs[params.get('server')].latestVersion);
     }
 
     for (let entry of params.entries()) {
@@ -114,55 +117,35 @@ function form_config_init() {
 
       }
     }
-}
-
-
-export function server_change() {
-    const form = document.getElementById('form-generator').elements;
-    const latestVersion = configs[form['server'].value].latestVersion;
-    document.getElementById('version').value = latestVersion;
-    gHaveSettingsChanged = true;
-    render();
-}
-
-
-function init_once() {
-
-  // set all the buttons to the right thing
-  if (window.location.hash.length > 0) {
-    form_config_init();
   }
 
   // update the global state with the default values
   render();
 
-  // set listeners on the form to update state any time form is changed
-  document.getElementById('form-config').addEventListener('change', async () => {
+  // update state anytime the form is changed
+  $('#form-config, #form-environment').on('change', async () => {
     gHaveSettingsChanged = true;
     render();
   });
-  document.getElementById('form-environment').addEventListener('change', async () => {
+
+  // anytime the server changes, so does the server version
+  $('.form-server').on('change', async () => {
     gHaveSettingsChanged = true;
+    const _state = await state();
+    $('#version').val(_state.output.latestVersion);
+
     render();
   });
+
+  // instantiate tooltips
+  $('[data-toggle="tooltip"]').tooltip();
 
   // instantiate clipboard thingie
-  const copy_tt = document.getElementById('copy-tooltip')
   const clipboard = new ClipboardJS('#copy');
   clipboard.on('success', async e => {
+    $('#copy').tooltip('show');
     e.clearSelection();
-    copy_tt.style.display = "block";
     await sleep(750);
-    copy_tt.style.display = "none";
+    $('#copy').tooltip('hide');
   });
-}
-
-
-if (document.readyState === "loading") {
-  // Loading hasn't finished yet
-  document.addEventListener("DOMContentLoaded", init_once);
-}
-else {
-  // `DOMContentLoaded` has already fired
-  init_once();
-}
+});
