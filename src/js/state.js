@@ -31,7 +31,9 @@ export default async function () {
 
   // we need to remove TLS 1.3 from the supported protocols if the software is too old
   let protocols = ssc.tls_versions;
-  if (minver(configs[server].tls13, form['version'].value) === false || minver(configs['openssl'].tls13, form['openssl'].value) === false) {
+  if (!configs[server].tls13
+      || !minver(configs[server].tls13, form['version'].value)
+      || !minver(configs['openssl'].tls13, form['openssl'].value)) {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
