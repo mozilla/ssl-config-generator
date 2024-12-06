@@ -47,7 +47,7 @@ const render = async () => {
   $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
   $('#openssl').toggleClass('text-disabled', _state.output.usesOpenssl === false);
   $('#hsts').prop('disabled', _state.output.supportsHsts === false);
-  $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
+  $('#ocsp').prop('disabled', !_state.output.supportsOcspStapling);
 
   // update the fragment
   if (gHaveSettingsChanged) {

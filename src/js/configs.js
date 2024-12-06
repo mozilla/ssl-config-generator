@@ -1,5 +1,5 @@
 // configs for the supported pieces of software
-// hasVersions, showSupports, supportsConfigs, supportsHsts, supportsOcspStapling, and usesOpenssl only need to be defined if false
+// hasVersions, showSupports, supportsConfigs, supportsHsts, and usesOpenssl only need to be defined if false
 // cipherFormat is assumed to be 'openssl' unless defined otherwise
 
 
@@ -9,6 +9,7 @@ module.exports = {
     latestVersion: '2.4.60',
     eolBefore: '2.4.0',
     name: 'Apache',
+    supportsOcspStapling: '2.4.13',
     tls13: '2.4.36',
   },
   awsalb: {
@@ -30,7 +31,6 @@ module.exports = {
     name: 'AWS ELB',
     supportedCiphers: ['ECDHE-ECDSA-AES128-GCM-SHA256', 'ECDHE-RSA-AES128-GCM-SHA256', 'ECDHE-ECDSA-AES128-SHA256', 'ECDHE-RSA-AES128-SHA256', 'ECDHE-ECDSA-AES128-SHA', 'ECDHE-RSA-AES128-SHA', 'DHE-RSA-AES128-SHA', 'ECDHE-ECDSA-AES256-GCM-SHA384', 'ECDHE-RSA-AES256-GCM-SHA384', 'ECDHE-ECDSA-AES256-SHA384', 'ECDHE-RSA-AES256-SHA384', 'ECDHE-RSA-AES256-SHA', 'ECDHE-ECDSA-AES256-SHA', 'AES128-GCM-SHA256', 'AES128-SHA256', 'AES128-SHA', 'AES256-GCM-SHA384', 'AES256-SHA256', 'AES256-SHA', 'DHE-DSS-AES128-SHA', 'CAMELLIA128-SHA', 'EDH-RSA-DES-CBC3-SHA', 'DES-CBC3-SHA', 'ECDHE-RSA-RC4-SHA', 'RC4-SHA', 'ECDHE-ECDSA-RC4-SHA', 'DHE-DSS-AES256-GCM-SHA384', 'DHE-RSA-AES256-GCM-SHA384', 'DHE-RSA-AES256-SHA256', 'DHE-DSS-AES256-SHA256', 'DHE-RSA-AES256-SHA', 'DHE-DSS-AES256-SHA', 'DHE-RSA-CAMELLIA256-SHA', 'DHE-DSS-CAMELLIA256-SHA', 'CAMELLIA256-SHA', 'EDH-DSS-DES-CBC3-SHA', 'DHE-DSS-AES128-GCM-SHA256', 'DHE-RSA-AES128-GCM-SHA256', 'DHE-RSA-AES128-SHA256', 'DHE-DSS-AES128-SHA256', 'DHE-RSA-CAMELLIA128-SHA', 'DHE-DSS-CAMELLIA128-SHA', 'ADH-AES128-GCM-SHA256', 'ADH-AES128-SHA', 'ADH-AES128-SHA256', 'ADH-AES256-GCM-SHA384', 'ADH-AES256-SHA', 'ADH-AES256-SHA256', 'ADH-CAMELLIA128-SHA', 'ADH-CAMELLIA256-SHA', 'ADH-DES-CBC3-SHA', 'ADH-DES-CBC-SHA', 'ADH-RC4-MD5', 'ADH-SEED-SHA', 'DES-CBC-SHA', 'DHE-DSS-SEED-SHA', 'DHE-RSA-SEED-SHA', 'EDH-DSS-DES-CBC-SHA', 'EDH-RSA-DES-CBC-SHA', 'IDEA-CBC-SHA', 'RC4-MD5', 'SEED-SHA', 'DES-CBC3-MD5', 'DES-CBC-MD5', 'RC2-CBC-MD5', 'PSK-AES256-CBC-SHA', 'PSK-3DES-EDE-CBC-SHA', 'KRB5-DES-CBC3-SHA', 'KRB5-DES-CBC3-MD5', 'PSK-AES128-CBC-SHA', 'PSK-RC4-SHA', 'KRB5-RC4-SHA', 'KRB5-RC4-MD5', 'KRB5-DES-CBC-SHA', 'KRB5-DES-CBC-MD5', 'EXP-EDH-RSA-DES-CBC-SHA', 'EXP-EDH-DSS-DES-CBC-SHA', 'EXP-ADH-DES-CBC-SHA', 'EXP-DES-CBC-SHA', 'EXP-RC2-CBC-MD5', 'EXP-KRB5-RC2-CBC-SHA', 'EXP-KRB5-DES-CBC-SHA', 'EXP-KRB5-RC2-CBC-MD5', 'EXP-KRB5-DES-CBC-MD5', 'EXP-ADH-RC4-MD5', 'EXP-RC4-MD5', 'EXP-KRB5-RC4-SHA', 'EXP-KRB5-RC4-MD5'],
     supportsHsts: false,
-    supportsOcspStapling: false,
     usesOpenssl: false,
   },
   caddy: {
@@ -39,7 +39,6 @@ module.exports = {
     latestVersion: '2.8.4',
     eolBefore: '2.0.0',
     name: 'Caddy',
-    supportsOcspStapling: false, // actually true; can't be disabled in Caddy
     tls13: '0.11.5',
     usesOpenssl: false,
   },
@@ -49,7 +48,6 @@ module.exports = {
     name: 'Coturn',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '4.6.2',
   },
   dovecot: {
@@ -59,7 +57,6 @@ module.exports = {
     name: 'Dovecot',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '2.3.15',
   },
   exim: {
@@ -69,7 +66,6 @@ module.exports = {
     name: 'Exim',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '4.92.0',
   },
   go: {
@@ -78,7 +74,6 @@ module.exports = {
     latestVersion: '1.23.3',
     eolBefore: '1.22.0',
     name: 'Go',
-    supportsOcspStapling: false,
     tls13: '1.13.0',
     usesOpenssl: false,
   },
@@ -96,7 +91,6 @@ module.exports = {
     eolBefore: '12.0.0',
     name: 'Jetty',
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '9.4.12',
     usesOpenssl: false,
   },
@@ -105,6 +99,7 @@ module.exports = {
     latestVersion: '1.4.76',
     eolBefore: '1.4.69',
     name: 'lighttpd',
+    supportsOcspStapling: '1.4.56',
     tls13: '1.4.48',
   },
   mysql: {
@@ -114,7 +109,6 @@ module.exports = {
     name: 'MySQL',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '8.0.16',
   },
   nginx: {
@@ -123,6 +117,7 @@ module.exports = {
     latestVersion: '1.27.3',
     eolBefore: '1.26.0',
     name: 'nginx',
+    supportsOcspStapling: '1.3.7',
     tls13: '1.13.0',
   },
   openssl: {
@@ -135,7 +130,6 @@ module.exports = {
     highlighter: 'apache',
     latestVersion: '12.2.1',
     name: 'Oracle HTTP',
-    supportsOcspStapling: false,
     usesOpenssl: false,
   },
   postfix: {
@@ -145,7 +139,6 @@ module.exports = {
     name: 'Postfix',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '3.3.2',
   },
   postgresql: {
@@ -155,7 +148,6 @@ module.exports = {
     name: 'PostgreSQL',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '12.0',
   },
   proftpd: {
@@ -165,6 +157,7 @@ module.exports = {
     name: 'ProFTPD',
     showSupports: false,
     supportsHsts: false,
+    supportsOcspStapling: '1.3.6',
     tls13: '1.3.7',
   },
   redis: {
@@ -174,7 +167,6 @@ module.exports = {
     name: 'Redis',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '6.0',
   },
   squid: {
@@ -184,7 +176,6 @@ module.exports = {
     name: 'Squid',
     showSupports: false,
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '4',
   },
   stunnel: {
@@ -192,7 +183,6 @@ module.exports = {
     latestVersion: '5.73',
     name: 'stunnel',
     supportsHsts: false,
-    supportsOcspStapling: false,
     tls13: '5.50',
   },
   tomcat: {
@@ -200,7 +190,6 @@ module.exports = {
     latestVersion: '11.0.1',
     eolBefore: '9.0.0',
     name: 'Tomcat',
-    supportsOcspStapling: false,
     tls13: '8.0.0',
     usesOpenssl: false,
   },
@@ -210,7 +199,6 @@ module.exports = {
     latestVersion: '3.2.1',
     eolBefore: '2.11.0',
     name: 'Traefik',
-    supportsOcspStapling: false,  // https://github.com/containous/traefik/issues/212
     tls13: '2.0.0',
     usesOpenssl: false,
   },
