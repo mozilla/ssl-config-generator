@@ -38,7 +38,7 @@ ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")
     {{/unless}}
    {{/if}}
   {{else}}
-ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}")
+ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, {{{join output.protocols ", "}}}")
   {{/if}}
   {{#if (minver "1.4.68" form.serverVersion)}}
    {{#if output.serverPreferredOrder}}
@@ -107,7 +107,7 @@ $SERVER["socket"] == ":443" {
   {{#if (minver "1.1.0" form.opensslVersion)}}
     ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "{{output.protocols.[0]}}", "Options" => "-SessionTicket")
   {{else if (minver "1.0.2" form.opensslVersion)}}
-    ssl.openssl.ssl-conf-cmd = ("Protocol" => "ALL, -SSLv2, -SSLv3{{#unless (includes "TLSv1" output.protocols)}}, -TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, -TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, -TLSv1.2{{/unless}}", "Options" => "-SessionTicket")
+    ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, {{{join output.protocols ", "}}}", "Options" => "-SessionTicket")
   {{else}}
     ssl.use-sslv2 = "disable"
     ssl.use-sslv3 = "disable"
