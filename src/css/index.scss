@@ -1,7 +1,7 @@
-@import '_bootstrap.scss';
-@import '~bootstrap/scss/bootstrap';
+@use '_bootstrap.scss';
+@use 'bs-4.6.2.css';
 
-@import '../../node_modules/highlight.js/styles/github.css';
+@use '../../node_modules/highlight.js/styles/github.css';
 @import url(https://code.cdn.mozilla.net/fonts/zilla-slab.css);
 
 #copy {
