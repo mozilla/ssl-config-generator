@@ -162,14 +162,14 @@ $().ready(() => {
 
   // instantiate tooltips
   var copy_btn = document.getElementById('copy');
-  var copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 750, title: "Copied!" });
+  var copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 500, title: "Copied!" });
 
   // instantiate clipboard thingie
   const clipboard = new ClipboardJS('#copy');
   clipboard.on('success', async e => {
     e.clearSelection();
     copy_tt.show();
-    await sleep(750);
+    await sleep(250);
     copy_tt.hide();
   });
 });
