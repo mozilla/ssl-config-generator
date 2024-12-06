@@ -41,6 +41,14 @@ templateContext.keys().forEach(key => {
 
 
 const render = async () => {
+
+  // initial introduction
+  if (document.getElementById('form-generator').server.value === '') {
+    document.getElementById('output-config').innerHTML = '';
+    document.getElementById('copy').classList.toggle('d-none', true);
+    return;
+  }
+
   const _state = await state();
 
   // enable and disable the appropriate fields

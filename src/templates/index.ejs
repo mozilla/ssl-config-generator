@@ -38,7 +38,7 @@
               if (config[1].name) {
           %>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="server" id="server-<%= config[0] %>" value="<%= config[0] %>" <% if (config[1].checked) {%>checked<% } %>>
+              <input class="form-check-input" type="radio" name="server" id="server-<%= config[0] %>" value="<%= config[0] %>">
               <label class="form-check-label" for="server-<%= config[0] %>">
                 <%= config[1].name %>
               </label>
@@ -116,7 +116,11 @@
       </div>
     </form>
 
-    <div id="output-header"></div>
+    <div id="output-header">
+      <div class="h3 pb-3">Getting Started</div>
+      <p>Select an application server in Server Software (above) to generate a sample TLS configuration.</p>
+      <p>When using sample TLS configurations, replace example.com with your server name (e.g. hostname) and replace /path/to/... with actual paths to your local files.</p>
+    </div>
 
     <div id="output-config-container">
       <pre class="border p-3"><code id="output-config"></code></pre>
