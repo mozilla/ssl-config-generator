@@ -18,7 +18,7 @@
 </VirtualHost>
 
 # {{form.config}} configuration
-SSLProtocol             All {{#unless (includes "TLSv1" output.protocols)}}-TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} -TLSv1.1{{/unless}}
+SSLProtocol             {{{join output.protocols " "}}}
 SSLCipherSuite          {{{join output.ciphers ":"}}}
 {{#if (minver "12.2.1" form.serverVersion)}}
 SSLHonorCipherOrder     {{#if output.serverPreferredOrder}}on{{else}}off{{/if}}
