@@ -55,13 +55,25 @@ const render = async () => {
   }
   
   // render the output header
-  document.getElementById('output-header').innerHTML = templates.header(_state);
+  let header = `<h3>${_state.form.version_tags}</h3>\n`;
+  if (_state.output.showSupports) {
+    header += '<h6 id="output-clients">\n  Supports '+_state.output.oldestClients.join(', ')+'</h6>\n';
+  }
+  document.getElementById('output-header').innerHTML = header;
 
-  // and the config file for whichever server software we're using
-  const renderedTemplate = _state.output.protocols.length === 0 ? templates['nosupport'](_state) : templates[_state.form.server](_state);
+  if (_state.output.protocols.length === 0) {
+    document.getElementById('output-config').innerHTML =
+      `# unfortunately, ${_state.form.version_tags} is not supported with these software versions.`;
+    // hide copy button
+    document.getElementById('copy').classList.toggle('d-none', true);
+    return;
+  }
 
-  // show / hide the copy button as needed
-  document.getElementById('copy').classList.toggle('d-none', _state.output.protocols.length === 0);
+  // render the config file for whichever server software we're using
+  const renderedTemplate = templates[_state.form.server](_state);
+
+  // show copy button
+  document.getElementById('copy').classList.toggle('d-none', false);
   
   // syntax highlight and enter into the page
   const highlighter = configs[_state.form.server].highlighter;
