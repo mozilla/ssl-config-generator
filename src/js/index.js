@@ -1,6 +1,9 @@
 import $ from 'jquery';
-import 'bootstrap';
+
+// bootstrap.native used only by 'copy' button tooltip
+import * as BSN from "bootstrap.native";
 import ClipboardJS from 'clipboard';
+
 import { sep } from 'path';
 
 // Import only the used highlights from highlight.js (saves about 1MB)
@@ -158,14 +161,15 @@ $().ready(() => {
   });
 
   // instantiate tooltips
-  $('[data-toggle="tooltip"]').tooltip();
+  var copy_btn = document.getElementById('copy');
+  var copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 750, title: "Copied!" });
 
   // instantiate clipboard thingie
   const clipboard = new ClipboardJS('#copy');
   clipboard.on('success', async e => {
-    $('#copy').tooltip('show');
     e.clearSelection();
+    copy_tt.show();
     await sleep(750);
-    $('#copy').tooltip('hide');
+    copy_tt.hide();
   });
 });
