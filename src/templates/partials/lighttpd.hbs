@@ -40,6 +40,7 @@ ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "TLSv1.3")
   {{else}}
 ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, {{{join output.protocols ", "}}}")
   {{/if}}
+ssl.openssl.ssl-conf-cmd += ("Curves" => "{{{join output.tlsCurves ':'}}}")
   {{#if (minver "1.4.68" form.serverVersion)}}
    {{#if output.serverPreferredOrder}}
 ssl.openssl.ssl-conf-cmd += ("Options" => "+ServerPreference")
@@ -106,8 +107,10 @@ $SERVER["socket"] == ":443" {
  {{#if (minver "1.4.48" form.serverVersion)}}
   {{#if (minver "1.1.0" form.opensslVersion)}}
     ssl.openssl.ssl-conf-cmd = ("MinProtocol" => "{{output.protocols.[0]}}", "Options" => "-SessionTicket")
+    ssl.openssl.ssl-conf-cmd += ("Curves" => "{{{join output.tlsCurves ':'}}}")
   {{else if (minver "1.0.2" form.opensslVersion)}}
     ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, {{{join output.protocols ", "}}}", "Options" => "-SessionTicket")
+    ssl.openssl.ssl-conf-cmd += ("Curves" => "{{{join output.tlsCurves ':'}}}")
   {{else}}
     ssl.use-sslv2 = "disable"
     ssl.use-sslv3 = "disable"

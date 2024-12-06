@@ -27,6 +27,8 @@ smtp_tls_mandatory_protocols = !SSLv2, !SSLv3{{#unless (includes "TLSv1" output.
 smtp_tls_protocols = !SSLv2, !SSLv3{{#unless (includes "TLSv1" output.protocols)}}, !TLSv1{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}}, !TLSv1.1{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}}, !TLSv1.2{{/unless}}
 {{/if}}
 
+tls_eecdh_auto_curves = {{{join output.tlsCurves " "}}}
+tls_ffdhe_auto_groups =
 {{#if output.ciphers.length}}
 smtp_tls_mandatory_ciphers = medium
 smtpd_tls_mandatory_ciphers = medium

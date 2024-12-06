@@ -4,6 +4,7 @@
 {{#if (minver "1.5.0" form.serverVersion)}}
 global
     # {{form.config}} configuration
+    ssl-default-bind-curves {{{join output.tlsCurves ":"}}}
 {{#if output.ciphers.length}}
     ssl-default-bind-ciphers {{{join output.ciphers ":"}}}
 {{/if}}
@@ -14,6 +15,7 @@ global
 {{/if}}
     ssl-default-bind-options{{#if (minver "1.8.0" form.serverVersion)}}{{#unless output.serverPreferredOrder}} prefer-client-ciphers{{/unless}}{{/if}}{{#if (minver "2.2.0" form.serverVersion)}} ssl-min-ver {{#if (includes "TLSv1" output.protocols)}}TLSv1.0{{else}}{{output.protocols.[0]}}{{/if}}{{else}}{{#unless (includes "SSLv3" output.protocols)}} no-sslv3{{/unless}}{{#unless (includes "TLSv1" output.protocols)}} no-tlsv10{{/unless}}{{#unless (includes "TLSv1.1" output.protocols)}} no-tlsv11{{/unless}}{{#unless (includes "TLSv1.2" output.protocols)}} no-tlsv12{{/unless}}{{/if}} no-tls-tickets
 
+    ssl-default-server-curves {{{join output.tlsCurves ":"}}}
 {{#if output.ciphers.length}}
     ssl-default-server-ciphers {{{join output.ciphers ":"}}}
 {{/if}}

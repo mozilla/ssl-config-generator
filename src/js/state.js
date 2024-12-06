@@ -97,6 +97,7 @@ export default async function () {
       supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: supportsOcspStapling,
+      tlsCurves: ssc.tls_curves,
       usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },

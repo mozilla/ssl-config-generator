@@ -15,6 +15,9 @@ ssl_dh_params_file = '/path/to/dhparam'
 
 ssl_ciphers = '{{{join output.ciphers ":"}}}'
 {{/if}}
+{{#if (minver "18.0.0" form.serverVersion)}}
+ssl_groups = '{{{join output.tlsCurves ":"}}}'
+{{/if}}
 {{#if (minver "12.0.0" form.serverVersion)}}
 ssl_min_protocol_version = '{{output.protocols.[0]}}'
 {{/if}}

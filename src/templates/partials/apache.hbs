@@ -39,6 +39,9 @@
 
 # {{form.config}} configuration
 SSLProtocol             {{{join output.protocols " "}}}
+{{#if (minver "2.4.8" form.serverVersion)}}
+SSLOpenSSLConfCmd       Curves {{{join output.tlsCurves ":"}}}
+{{/if}}
 {{#if output.ciphers.length}}
 SSLCipherSuite          {{{join output.ciphers ":"}}}
 {{/if}}

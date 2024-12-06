@@ -44,6 +44,7 @@ http {
 {{/if}}
     # {{form.config}} configuration
     ssl_protocols {{join output.protocols " "}};
+    ssl_ecdh_curve {{join output.tlsCurves ":"}};
 {{#if output.ciphers.length}}
     ssl_ciphers {{{join output.ciphers ":"}}};
 {{/if}}
