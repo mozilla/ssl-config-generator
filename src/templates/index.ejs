@@ -31,7 +31,7 @@
     <form id="form-generator">
       <div class="form-row">
         <!-- server software, populated from entries in configs.js with names -->
-        <div class="col-12 col-md-2 form-server">
+        <div class="col-12 col-md-2" id="form-server-1">
           <h5>Server Software</h5>
           <%
             Object.entries(htmlWebpackPlugin.options.configs).forEach((config, i) => {
@@ -45,7 +45,7 @@
             </div>
             <% if (Math.floor(Object.entries(htmlWebpackPlugin.options.configs).length / 2) === (i + 1)) { %>
         </div>
-        <div class="col-12 col-md-2 form-server">
+        <div class="col-12 col-md-2" id="form-server-2">
         <h5 class="d-none d-md-block">&nbsp;</h5>
             <% } %>
 
@@ -85,7 +85,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">Server Version</span>
             </div>
-            <input type="text" class="form-control" aria-label="Server Version" aria-described="version" id="version" value="<%= htmlWebpackPlugin.options.configs.nginx.latestVersion %>">
+            <input type="text" class="form-control" aria-label="Server Version" aria-described="version" id="version" value="">
           </div>
           <div class="input-group mt-2">
             <div class="input-group-prepend">

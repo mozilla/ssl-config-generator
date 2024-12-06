@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 // bootstrap.native used only by 'copy' button tooltip
 import * as BSN from "bootstrap.native";
 import ClipboardJS from 'clipboard';
@@ -55,13 +53,14 @@ const render = async () => {
   const _state = await state();
 
   // enable and disable the appropriate fields
-  $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
-  $('#openssl').toggleClass('text-disabled', _state.output.usesOpenssl === false);
-  $('#hsts').prop('disabled', _state.output.supportsHsts === false);
-  $('#ocsp').prop('disabled', !_state.output.supportsOcspStapling);
+  document.getElementById('version').classList.toggle('text-disabled', _state.output.hasVersions === false);
+  document.getElementById('openssl').classList.toggle('text-disabled', _state.output.usesOpenssl === false);
+  document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
+  document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 
   // update the fragment
   if (gHaveSettingsChanged) {
+    gHaveSettingsChanged = false;
     window.location.hash = _state.output.fragment;
   }
   
@@ -93,10 +92,7 @@ const render = async () => {
 };
 
 
-// set a listen on the form to update the state
-$().ready(() => {
-  // set all the buttons to the right thing
-  if (window.location.hash.length > 0) {
+function form_config_init() {
     const mappings = {
       'true': true,
       'false': false,
@@ -114,7 +110,8 @@ $().ready(() => {
 
     // set the default server version, if we're loading and have "server" but not "version"
     if (params.get('server') !== null && params.get('version') === null) {
-      $('#version').val(configs[params.get('server')].latestVersion);
+      const e_version = document.getElementById('version')
+      e_version.value = configs[params.get('server')].latestVersion;
     }
 
     for (let entry of params.entries()) {
@@ -140,29 +137,45 @@ $().ready(() => {
 
       }
     }
+}
+
+
+function init_once() {
+
+  // set all the buttons to the right thing
+  if (window.location.hash.length > 0) {
+    form_config_init();
   }
 
   // update the global state with the default values
   render();
 
-  // update state anytime the form is changed
-  $('#form-config, #form-environment').on('change', async () => {
+  // set listeners on the form to update state any time form is changed
+  document.getElementById('form-config').addEventListener('change', async () => {
     gHaveSettingsChanged = true;
     render();
   });
-
-  // anytime the server changes, so does the server version
-  $('.form-server').on('change', async () => {
+  document.getElementById('form-environment').addEventListener('change', async () => {
     gHaveSettingsChanged = true;
-    const _state = await state();
-    $('#version').val(_state.output.latestVersion);
-
     render();
+  });
+  function form_server_change() {
+    const form = document.getElementById('form-generator').elements;
+    const version = document.getElementById('version');
+    version.value = configs[form['server'].value].latestVersion;
+    gHaveSettingsChanged = true;
+    render();
+  }
+  document.getElementById('form-server-1').addEventListener('change', async () => {
+    form_server_change();
+  });
+  document.getElementById('form-server-2').addEventListener('change', async () => {
+    form_server_change();
   });
 
   // instantiate tooltips
-  var copy_btn = document.getElementById('copy');
-  var copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 500, title: "Copied!" });
+  const copy_btn = document.getElementById('copy');
+  const copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 500, title: "Copied!" });
 
   // instantiate clipboard thingie
   const clipboard = new ClipboardJS('#copy');
@@ -172,4 +185,14 @@ $().ready(() => {
     await sleep(250);
     copy_tt.hide();
   });
-});
+}
+
+
+if (document.readyState === "loading") {
+  // Loading hasn't finished yet
+  document.addEventListener("DOMContentLoaded", init_once);
+}
+else {
+  // `DOMContentLoaded` has already fired
+  init_once();
+}
