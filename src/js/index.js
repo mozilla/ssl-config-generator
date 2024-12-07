@@ -4,24 +4,6 @@ import ClipboardJS from 'clipboard';
 
 import { sep } from 'path';
 
-// Import only the used highlights from highlight.js (saves about 1MB)
-// import hljs from 'highlight.js';
-import hljs from 'highlight.js/lib/core';
-import apache from 'highlight.js/lib/languages/apache';
-import go from 'highlight.js/lib/languages/go';
-import ini from 'highlight.js/lib/languages/ini';
-import json from 'highlight.js/lib/languages/json';
-import nginx from 'highlight.js/lib/languages/nginx';
-import xml from 'highlight.js/lib/languages/xml';
-import yaml from 'highlight.js/lib/languages/yaml';
-hljs.registerLanguage('apache', apache);
-hljs.registerLanguage('go', go);
-hljs.registerLanguage('ini', ini);
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('nginx', nginx);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('yaml', yaml);
-
 import '../css/index.scss';
 
 import { validHashKeys } from './constants.js';
@@ -39,6 +21,12 @@ const templateContext = require.context('../templates/partials', true, /\.hbs$/)
 templateContext.keys().forEach(key => {
   templates[key.split(sep).slice(-1)[0].split('.')[0]] = templateContext(key);
 });
+
+
+function xmlEntities(str) {
+  return String(str).replace(/["&'<>`]/g,
+           function (x) { return '&#x'+x.codePointAt(0).toString(16)+';'; });
+}
 
 
 const render = async () => {
@@ -63,7 +51,7 @@ const render = async () => {
     gHaveSettingsChanged = false;
     window.location.hash = _state.output.fragment;
   }
-  
+
   // render the output header
   let header = `<h3>${_state.form.version_tags}</h3>\n`;
   if (_state.output.showSupports) {
@@ -79,16 +67,13 @@ const render = async () => {
     return;
   }
 
+  // show copy button
+  document.getElementById('copy').classList.toggle('d-none', false);
+
   // render the config file for whichever server software we're using
   const renderedTemplate = templates[_state.form.server](_state);
 
-  // show copy button
-  document.getElementById('copy').classList.toggle('d-none', false);
-  
-  // syntax highlight and enter into the page
-  const highlighter = configs[_state.form.server].highlighter;
-
-  document.getElementById('output-config').innerHTML = hljs.highlight(renderedTemplate, {language: highlighter, ignoreIllegals: true}).value;
+  document.getElementById('output-config').innerHTML = xmlEntities(renderedTemplate);
 };
 
 
@@ -115,9 +100,6 @@ function form_config_init() {
     }
 
     for (let entry of params.entries()) {
-      // if it's in the mappings, we should do a find/replace
-      entry[1] = mappings[entry[1]] === undefined ? entry[1] : mappings[entry[1]];
-
       if (validHashKeys.includes(entry[0])) {
         // find the element
         let e = document.getElementById(entry[0]) || document.querySelector(`input[name="${entry[0]}"][value="${entry[1]}"]`);
@@ -129,10 +111,11 @@ function form_config_init() {
         switch (e.type) {
           case 'radio':
           case 'checkbox':
-            e.checked = entry[1];
+            // if it's in the mappings, we should do a find/replace
+            e.checked = mappings[entry[1]] === undefined ? !!entry[1] : mappings[entry[1]];
             break;
           case 'text':
-            e.value = entry[1];
+            e.value = xmlEntities(entry[1]);
         }
 
       }
