@@ -2,8 +2,6 @@
 import * as BSN from "bootstrap.native";
 import ClipboardJS from 'clipboard';
 
-import { sep } from 'path';
-
 import '../css/index.scss';
 
 import { validHashKeys } from './constants.js';
@@ -15,12 +13,12 @@ import { sleep } from './utils.js';
 // note if any button has changed so that we can update the fragment if it has
 let gHaveSettingsChanged = false;
 
-// import all the templates by name, e.g. apache --> require(apache.hbs)
+// import all the templates by name, e.g. apache --> require(./helpers/apache.js)
 const templates = {};
-const templateContext = require.context('../templates/partials', true, /\.hbs$/);
-templateContext.keys().forEach(key => {
-  templates[key.split(sep).slice(-1)[0].split('.')[0]] = templateContext(key);
-});
+for (let x of Object.keys(configs)) {
+  if (x === "openssl") continue;
+  templates[x] = require("./helpers/"+x+".js").default;
+}
 
 
 function xmlEntities(str) {
@@ -71,7 +69,7 @@ const render = async () => {
   document.getElementById('copy').classList.toggle('d-none', false);
 
   // render the config file for whichever server software we're using
-  const renderedTemplate = templates[_state.form.server](_state);
+  const renderedTemplate = templates[_state.form.server](_state.form, _state.output);
 
   document.getElementById('output-config').innerHTML = xmlEntities(renderedTemplate);
 };

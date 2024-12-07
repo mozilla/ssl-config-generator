@@ -1,9 +1,42 @@
-# Please note that Application Load Balancers don't allow you to directly specify protocols
-# and ciphers, so this is the closest existing mapping from the Mozilla {{form.config}}
+export default (form, output) => {
+    var hsts = '';
+
+ if (form.hsts) {
+    hsts =
+`
+  # ${form.serverName} doesn't support HSTS, but it can redirect to HTTPS
+  ExampleALBHTTPToHTTPSRedirect:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    DependsOn: ExampleALB
+    Properties:
+      DefaultActions:
+        - RedirectConfig:
+            Host: "#{host}"
+            Path: "/#{path}"
+            Port: 443
+            Protocol: "HTTPS"
+            Query: "#{query}"
+            StatusCode: HTTP_301
+          Type: redirect
+      LoadBalancerArn: !Ref ExampleALB
+      Port: 80
+      Protocol: HTTP
+`;
+ }
+
+    var sslpolicy = output.protocols.includes('TLSv1')
+      ? 'ELBSecurityPolicy-TLS-1-0-2015-04'
+      : output.protocols.includes('TLSv1.2')
+        ? 'ELBSecurityPolicy-TLS13-1-2-Res-2021-06'
+        : 'ELBSecurityPolicy-TLS13-1-3-2021-06';
+
+    var conf =
+`# Please note that Application Load Balancers don't allow you to directly specify protocols
+# and ciphers, so this is the closest existing mapping from the Mozilla ${form.config}
 # profile onto an existing Amazon SSL Security Policy. For additional information, please see:
 # https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
 AWSTemplateFormatVersion: 2010-09-09
-Description: Mozilla ALB configuration generated {{output.date}}, {{{output.link}}}
+Description: Mozilla ALB configuration generated ${output.date}, ${output.link}
 Parameters:
   SSLCertificateId:
     Description: The ARN of the ACM SSL certificate to use
@@ -34,34 +67,14 @@ Resources:
         # provision a "AWS::ElasticLoadBalancingV2::TargetGroup" resource
         - FixedResponseConfig:
             ContentType: text/html
-            MessageBody: You've reached your {{form.serverName}}
+            MessageBody: You've reached your ${form.serverName}
             StatusCode: '200'
           Type: fixed-response
       LoadBalancerArn: !Ref ExampleALB
       Port: 443
       Protocol: HTTPS
-      SslPolicy: {{#if (includes "TLSv1" output.protocols)}}ELBSecurityPolicy-TLS-1-0-2015-04{{else}}{{#if (includes "TLSv1.2" output.protocols)}}ELBSecurityPolicy-TLS13-1-2-Res-2021-06{{else}}ELBSecurityPolicy-TLS13-1-3-2021-06{{/if}}{{/if}}
-{{#if form.hsts}}
-
-  # {{form.serverName}} doesn't support HSTS, but it can redirect to HTTPS
-  ExampleALBHTTPToHTTPSRedirect:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    DependsOn: ExampleALB
-    Properties:
-      DefaultActions:
-        - RedirectConfig:
-            Host: "#{host}"
-            Path: "/#{path}"
-            Port: 443
-            Protocol: "HTTPS"
-            Query: "#{query}"
-            StatusCode: HTTP_301
-          Type: redirect
-      LoadBalancerArn: !Ref ExampleALB
-      Port: 80
-      Protocol: HTTP
-{{/if}}
-
+      SslPolicy: ${sslpolicy}
+${hsts}
   # Everything that follows is the infrastructure to enable an AWS ALB to be provisioned
   # If you have pre-existing resources like a VPC, subnets, route tables, etc you don't
   # need to provision these and instead you can merely reference them above.
@@ -126,3 +139,7 @@ Outputs:
   ALBURL:
     Description: URL of the ALB load balancer
     Value: !Join [ '', [ 'https://', !GetAtt 'ExampleALB.DNSName', '/' ] ]
+`;
+
+  return conf;
+};

@@ -1,5 +1,29 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: Mozilla ELB configuration generated {{output.date}}, {{{output.link}}}
+export default (form, output) => {
+    var attributes = '';
+    for (let x of output.protocols) {
+      attributes +=
+`            - Name: Protocol-${x}
+              Value: true
+`;
+    }
+
+    attributes +=
+`            - Name: Server-Defined-Cipher-Order
+              Value: ${output.serverPreferredOrder ? "true" : "false"}
+`;
+
+    if (output.ciphers.length) {
+     for (let x of output.ciphers) {
+      attributes +=
+`            - Name: ${x}
+              Value: true
+`;
+     }
+    }
+
+    var conf =
+`AWSTemplateFormatVersion: 2010-09-09
+Description: Mozilla ELB configuration generated ${output.date}, ${output.link}
 Parameters:
   SSLCertificateId:
     Description: The ARN of the ACM SSL certificate to use
@@ -16,26 +40,21 @@ Resources:
         - LoadBalancerPort: '443'
           InstancePort: '80'
           PolicyNames:
-            - Mozilla-{{form.config}}-v5-0
+            - Mozilla-${form.config}-v5-0
           SSLCertificateId: !Ref SSLCertificateId
           Protocol: HTTPS
       AvailabilityZones:
         Fn::GetAZs: !Ref 'AWS::Region'
       Policies:
-        - PolicyName: Mozilla-{{form.config}}-v5-0
+        - PolicyName: Mozilla-$form.config}-v5-0
           PolicyType: SSLNegotiationPolicyType
           Attributes:
-{{#each output.protocols}}
-            - Name: Protocol-{{this}}
-              Value: true
-{{/each}}
-            - Name: Server-Defined-Cipher-Order
-              Value: {{#if output.serverPreferredOrder}}true{{else}}false{{/if}}
-{{#each output.ciphers}}
-            - Name: {{this}}
-              Value: true
-{{/each}}
+${attributes}
 Outputs:
   ELBURL:
     Description: URL of the ELB load balancer
     Value: !Join [ '', [ 'https://', !GetAtt 'ExampleELB.DNSName', '/' ] ]
+`;
+
+  return conf;
+};
