@@ -1,8 +1,6 @@
 const constants = require('../src/js/constants.js');
 const configs = require('../src/js/configs.js');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const BrowserSyncWebpackPlugin = require('browser-sync-v3-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const exec = require('child_process').spawnSync;
@@ -45,10 +43,12 @@ const plugins = [
 
 // either we analyze or watch
 if (process.env.NODE_ENV === 'analyze') {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
   plugins.push(
     new BundleAnalyzerPlugin({})
   );
-} else {
+} else if (process.env.NODE_ENV === 'development') {
+  const BrowserSyncWebpackPlugin = require('browser-sync-v3-webpack-plugin');
   plugins.push(
     new BrowserSyncWebpackPlugin({
       host: 'localhost',
