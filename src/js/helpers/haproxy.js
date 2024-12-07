@@ -67,7 +67,7 @@ export default (form, output) => {
 
  if (form.hsts) {
     conf +=
-      '    redirect scheme https code 301 if !{ ssl_fc }\n'+
+      '    redirect scheme https code '+output.hstsRedirectCode+' if !{ ssl_fc }\n'+
       '\n'+
       '    # HSTS ('+output.hstsMaxAge+' seconds)\n'+
       '    http-response set-header Strict-Transport-Security max-age='+output.hstsMaxAge+'\n';

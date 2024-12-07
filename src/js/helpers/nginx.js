@@ -87,7 +87,7 @@ export default (form, output) => {
       '        listen 80 default_server;\n'+
       '        listen [::]:80 default_server;\n'+
       '\n'+
-      '        return 301 https://$host$request_uri;\n'+
+      '        return '+output.hstsRedirectCode+' https://$host$request_uri;\n'+
       '    }\n';
  }
 

@@ -85,6 +85,7 @@ export default async function () {
       hasVersions: configs[server].hasVersions !== false,
       header,
       hstsMaxAge: ssc.hsts_min_age,
+      hstsRedirectCode: 301,
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,

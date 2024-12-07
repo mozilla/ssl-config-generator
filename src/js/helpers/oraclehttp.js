@@ -9,7 +9,7 @@ export default (form, output) => {
     conf +=
       '<VirtualHost *:80>\n'+
       '    RewriteEngine On\n'+
-      '    RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=301,L]\n'+
+      '    RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R='+output.hstsRedirectCode+',L]\n'+
       '</VirtualHost>\n'+
       '\n';
  }

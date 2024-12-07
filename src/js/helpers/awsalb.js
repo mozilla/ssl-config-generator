@@ -16,7 +16,7 @@ export default (form, output) => {
             Port: 443
             Protocol: "HTTPS"
             Query: "#{query}"
-            StatusCode: HTTP_301
+            StatusCode: HTTP_${output.hstsRedirectCode}
           Type: redirect
       LoadBalancerArn: !Ref ExampleALB
       Port: 80

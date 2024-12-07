@@ -16,7 +16,7 @@ export default (form, output) => {
       '<VirtualHost *:80>\n'+
       '    RewriteEngine On\n'+
       '    RewriteCond %{REQUEST_URI} !^/\.well\-known/acme\-challenge/\n'+
-      '    RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]\n'+
+      '    RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [R='+output.hstsRedirectCode+',QSA,L]\n'+
       '</VirtualHost>\n'+
       '\n';
  }
