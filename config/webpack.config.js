@@ -19,10 +19,6 @@ const revision = () => {
 
 // the many plugins used
 const plugins = [
-  new webpack.ProvidePlugin({
-    jQuery: 'jquery',
-    $: 'jquery',
-  }),
   new HtmlWebpackPlugin({
     constants,
     configs,
