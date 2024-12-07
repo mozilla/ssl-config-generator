@@ -41,6 +41,12 @@ templateContext.keys().forEach(key => {
 });
 
 
+function xmlEntities(str) {
+  return String(str).replace(/["&'<>`]/g,
+           function (x) { return '&#x'+x.codePointAt(0).toString(16)+';'; });
+}
+
+
 const render = async () => {
 
   // initial introduction
@@ -115,9 +121,6 @@ function form_config_init() {
     }
 
     for (let entry of params.entries()) {
-      // if it's in the mappings, we should do a find/replace
-      entry[1] = mappings[entry[1]] === undefined ? entry[1] : mappings[entry[1]];
-
       if (validHashKeys.includes(entry[0])) {
         // find the element
         let e = document.getElementById(entry[0]) || document.querySelector(`input[name="${entry[0]}"][value="${entry[1]}"]`);
@@ -129,10 +132,11 @@ function form_config_init() {
         switch (e.type) {
           case 'radio':
           case 'checkbox':
-            e.checked = entry[1];
+            // if it's in the mappings, we should do a find/replace
+            e.checked = mappings[entry[1]] === undefined ? !!entry[1] : mappings[entry[1]];
             break;
           case 'text':
-            e.value = entry[1];
+            e.value = xmlEntities(entry[1]);
         }
 
       }
