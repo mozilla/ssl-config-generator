@@ -3,8 +3,6 @@ FROM node:22
 WORKDIR /app
 
 COPY package*.json ./
-COPY config/ ./
-COPY src/ ./
 COPY . ./
 
 RUN npm install copy-webpack-plugin --save-dev && \
