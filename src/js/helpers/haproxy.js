@@ -42,12 +42,11 @@ export default (form, output) => {
 
  if (output.usesDhe) {
     var ssl_security_level = '';
-    if (output.dhParamSize == 1024
+    if (output.protocols.includes("TLSv1.1")
         && minver("3.0.0", form.opensslVersion)
         && minver("3.0.0", form.serverVersion)) {
-      ssl_security_level = output.protocols.includes("TLSv1.1")
-        ? '    ssl-security-level 0\n'
-        : '    ssl-security-level 1\n';
+      ssl_security_level =
+      '    ssl-security-level 0\n';
     }
     conf +=
       minver("1.6.0", form.serverVersion)

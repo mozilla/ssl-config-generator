@@ -1,1 +1,0 @@
-const doNotTrack=navigator.doNotTrack||navigator.msDoNotTrack||window.doNotTrack;if("1"!==doNotTrack&&"yes"!==doNotTrack){function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-66267220-1",{anonymize_ip:!0})}

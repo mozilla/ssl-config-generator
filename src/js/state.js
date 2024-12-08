@@ -89,8 +89,6 @@ export default async function () {
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
-      opensslCiphers: ciphers,
-      opensslCipherSuites: ssc.ciphersuites,
       origin: url.origin,
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
@@ -102,7 +100,6 @@ export default async function () {
       usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },
-    sstls,
   };
 
   return state;

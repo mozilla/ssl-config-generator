@@ -1,7 +1,6 @@
 const constants = require('../src/js/constants.js');
 const configs = require('../src/js/configs.js');
 
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const exec = require('child_process').spawnSync;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,7 +16,6 @@ const revision = () => {
 
 // the many plugins used
 const plugins = [
-  new CleanWebpackPlugin(),
   new HtmlWebpackPlugin({
     constants,
     configs,
