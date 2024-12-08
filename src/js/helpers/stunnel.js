@@ -7,13 +7,10 @@ export default (form, output) => {
       '\n';
 
  if (minver("5.50", form.serverVersion)) {
-  if (output.protocols[0] === 'TLSv1.2') {
     conf +=
-      'sslVersionMin = TLSv1.2\n';
-  }
-  else if (output.protocols[0] === 'TLSv1.3') {
+      'sslVersionMin = '+output.protocols[0]+'\n';
+  if (output.protocols[0] === 'TLSv1.3') {
     conf +=
-      'sslVersionMin = TLSv1.3\n'+
       'ciphersuites = '+output.cipherSuites.join(':')+'\n';
   }
  }
