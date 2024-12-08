@@ -29,12 +29,12 @@ There are two places that need to be updated in order to add support for a new p
 
 All of the templates are written in javascript.  The configuration generator supports the following additional helpers:
 
-- `minpatchver(minimumver, curver)` - `true` if `curver` is greater than or equal to `minimumver`, and both versions are the same patch version, e.g. `2.2`
-  - `{{#if (minpatchver "2.4.3" form.serverVersion)}}`
-- `minver(minimumver, curver)` - `true` if `curver` is greater than or equal to `minver`
-  - `{{#if (minver "1.9.5" form.serverVersion)}}`
-- `sameminorver(version, otherVersion)` - returns `true` if `version` and `otherVersion` are of the same minor version, e.g. `2.2`
-  - `{{#if (sameminorver "2.4.0" form.serverVersion)}}`
+- `minpatchver(minimum_ver, cur_ver)` - `true` if `cur_ver` is greater than or equal to `minimum_ver`, AND both versions are the same minor version, e.g. `2.4`
+  - `minpatchver("2.4.3", form.serverVersion)`
+- `minver(minimum_ver, cur_ver)` - `true` if `cur_ver` is greater than or equal to `minimum_ver`
+  - `minver("1.9.5", form.serverVersion)`
+- `sameminorver(version, otherVersion)` - returns `true` if `version` and `otherVersion` are of the same minor version, e.g. `2.4`
+  - `sameminorver("2.4.0", form.serverVersion)`
 
 ### Template variables
 
@@ -47,34 +47,36 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `form.hsts` - HTTP Strict Transport Security form checkbox (boolean true/false)
 - `form.ocsp` - OCSP Stapling form checkbox (boolean true/false)
 
-- `output.header` - description of rendered config (`# {{output.header}}`)
-- `output.link` - URL to rendered config (`# {{{output.link}}}`)
+- `output.header` - description of rendered config
+- `output.link` - URL to rendered config
 - `output.protocols` - protocol list (e.g. zero or more of: "TLSv1" "TLSv1.1" "TLSv1.2" "TLSv1.3")
-- `output.ciphers` - cipher list (`{{join output.ciphers ":"}}`)
+- `output.ciphers` - cipher list
 - `output.cipherSuites` - cipher suites list
 - `output.serverPreferredOrder` - enforce ServerPreference for ordering cipher list (boolean true/false)
 - `output.hstsMaxAge` - max-age (seconds) for Strict-Transport-Security: max-age=... HTTP response header
-- `output.permanentRedirect` - HTTP status code ([ 301 | 308 ]) to use for permanent redirect from http://site to https://site
-
+- `output.hstsRedirectCode` - HTTP status code to use for HSTS redirect from http:// to https://
 - `output.latestVersion` - server latest version
 - `output.usesOpenssl` - server uses openssl (boolean true/false)
-- `output.usesDhe` - server might use Diffie-Hellmann key exchange (boolean true/false)
+- `output.usesDhe` - server might use (<= TLSv1.2 kDHE) Diffie-Hellmann key exchange (boolean true/false)
 - `output.dhCommand` - command to generate Diffie-Hellman (DH) parameters
 - `output.hasVersions` - server config has versions (boolean true/false)
 - `output.supportsConfigs` - supports modern, intermediate, old configs (boolean true/false)
 - `output.supportsHsts` - supports HTTP Strict Transport Security (HSTS) (boolean true/false)
 - `output.supportsOcspStapling` - server version supporting OCSP Stapling in config
-- `output.tls13` - minimum server version supporting TLSv1.3
+- `output.tls13` - server version supporting TLSv1.3
+- `output.tlsCurves` - groups/curves list
 
 ## Building
 
-To publish to GitHub Pages, first generate new `docs/` files by running 
+Generate production files in `docs/` files by running
 
 ```bash
 $ npm run build
 ```
 
-Then commit the newly built `docs/` files and push the commit to GitHub.
+However, doing so is not necessary for production deployment.
+GitHub Pages are published upon commit to the master branch
+via .github/workflows/deploy-to-production.yml
 
 ## Changelog
 

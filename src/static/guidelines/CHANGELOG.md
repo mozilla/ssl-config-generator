@@ -7,6 +7,58 @@ This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.
 
 ## [Unreleased]
 
+### Changed
+
+- javascript: replace bootstrap with bootstrap.native for Copy button tooltip
+- javascript: preserve bootstrap 4 CSS; remove bootstrap, popper, jquery
+- javascript: update packages
+- javascript: remove highlight.js
+- javascript: remove Handlebars; convert .hbs templates to .js per server
+- haproxy: prefer ssl-min-ver with haproxy 2.2+
+- apache,oraclehttp: explicit SSLProtocol list
+- lighttpd: explicit protocol list for openssl 1.0.2
+- lighttpd: simplify configs when handled by lighttpd defaults
+- nginx: allow ssl\_session\_tickets for nginx ≥1.23.2
+- nginx: wrap `server` in `http` context
+- postfix: add `smtp_tls_*`
+
+### Added
+
+- initial intro text rather than defaulting to nginx config
+- add eolBefore before versions; update current vers
+- add warning to header for versions < eolBefore
+- configure TLSv1.3 key exchange groups/curves (where supported)
+- support OpenSSL 3.x: need SECLEVEL=0 to support Old config using TLSv1 and TLSv1.1
+- haproxy: OpenSSL 3.x: ssl-security-level to support Old config with dhParamSize 1024
+
+### Fixed
+
+- caddy: fix syntax
+- apache,oraclehttp: avoid double-percent-encode in rewrite
+- stunnel: fix syntax; prefer sslVersionMin when available
+- oraclehttp: OHS uses mod\_ossl, based on custom RSA implementation
+- oraclehttp: use IANA naming for ciphers; set usesOpenssl to false
+- jetty: TLSv1.3 IncludeCipherSuites
+- tomcat: set tls13 ciphersuites when tls12 ciphers defined
+- dovecot: always set ssl\_dh if usesDhe; revert an earlier change
+
+## [5.7.1] - 2024-01-04
+
+### Changed
+
+- nginx: add `http2` directive
+- use Webpack 5
+- use CDN hosted fonts instead of local ones
+
+### Added
+
+- support for stunnel
+- support for coturn
+
+### Fixed
+
+- proftpd TLSStaplingCache directive syntax
+
 ## [5.7] - 2023-05-15
 
 ### Changed
