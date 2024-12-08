@@ -1,25 +1,6 @@
-import $ from 'jquery';
-import 'bootstrap';
+// bootstrap.native used only by 'copy' button tooltip
+import * as BSN from "bootstrap.native";
 import ClipboardJS from 'clipboard';
-import { sep } from 'path';
-
-// Import only the used highlights from highlight.js (saves about 1MB)
-// import hljs from 'highlight.js';
-import hljs from 'highlight.js/lib/core';
-import apache from 'highlight.js/lib/languages/apache';
-import go from 'highlight.js/lib/languages/go';
-import ini from 'highlight.js/lib/languages/ini';
-import json from 'highlight.js/lib/languages/json';
-import nginx from 'highlight.js/lib/languages/nginx';
-import xml from 'highlight.js/lib/languages/xml';
-import yaml from 'highlight.js/lib/languages/yaml';
-hljs.registerLanguage('apache', apache);
-hljs.registerLanguage('go', go);
-hljs.registerLanguage('ini', ini);
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('nginx', nginx);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('yaml', yaml);
 
 import '../css/index.scss';
 
@@ -32,48 +13,69 @@ import { sleep } from './utils.js';
 // note if any button has changed so that we can update the fragment if it has
 let gHaveSettingsChanged = false;
 
-// import all the templates by name, e.g. apache --> require(apache.hbs)
+// import all the templates by name, e.g. apache --> require(./helpers/apache.js)
 const templates = {};
-const templateContext = require.context('../templates/partials', true, /\.hbs$/);
-templateContext.keys().forEach(key => {
-  templates[key.split(sep).slice(-1)[0].split('.')[0]] = templateContext(key);
-});
+for (let x of Object.keys(configs)) {
+  if (x === "openssl") continue;
+  templates[x] = require("./helpers/"+x+".js").default;
+}
+
+
+function xmlEntities(str) {
+  return String(str).replace(/["&'<>`]/g,
+           function (x) { return '&#x'+x.codePointAt(0).toString(16)+';'; });
+}
 
 
 const render = async () => {
+
+  // initial introduction
+  if (document.getElementById('form-generator').server.value === '') {
+    document.getElementById('output-config').innerHTML = '';
+    document.getElementById('copy').classList.toggle('d-none', true);
+    return;
+  }
+
   const _state = await state();
 
   // enable and disable the appropriate fields
-  $('#version').toggleClass('text-disabled', _state.output.hasVersions === false);
-  $('#openssl-version').toggleClass('text-disabled', _state.output.usesOpenssl === false);
-  $('#hsts').prop('disabled', _state.output.supportsHsts === false);
-  $('#ocsp').prop('disabled', _state.output.supportsOcspStapling === false);
+  document.getElementById('version').classList.toggle('text-disabled', _state.output.hasVersions === false);
+  document.getElementById('openssl').classList.toggle('text-disabled', _state.output.usesOpenssl === false);
+  document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
+  document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 
   // update the fragment
   if (gHaveSettingsChanged) {
+    gHaveSettingsChanged = false;
     window.location.hash = _state.output.fragment;
   }
-  
+
   // render the output header
-  document.getElementById('output-header').innerHTML = templates.header(_state);
+  let header = `<h3>${_state.form.version_tags}</h3>\n`;
+  if (_state.output.showSupports) {
+    header += '<h6 id="output-clients">\n  Supports '+_state.output.oldestClients.join(', ')+'</h6>\n';
+  }
+  document.getElementById('output-header').innerHTML = header;
 
-  // and the config file for whichever server software we're using
-  const renderedTemplate = _state.output.protocols.length === 0 ? templates['nosupport'](_state) : templates[_state.form.server](_state);
+  if (_state.output.protocols.length === 0) {
+    document.getElementById('output-config').innerHTML =
+      `# unfortunately, ${_state.form.version_tags} is not supported with these software versions.`;
+    // hide copy button
+    document.getElementById('copy').classList.toggle('d-none', true);
+    return;
+  }
 
-  // show / hide the copy button as needed
-  document.getElementById('copy').classList.toggle('d-none', _state.output.protocols.length === 0);
-  
-  // syntax highlight and enter into the page
-  const highlighter = configs[_state.form.server].highlighter;
+  // show copy button
+  document.getElementById('copy').classList.toggle('d-none', false);
 
-  document.getElementById('output-config').innerHTML = hljs.highlight(highlighter, renderedTemplate, true).value;
+  // render the config file for whichever server software we're using
+  const renderedTemplate = templates[_state.form.server](_state.form, _state.output);
+
+  document.getElementById('output-config').innerHTML = xmlEntities(renderedTemplate);
 };
 
 
-// set a listen on the form to update the state
-$().ready(() => {
-  // set all the buttons to the right thing
-  if (window.location.hash.length > 0) {
+function form_config_init() {
     const mappings = {
       'true': true,
       'false': false,
@@ -91,13 +93,11 @@ $().ready(() => {
 
     // set the default server version, if we're loading and have "server" but not "version"
     if (params.get('server') !== null && params.get('version') === null) {
-      $('#version').val(configs[params.get('server')].latestVersion);
+      const e_version = document.getElementById('version')
+      e_version.value = configs[params.get('server')].latestVersion;
     }
 
     for (let entry of params.entries()) {
-      // if it's in the mappings, we should do a find/replace
-      entry[1] = mappings[entry[1]] === undefined ? entry[1] : mappings[entry[1]];
-
       if (validHashKeys.includes(entry[0])) {
         // find the element
         let e = document.getElementById(entry[0]) || document.querySelector(`input[name="${entry[0]}"][value="${entry[1]}"]`);
@@ -109,43 +109,71 @@ $().ready(() => {
         switch (e.type) {
           case 'radio':
           case 'checkbox':
-            e.checked = entry[1];
+            // if it's in the mappings, we should do a find/replace
+            e.checked = mappings[entry[1]] === undefined ? !!entry[1] : mappings[entry[1]];
             break;
           case 'text':
-            e.value = entry[1];
+            e.value = xmlEntities(entry[1]);
         }
 
       }
     }
+}
+
+
+function init_once() {
+
+  // set all the buttons to the right thing
+  if (window.location.hash.length > 0) {
+    form_config_init();
   }
 
   // update the global state with the default values
   render();
 
-  // update state anytime the form is changed
-  $('#form-config, #form-environment').on('change', async () => {
+  // set listeners on the form to update state any time form is changed
+  document.getElementById('form-config').addEventListener('change', async () => {
     gHaveSettingsChanged = true;
     render();
   });
-
-  // anytime the server changes, so does the server version
-  $('.form-server').on('change', async () => {
+  document.getElementById('form-environment').addEventListener('change', async () => {
     gHaveSettingsChanged = true;
-    const _state = await state();
-    $('#version').val(_state.output.latestVersion);
-
     render();
+  });
+  function form_server_change() {
+    const form = document.getElementById('form-generator').elements;
+    const version = document.getElementById('version');
+    version.value = configs[form['server'].value].latestVersion;
+    gHaveSettingsChanged = true;
+    render();
+  }
+  document.getElementById('form-server-1').addEventListener('change', async () => {
+    form_server_change();
+  });
+  document.getElementById('form-server-2').addEventListener('change', async () => {
+    form_server_change();
   });
 
   // instantiate tooltips
-  $('[data-toggle="tooltip"]').tooltip();
+  const copy_btn = document.getElementById('copy');
+  const copy_tt = new BSN.Tooltip(copy_btn, { trigger: "manual", delay: 500, title: "Copied!" });
 
   // instantiate clipboard thingie
   const clipboard = new ClipboardJS('#copy');
   clipboard.on('success', async e => {
-    $('#copy').tooltip('show');
     e.clearSelection();
-    await sleep(750);
-    $('#copy').tooltip('hide');
+    copy_tt.show();
+    await sleep(250);
+    copy_tt.hide();
   });
-});
+}
+
+
+if (document.readyState === "loading") {
+  // Loading hasn't finished yet
+  document.addEventListener("DOMContentLoaded", init_once);
+}
+else {
+  // `DOMContentLoaded` has already fired
+  init_once();
+}

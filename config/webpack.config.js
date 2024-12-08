@@ -1,9 +1,6 @@
 const constants = require('../src/js/constants.js');
 const configs = require('../src/js/configs.js');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const BrowserSyncWebpackPlugin = require('browser-sync-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const exec = require('child_process').spawnSync;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -19,17 +16,6 @@ const revision = () => {
 
 // the many plugins used
 const plugins = [
-  new CleanWebpackPlugin(
-    ['build/*/*/*', 'build/*/*', 'build/*', 'docs/*/*/*', 'docs/*/*', 'docs/*'],
-    {
-      root: path.resolve(__dirname, '..'),
-      verbose: true
-    }
-  ),
-  new webpack.ProvidePlugin({
-    jQuery: 'jquery',
-    $: 'jquery',
-  }),
   new HtmlWebpackPlugin({
     constants,
     configs,
@@ -37,40 +23,31 @@ const plugins = [
     date: new Date().toISOString().substr(0, 10),
     production,
     revision: revision(),
+
     title: 'Mozilla SSL Configuration Generator',
-    template: 'src/templates/index.ejs'
+    template: 'src/templates/index.ejs',
+    favicon: 'src/images/favicon.png'
   }),
   new CopyWebpackPlugin({
     patterns: [
-        {from: 'src/images', to: 'images/'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-        {from: 'config/CNAME'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-        {from: 'src/static'}
-    ]
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
+        {from: 'config/CNAME'},
+        {from: 'src/static'},
         {from: 'src/js/analytics.js'}
     ]
   }),
   new MiniCssExtractPlugin({
-    filename: '[hash].index.css',
+    filename: '[contenthash].index.css',
   })
 ];
 
 // either we analyze or watch
 if (process.env.NODE_ENV === 'analyze') {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
   plugins.push(
     new BundleAnalyzerPlugin({})
-  )
-} else {
+  );
+} else if (process.env.NODE_ENV === 'development') {
+  const BrowserSyncWebpackPlugin = require('browser-sync-v3-webpack-plugin');
   plugins.push(
     new BrowserSyncWebpackPlugin({
       host: 'localhost',
@@ -79,7 +56,7 @@ if (process.env.NODE_ENV === 'analyze') {
         baseDir: 'build'
       }
     })
-  )
+  );
 }
 
 module.exports = {
@@ -88,7 +65,16 @@ module.exports = {
     library: 'SSLConfigGenerator',
     libraryTarget: 'var',
     path: production ? path.resolve(__dirname, '..', 'docs') : path.resolve(__dirname, '..', 'build'),
-    filename: '[hash].[name]'
+    filename: '[contenthash].[name]'
+  },
+  stats: {
+    errorDetails: true,
+    children: true
+  },
+  resolve: {
+    fallback: {
+      "path": require.resolve("path-browserify")
+    }
   },
   entry: {
     'index.js': ['regenerator-runtime/runtime', path.resolve(__dirname, '..', 'src', 'js', 'index.js')]
@@ -99,20 +85,7 @@ module.exports = {
     rules: [
       {
         test: /\.ejs$/,
-        use: {
-          loader: 'ejs-loader',
-        }
-      },
-      {
-        test: /\.hbs$/,
-        use: {
-          loader: 'handlebars-loader',
-          options: {
-            'helperDirs': [
-              path.resolve(__dirname, '..', 'src', 'js', 'helpers')
-            ]
-          }
-        }
+        use: ['ejs-easy-loader'],
       },
       {
         test: /\.js$/,
@@ -122,7 +95,7 @@ module.exports = {
           options: {
             babelrc: false,
             plugins: [
-              '@babel/plugin-proposal-object-rest-spread'
+              '@babel/plugin-transform-object-rest-spread'
             ],
             presets: [
               ['@babel/preset-env', {
@@ -138,40 +111,23 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         //include: path.resolve(__dirname, '..', 'src'),
-        use: [{
-          loader: MiniCssExtractPlugin.loader
-        },
-        'css-loader',
-        {
-          loader: 'postcss-loader', // Run post css actions
-          options: {
-            plugins: function () { // post css plugins, can be exported to postcss.config.js
-              return [
-                require('precss'),
-                require('autoprefixer')
-              ];
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader', // Run post css actions
+            options: {
+              postcssOptions: {
+                plugins: function () { // post css plugins, can be exported to postcss.config.js
+                  return [
+                    require('autoprefixer')
+                  ];
+                }
+              }
             }
-          }
-        },
-        'sass-loader'
-      ]},
-      {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(svg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'img/[name].[ext]'
-          }
-        }
+          },
+          'sass-loader'
+        ]
       }
     ]
   },
