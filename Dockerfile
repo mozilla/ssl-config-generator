@@ -1,10 +1,14 @@
 FROM node:22
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
+COPY config/ ./
+COPY src/ ./
 COPY . ./
 
-RUN npm install
+RUN npm install copy-webpack-plugin --save-dev && \
+    npm install -g webpack webpack-cli && \
+    npm run build
 
 ENTRYPOINT ["npm", "run", "watch"]
