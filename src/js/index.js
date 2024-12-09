@@ -32,9 +32,11 @@ const render = async () => {
   // initial introduction
   if (document.getElementById('form-generator').server.value === '') {
     document.getElementById('output-config').innerHTML = '';
+    document.getElementById('output-config-container').classList.toggle('d-none', true);
     document.getElementById('copy').classList.toggle('d-none', true);
     return;
   }
+  document.getElementById('output-config-container').classList.toggle('d-none', false);
 
   const _state = await state();
 
