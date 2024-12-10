@@ -104,9 +104,13 @@ export default async function () {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
-  let ciphers = configs[server].cipherFormat ? ssc.ciphers[configs[server].cipherFormat] : ssc.ciphers.openssl;
-  if (configs[server].supportedCiphers) {
-    ciphers = ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
+  const cipherFormat = configs[server].cipherFormat ? configs[server].cipherFormat : 'openssl';
+  let ciphers = cipherFormat === 'go' ? ssc.ciphers['iana'] : ssc.ciphers[cipherFormat];
+  const supportedCiphers = configs[server].supportedCiphers
+    ? configs[server].supportedCiphers
+    : cipherFormat === 'go' ? configs['go'].supportedCiphers : null;
+  if (supportedCiphers) {
+    ciphers = ciphers.filter(suite => supportedCiphers.indexOf(suite) !== -1);
   } else {
     ciphers = ciphers;
   }
