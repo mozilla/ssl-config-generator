@@ -1,12 +1,11 @@
-FROM node:22
+FROM node:22-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
 COPY . ./
 
-RUN npm install copy-webpack-plugin --save-dev && \
-    npm install -g webpack webpack-cli && \
-    npm run build
+RUN apk add --no-cache git && \
+    npm install
 
 ENTRYPOINT ["npm", "run", "watch"]
