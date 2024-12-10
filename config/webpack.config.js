@@ -11,7 +11,11 @@ const production = process.env.NODE_ENV === 'production';
 
 // function that returns the github short revision
 const revision = () => {
+ try {
   return exec('git', ['rev-parse', '--short', 'HEAD'], { encoding: 'ascii' }).stdout.trim();
+ } catch (error) {
+  return '';
+ }
 }
 
 // the many plugins used
