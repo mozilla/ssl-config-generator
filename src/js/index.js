@@ -12,6 +12,7 @@ import { sleep } from './utils.js';
 
 // note if any button has changed so that we can update the fragment if it has
 let gHaveSettingsChanged = false;
+let gHashUpdatedInternal = false;
 
 // import all the templates by name, e.g. apache --> require(./helpers/apache.js)
 const templates = {};
@@ -29,24 +30,45 @@ function xmlEntities(str) {
 
 const render = async () => {
 
+  document.getElementById('version').readOnly = false;
+  document.getElementById('openssl').readOnly = false;
+
   // initial introduction
   if (document.getElementById('form-generator').server.value === '') {
+    document.getElementById('output-header').innerHTML =
+`
+      <div class="h3 pb-3">Getting Started</div>
+      <p>Select an application server in Server Software (above) to generate a sample TLS configuration.</p>
+      <p>When using sample TLS configurations, replace example.com with your server name (e.g. hostname) and replace /path/to/... with actual paths to your local files.</p>
+`;
     document.getElementById('output-config').innerHTML = '';
+    document.getElementById('output-config-container').classList.toggle('d-none', true);
+    document.getElementById('version').classList.toggle('text-disabled', true);
+    document.getElementById('openssl').classList.toggle('text-disabled', true);
+    document.getElementById('version').readOnly = true;
+    document.getElementById('openssl').readOnly = true;
+    document.getElementById('hsts').classList.toggle('d-none', true);
+    document.getElementById('ocsp').classList.toggle('d-none', true);
     document.getElementById('copy').classList.toggle('d-none', true);
+    gHaveSettingsChanged = false;
     return;
   }
+  document.getElementById('output-config-container').classList.toggle('d-none', false);
 
   const _state = await state();
 
   // enable and disable the appropriate fields
   document.getElementById('version').classList.toggle('text-disabled', _state.output.hasVersions === false);
+  document.getElementById('version').readOnly = _state.output.hasVersions === false;
   document.getElementById('openssl').classList.toggle('text-disabled', _state.output.usesOpenssl === false);
+  document.getElementById('openssl').readOnly = _state.output.usesOpenssl === false;
   document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
   document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 
   // update the fragment
   if (gHaveSettingsChanged) {
     gHaveSettingsChanged = false;
+    gHashUpdatedInternal = true;
     window.location.hash = _state.output.fragment;
   }
 
@@ -76,6 +98,18 @@ const render = async () => {
 
 
 function form_config_init() {
+    if (window.location.hash.length === 0) {
+      gHaveSettingsChanged = true;
+      const server = document.getElementById('form-generator').server;
+      if (server.value !== '') {
+        document.getElementById(`server-${server.value}`).checked = false;
+      }
+      document.getElementById('version').value = '';
+      document.getElementById('openssl').value = '';
+      gHaveSettingsChanged = false;
+      return;
+    }
+
     const mappings = {
       'true': true,
       'false': false,
@@ -124,26 +158,31 @@ function form_config_init() {
 function init_once() {
 
   // set all the buttons to the right thing
-  if (window.location.hash.length > 0) {
-    form_config_init();
-  }
+  form_config_init();
 
   // update the global state with the default values
   render();
 
   // set listeners on the form to update state any time form is changed
   document.getElementById('form-config').addEventListener('change', async () => {
+    if (gHaveSettingsChanged) { return; }
     gHaveSettingsChanged = true;
     render();
   });
   document.getElementById('form-environment').addEventListener('change', async () => {
+    if (gHaveSettingsChanged) { return; }
     gHaveSettingsChanged = true;
     render();
   });
   function form_server_change() {
+    if (gHaveSettingsChanged) { return; }
     const form = document.getElementById('form-generator').elements;
     const version = document.getElementById('version');
     version.value = configs[form['server'].value].latestVersion;
+    const openssl = document.getElementById('openssl');
+    if (!openssl.value) {
+      openssl.value = configs.openssl.latestVersion;
+    }
     gHaveSettingsChanged = true;
     render();
   }
@@ -152,6 +191,17 @@ function init_once() {
   });
   document.getElementById('form-server-2').addEventListener('change', async () => {
     form_server_change();
+  });
+  // set listeners on the form to update state when URL hash is changed
+  // e.g. via navigation of Back or Forward buttons
+  window.addEventListener("hashchange", (event) => {
+    if (gHashUpdatedInternal) {
+      gHashUpdatedInternal = false;
+    }
+    else {
+      form_config_init();
+      render();
+    }
   });
 
   // instantiate tooltips

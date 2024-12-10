@@ -14,6 +14,7 @@ This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.
 - javascript: update packages
 - javascript: remove highlight.js
 - javascript: remove Handlebars; convert .hbs templates to .js per server
+- javascript: parse semantic versions, with exception for parsing openssl < 3.0
 - haproxy: prefer ssl-min-ver with haproxy 2.2+
 - apache,oraclehttp: explicit SSLProtocol list
 - lighttpd: explicit protocol list for openssl 1.0.2
