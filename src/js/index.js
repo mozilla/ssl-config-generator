@@ -155,27 +155,9 @@ function form_config_init() {
 }
 
 
-function init_once() {
-
-  // set all the buttons to the right thing
-  form_config_init();
-
-  // update the global state with the default values
-  render();
-
-  // set listeners on the form to update state any time form is changed
-  document.getElementById('form-config').addEventListener('change', async () => {
-    if (gHaveSettingsChanged) { return; }
-    gHaveSettingsChanged = true;
-    render();
-  });
-  document.getElementById('form-environment').addEventListener('change', async () => {
-    if (gHaveSettingsChanged) { return; }
-    gHaveSettingsChanged = true;
-    render();
-  });
-  function form_server_change() {
-    if (gHaveSettingsChanged) { return; }
+function form_change_event (server_change) {
+  if (gHaveSettingsChanged) { return; }
+  if (server_change) {
     const form = document.getElementById('form-generator').elements;
     const version = document.getElementById('version');
     version.value = configs[form['server'].value].latestVersion;
@@ -183,25 +165,46 @@ function init_once() {
     if (!openssl.value) {
       openssl.value = configs.openssl.latestVersion;
     }
-    gHaveSettingsChanged = true;
+  }
+  gHaveSettingsChanged = true;
+  render();
+}
+
+
+function hash_change_event () {
+  if (gHashUpdatedInternal) {
+    gHashUpdatedInternal = false;
+  }
+  else {
+    form_config_init();
     render();
   }
+}
+
+
+function init_once() {
+
+  // update the global state with the default values
+  hash_change_event();
+
+  // set listener to update state when URL hash is changed
+  // e.g. via navigation of Back or Forward buttons
+  window.addEventListener('hashchange', (event) => {
+    hash_change_event();
+  });
+
+  // set listeners on the form to update state any time form is changed
+  document.getElementById('form-config').addEventListener('change', async () => {
+    form_change_event(false);
+  });
+  document.getElementById('form-environment').addEventListener('change', async () => {
+    form_change_event(false);
+  });
   document.getElementById('form-server-1').addEventListener('change', async () => {
-    form_server_change();
+    form_change_event(true);
   });
   document.getElementById('form-server-2').addEventListener('change', async () => {
-    form_server_change();
-  });
-  // set listeners on the form to update state when URL hash is changed
-  // e.g. via navigation of Back or Forward buttons
-  window.addEventListener("hashchange", (event) => {
-    if (gHashUpdatedInternal) {
-      gHashUpdatedInternal = false;
-    }
-    else {
-      form_config_init();
-      render();
-    }
+    form_change_event(true);
   });
 
   // instantiate tooltips
