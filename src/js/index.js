@@ -30,6 +30,9 @@ function xmlEntities(str) {
 
 const render = async () => {
 
+  document.getElementById('version').readOnly = false;
+  document.getElementById('openssl').readOnly = false;
+
   // initial introduction
   if (document.getElementById('form-generator').server.value === '') {
     document.getElementById('output-header').innerHTML =
@@ -51,14 +54,14 @@ const render = async () => {
     return;
   }
   document.getElementById('output-config-container').classList.toggle('d-none', false);
-  document.getElementById('version').readOnly = false;
-  document.getElementById('openssl').readOnly = false;
 
   const _state = await state();
 
   // enable and disable the appropriate fields
   document.getElementById('version').classList.toggle('text-disabled', _state.output.hasVersions === false);
+  document.getElementById('version').readOnly = _state.output.hasVersions === false;
   document.getElementById('openssl').classList.toggle('text-disabled', _state.output.usesOpenssl === false);
+  document.getElementById('openssl').readOnly = _state.output.usesOpenssl === false;
   document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
   document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 

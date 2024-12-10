@@ -29,12 +29,10 @@ There are two places that need to be updated in order to add support for a new p
 
 All of the templates are written in javascript.  The configuration generator supports the following additional helpers:
 
-- `minpatchver(minimum_ver, cur_ver)` - `true` if `cur_ver` is greater than or equal to `minimum_ver`, AND both versions are the same minor version, e.g. `2.4`
+- `minpatchver(minimum_ver, cur_ver)` - `true` if `cur_ver` is greater than or equal to `minimum_ver`, AND both versions are the same major/minor version, e.g. `2.4`
   - `minpatchver("2.4.3", form.serverVersion)`
 - `minver(minimum_ver, cur_ver)` - `true` if `cur_ver` is greater than or equal to `minimum_ver`
   - `minver("1.9.5", form.serverVersion)`
-- `sameminorver(version, otherVersion)` - returns `true` if `version` and `otherVersion` are of the same minor version, e.g. `2.4`
-  - `sameminorver("2.4.0", form.serverVersion)`
 
 ### Template variables
 

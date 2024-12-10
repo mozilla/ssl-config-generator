@@ -19,7 +19,7 @@
   "dependencies": {
     "bootstrap.native": "^5.1.1",
     "clipboard": "^2.0.11",
-    "semver": "^6.3.1"
+    "semver": "^7.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
