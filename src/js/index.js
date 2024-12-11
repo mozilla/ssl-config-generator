@@ -65,12 +65,13 @@ const render = async () => {
   document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
   document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 
-  // update the fragment
-  if (gHaveSettingsChanged) {
-    gHaveSettingsChanged = false;
+  // update the fragment only if changed
+  if (window.location.hash !== _state.output.fragment) {
     gHashUpdatedInternal = true;
     window.location.hash = _state.output.fragment;
   }
+
+  gHaveSettingsChanged = false;
 
   // render the output header
   let header = `<h3>${_state.form.version_tags}</h3>\n`;
@@ -125,6 +126,8 @@ function form_config_init() {
       params.set('openssl', params.get('openssl-version'));
     }
 
+    gHaveSettingsChanged = true;
+
     // set the default server version, if we're loading and have "server" but not "version"
     if (params.get('server') !== null && params.get('version') === null) {
       const e_version = document.getElementById('version')
@@ -152,11 +155,14 @@ function form_config_init() {
 
       }
     }
+
+    gHaveSettingsChanged = false;
 }
 
 
 function form_change_event (server_change) {
   if (gHaveSettingsChanged) { return; }
+  gHaveSettingsChanged = true;
   if (server_change) {
     const form = document.getElementById('form-generator').elements;
     const version = document.getElementById('version');
@@ -166,7 +172,6 @@ function form_change_event (server_change) {
       openssl.value = configs.openssl.latestVersion;
     }
   }
-  gHaveSettingsChanged = true;
   render();
 }
 
