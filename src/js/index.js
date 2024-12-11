@@ -65,12 +65,13 @@ const render = async () => {
   document.getElementById('hsts').classList.toggle('d-none', _state.output.supportsHsts === false);
   document.getElementById('ocsp').classList.toggle('d-none', !_state.output.supportsOcspStapling);
 
-  // update the fragment
-  if (gHaveSettingsChanged) {
-    gHaveSettingsChanged = false;
+  // update the fragment only if changed
+  if (window.location.hash !== _state.output.fragment) {
     gHashUpdatedInternal = true;
     window.location.hash = _state.output.fragment;
   }
+
+  gHaveSettingsChanged = false;
 
   // render the output header
   let header = `<h3>${_state.form.version_tags}</h3>\n`;
