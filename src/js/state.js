@@ -1,13 +1,61 @@
 import configs from './configs.js';
-import sstls from '../static/guidelines/latest.json';
 import minver from './helpers/minver.js';
 import { xmlEntities } from './utils.js';
 
+const guidelines = {};
+guidelines['5.7'] = require(`../static/guidelines/5.7.json`);
+const guideln_latest = '5.7'; // update these two lines when guideline changes
 
 export default async function () {
+
+  async function fetch_guideline(guideln) {
+    // check for numerical version string, e.g. digit.digit
+    if (isNaN(guideln) || isNaN(parseFloat(guideln))) {
+      return guideln_latest; // invalid numerical version string
+    }
+    const url = "https://ssl-config.mozilla.org/guidelines/"+guideln+".json";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`error retrieving ${guideln}.json: ${response.status}`);
+      }
+
+      guidelines[guideln] = await response.json();
+      return guideln;
+    } catch (error) {
+      console.error(error.message);
+      return guideln_latest;
+    }
+  }
+
   const form = document.getElementById('form-generator').elements;
   const config = form['config'].value;
   const server = form['server'].value;
+  let  guideln = form['guideline'].value !== ''
+               ? form['guideline'].value
+               : guideln_latest;
+  let sstls = guidelines[guideln];
+  if (!sstls) {
+      guideln = await fetch_guideline(guideln);
+      if (guideln === '5.0') {
+        if (await fetch_guideline('5.1') === '5.1') {
+          // re-map keys from older guideline 5.0
+          for (let x of ['modern', 'intermediate', 'old']) {
+            let ss5 = guidelines['5.0'].configurations[x];  // server side tls config for that level
+            ss5.ciphersuites = ss5.openssl_ciphersuites;
+            ss5.ciphers = { // copy iana from 5.1 guideline
+              iana: guidelines['5.1'].configurations[x].ciphers.iana,
+              openssl: ss5.openssl_ciphers
+            };
+          }
+        }
+        else {
+          guideln = guideln_latest;
+        }
+      }
+      // note: sstls.version for '5.0' is rendered as number 5, not string '5.0'
+      sstls = guidelines[guideln];
+  }
   const ssc = sstls.configurations[form['config'].value];  // server side tls config for that level
   const supportsOcspStapling =
     configs[server].supportsOcspStapling
@@ -21,7 +69,7 @@ export default async function () {
   fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
   fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
   fragment += supportsOcspStapling && !form['ocsp'].checked ? `&ocsp=false` : '';
-  fragment += `&guideline=${sstls.version}`;
+  fragment += `&guideline=${guideln}`;
 
   // generate the version tags
   let version_tags = `${configs[server].name} ${form['version'].value}`;
@@ -43,7 +91,7 @@ export default async function () {
 
   // generate the header
   const date = new Date().toISOString().substr(0, 10);
-  let header = `generated ${date}, Mozilla Guideline v${sstls.version}, ${version_tags}`;
+  let header = `generated ${date}, Mozilla Guideline v${guideln}, ${version_tags}`;
   header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
   header += supportsOcspStapling && !form['ocsp'].checked ? `, no OCSP` : '';
 
