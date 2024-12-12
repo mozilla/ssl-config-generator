@@ -35,18 +35,6 @@ export default (form, output) => {
 
     conf +=
       '    }\n'+
-      '    \n'+
-      '    ssl_session_timeout 1d;\n'+
-      '    ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
-
- if (  !minver("1.23.2", form.serverVersion)
-     && minver("1.5.9",  form.serverVersion)
-     && minver("1.0.2l", form.opensslVersion)) {
-    conf +=
-      '    ssl_session_tickets off;\n';
- }
-
-    conf +=
       '\n'+
       '    # '+form.config+' configuration\n'+
       '    ssl_protocols '+output.protocols.join(' ')+';\n'+
@@ -57,6 +45,29 @@ export default (form, output) => {
         :
       '')+
       '    ssl_prefer_server_ciphers '+(output.serverPreferredOrder ? 'on' : 'off')+';\n';
+
+ if (output.protocols[0] === 'TLSv1.3') {
+    conf +=
+      '\n'+
+      '    # uncomment to enable if ssl_protocols includes TLSv1.2 or earlier;\n'+
+      '    # see also ssl_session_ticket_key alternative to stateful session cache\n'+
+      '    #ssl_session_timeout 1d;\n'+
+      '    #ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
+ }
+ else {
+    conf +=
+      '\n'+
+      '    # see also ssl_session_ticket_key alternative to stateful session cache\n'+
+      '    ssl_session_timeout 1d;\n'+
+      '    ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
+ }
+
+ if (  !minver("1.23.2", form.serverVersion)
+     && minver("1.5.9",  form.serverVersion)
+     && minver("1.0.2l", form.opensslVersion)) {
+    conf +=
+      '    ssl_session_tickets off;\n';
+ }
 
  if (output.usesDhe) {
     conf +=
@@ -75,8 +86,12 @@ export default (form, output) => {
       '    # verify chain of trust of OCSP response using Root CA and Intermediate certs\n'+
       '    ssl_trusted_certificate /path/to/root_CA_cert_plus_intermediates;\n'+
       '\n'+
-      '    # replace with the IP address of your resolver\n'+
-      '    resolver 127.0.0.1;\n';
+      '    # replace with the IP address of your resolver;\n'+
+      '    # async \'resolver\' is important for proper operation of OCSP stapling\n'+
+      '    resolver 127.0.0.1;\n'+
+      '\n'+
+      '    # If certificates are marked OCSP Must-Staple, consider managing the\n'+
+      '    # OCSP stapling cache with an external script, e.g. certbot-ocsp-fetcher\n';
  }
 
  if (form.hsts) {
