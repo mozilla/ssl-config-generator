@@ -35,18 +35,6 @@ export default (form, output) => {
 
     conf +=
       '    }\n'+
-      '    \n'+
-      '    ssl_session_timeout 1d;\n'+
-      '    ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
-
- if (  !minver("1.23.2", form.serverVersion)
-     && minver("1.5.9",  form.serverVersion)
-     && minver("1.0.2l", form.opensslVersion)) {
-    conf +=
-      '    ssl_session_tickets off;\n';
- }
-
-    conf +=
       '\n'+
       '    # '+form.config+' configuration\n'+
       '    ssl_protocols '+output.protocols.join(' ')+';\n'+
@@ -57,6 +45,29 @@ export default (form, output) => {
         :
       '')+
       '    ssl_prefer_server_ciphers '+(output.serverPreferredOrder ? 'on' : 'off')+';\n';
+
+ if (output.protocols[0] === 'TLSv1.3') {
+    conf +=
+      '\n'+
+      '    # uncomment to enable if ssl_protocols includes TLSv1.2 or earlier;\n'+
+      '    # see also ssl_session_ticket_key alternative to stateful session cache\n'+
+      '    #ssl_session_timeout 1d;\n'+
+      '    #ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
+ }
+ else {
+    conf +=
+      '\n'+
+      '    # see also ssl_session_ticket_key alternative to stateful session cache\n'+
+      '    ssl_session_timeout 1d;\n'+
+      '    ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions\n';
+ }
+
+ if (  !minver("1.23.2", form.serverVersion)
+     && minver("1.5.9",  form.serverVersion)
+     && minver("1.0.2l", form.opensslVersion)) {
+    conf +=
+      '    ssl_session_tickets off;\n';
+ }
 
  if (output.usesDhe) {
     conf +=
