@@ -86,8 +86,12 @@ export default (form, output) => {
       '    # verify chain of trust of OCSP response using Root CA and Intermediate certs\n'+
       '    ssl_trusted_certificate /path/to/root_CA_cert_plus_intermediates;\n'+
       '\n'+
-      '    # replace with the IP address of your resolver\n'+
-      '    resolver 127.0.0.1;\n';
+      '    # replace with the IP address of your resolver;\n'+
+      '    # async \'resolver\' is important for proper operation of OCSP stapling\n'+
+      '    resolver 127.0.0.1;\n'+
+      '\n'+
+      '    # If certificates are marked OCSP Must-Staple, consider managing the\n'+
+      '    # OCSP stapling cache with an external script, e.g. certbot-ocsp-fetcher\n';
  }
 
  if (form.hsts) {
