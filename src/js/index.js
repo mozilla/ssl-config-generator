@@ -7,7 +7,7 @@ import '../css/index.scss';
 import { validHashKeys } from './constants.js';
 import configs from './configs.js';
 import state from './state.js';
-import { sleep } from './utils.js';
+import { sleep, xmlEntities } from './utils.js';
 
 
 // note if any button has changed so that we can update the fragment if it has
@@ -19,12 +19,6 @@ const templates = {};
 for (let x of Object.keys(configs)) {
   if (x === "openssl") continue;
   templates[x] = require("./helpers/"+x+".js").default;
-}
-
-
-function xmlEntities(str) {
-  return String(str).replace(/["&'<>`]/g,
-           function (x) { return '&#x'+x.codePointAt(0).toString(16)+';'; });
 }
 
 

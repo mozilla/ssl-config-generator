@@ -1,6 +1,7 @@
 import configs from './configs.js';
 import sstls from '../static/guidelines/latest.json';
 import minver from './helpers/minver.js';
+import { xmlEntities } from './utils.js';
 
 
 export default async function () {
@@ -35,6 +36,10 @@ export default async function () {
     }
   }
   version_tags += `, ${form['config'].value} config`;
+
+  // html-escape version_tags (even though version_tags is also used
+  // outside HTML contexts, HTML is not expected in version strings)
+  version_tags = xmlEntities(version_tags);
 
   // generate the header
   const date = new Date().toISOString().substr(0, 10);
