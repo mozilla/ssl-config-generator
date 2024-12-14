@@ -76,7 +76,7 @@ export default async function () {
       ocsp: form['ocsp'].checked && supportsOcspStapling,
       opensslVersion: form['openssl'].value,
       server,
-      serverName: document.querySelector(`label[for=server-${server}]`).innerText,
+      serverName: configs[server].name,
       serverVersion: form['version'].value,
       version_tags,
     },
