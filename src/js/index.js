@@ -35,7 +35,7 @@ const render = async () => {
       <p>Select an application server in Server Software (above) to generate a sample TLS configuration.</p>
       <p>When using sample TLS configurations, replace example.com with your server name (e.g. hostname) and replace /path/to/... with actual paths to your local files.</p>
 `;
-    document.getElementById('output-config').innerHTML = '';
+    document.getElementById('output-config').innerText = '';
     document.getElementById('output-config-container').classList.toggle('d-none', true);
     document.getElementById('version').classList.toggle('text-disabled', true);
     document.getElementById('openssl').classList.toggle('text-disabled', true);
@@ -75,7 +75,7 @@ const render = async () => {
   document.getElementById('output-header').innerHTML = header;
 
   if (_state.output.protocols.length === 0) {
-    document.getElementById('output-config').innerHTML =
+    document.getElementById('output-config').innerText =
       `# unfortunately, ${_state.form.version_tags} is not supported with these software versions.`;
     // hide copy button
     document.getElementById('copy').classList.toggle('d-none', true);
@@ -88,7 +88,7 @@ const render = async () => {
   // render the config file for whichever server software we're using
   const renderedTemplate = templates[_state.form.server](_state.form, _state.output);
 
-  document.getElementById('output-config').innerHTML = xmlEntities(renderedTemplate);
+  document.getElementById('output-config').innerText = renderedTemplate;
 };
 
 
