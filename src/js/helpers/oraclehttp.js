@@ -31,7 +31,7 @@ export default (form, output) => {
       '</VirtualHost>\n'+
       '\n'+
       '# '+form.config+' configuration\n'+
-      'SSLProtocol             '+output.protocols.join(' ')+'\n'+
+      'SSLProtocol             -all +'+output.protocols.join(' +')+'\n'+
       'SSLCipherSuite          '+output.ciphers.join(':')+'\n'+
       (minver("12.2.1", form.serverVersion)
         ?
