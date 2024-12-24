@@ -64,7 +64,7 @@ export default (form, output) => {
       '</VirtualHost>\n'+
       '\n'+
       '# '+form.config+' configuration\n'+
-      'SSLProtocol             '+output.protocols.join(' ')+'\n'+
+      'SSLProtocol             -all +'+output.protocols.join(' +')+'\n'+
       (minver("2.4.11", form.serverVersion)
         ?
       'SSLOpenSSLConfCmd       Curves '+output.tlsCurves.join(':')+'\n'
