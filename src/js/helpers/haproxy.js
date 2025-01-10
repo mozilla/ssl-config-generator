@@ -8,7 +8,10 @@ export default (form, output) => {
 
  function haproxy_ssl_default_opts (tag) {
    var conf =
-      '    ssl-default-'+tag+'-curves '+output.tlsCurves.join(':')+'\n'+
+      (minver("2.9.0", form.serverVersion) || tag === 'bind'
+        ?
+      '    ssl-default-'+tag+'-curves '+output.tlsCurves.join(':')+'\n'
+        : '')+
       (output.ciphers.length
         ?
       '    ssl-default-'+tag+'-ciphers '+output.ciphers.join(':')+'\n'
