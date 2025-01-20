@@ -22,6 +22,7 @@ This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.
 - nginx: allow ssl\_session\_tickets for nginx ≥1.23.2
 - nginx: wrap `server` in `http` context
 - postfix: add `smtp_tls_*`
+- google analytics: change UA to GA4 ID
 
 ### Added
 
