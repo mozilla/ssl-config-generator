@@ -86,7 +86,7 @@ as represented in the JSON guideline files can be found at [`/src/static/guideli
 The SSL Config Generator was kept in [the `mozilla/server-side-tls` repository](https://github.com/mozilla/server-side-tls/tree/last-revision-before-move)
 prior to mid 2019 at which point it was moved to this dedicated repository. It
 was initially created [at the end of 2014](https://github.com/mozilla/server-side-tls/commit/b201a1191ba38e6f933cd02a4f425f683ffa9be4)
-and started out supporting Apache HTTP, Nginx and HAProxy.
+and [started out supporting Apache HTTP, Nginx and HAProxy](https://web.archive.org/web/20141026012016/https://mozilla.github.io/server-side-tls/ssl-config-generator/).
 
 ## Authors
 
