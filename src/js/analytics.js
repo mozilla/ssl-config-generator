@@ -15,7 +15,7 @@ if (doNotTrack !== '1' && doNotTrack !== 'yes') {
   gtag('js', new Date());
   gtag(
     'config',
-    'UA-66267220-1',
+    'G-ZRW9P16BD8',
     {
       'anonymize_ip': true,
     }
