@@ -21,8 +21,11 @@ This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.
 - lighttpd: simplify configs when handled by lighttpd defaults
 - nginx: allow ssl\_session\_tickets for nginx ≥1.23.2
 - nginx: wrap `server` in `http` context
+- nginx: disable stateful ssl_session_cache if TLSv1.3
+- nginx: add comment for OCSP stapling config
 - postfix: add `smtp_tls_*`
 - google analytics: change UA to GA4 ID
+- support rendering site with older guideline version, if specified in URL
 
 ### Added
 
