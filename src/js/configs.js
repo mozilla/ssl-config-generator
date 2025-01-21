@@ -85,7 +85,7 @@ module.exports = {
     usesOpenssl: false,
   },
   lighttpd: {
-    latestVersion: '1.4.76',
+    latestVersion: '1.4.77',
     eolBefore: '1.4.69',
     name: 'lighttpd',
     supportsOcspStapling: '1.4.56',

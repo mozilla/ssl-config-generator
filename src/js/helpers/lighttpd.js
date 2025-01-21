@@ -32,7 +32,7 @@ export default (form, output) => {
       'ssl.pemfile = "/path/to/signed_cert_followed_by_intermediates"\n';
   if (minver("1.0.2", form.opensslVersion)) {
    if (minver("1.1.0", form.opensslVersion)) {
-    let comment = minver("1.4.78", form.serverVersion)
+    let comment = minver("1.4.77", form.serverVersion)
                   ? output.protocols[0] == 'TLSv1.3'
                   : minver("1.4.56", form.serverVersion)
                     ? output.protocols[0] == 'TLSv1.2'
@@ -55,7 +55,7 @@ export default (form, output) => {
       'ssl.openssl.ssl-conf-cmd = ("Protocol" => "-ALL, '+output.protocols.join(', ')+'")\n';
    }
 
-   let comment = minver("1.4.78", form.serverVersion);
+   let comment = minver("1.4.77", form.serverVersion);
    if (comment) {
     conf +=
       '#';
