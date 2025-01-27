@@ -2,6 +2,13 @@
 
 The Mozilla SSL Configuration Generator is a tool which builds configuration files to help you follow the Mozilla [Server Side TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) configuration guidelines.
 
+This tool is built and deployed to https://ssl-config.mozilla.org/
+
+To be notified when the Mozilla [Server Side TLS](https://wiki.mozilla.org/Security/Server_Side_TLS) configuration guidelines are updated (infrequent), use github notifications to subscribe to Releases on this repository (mozilla/ssl-config-generator).
+
+To modify and build this tool locally, please read on:
+
+
 ## Installation
 
 ```bash
