@@ -73,7 +73,7 @@ export default (form, output) => {
     conf +=
       '\n'+
       '    # '+output.dhCommand+' > /path/to/dhparam\n'+
-      '    ssl_dhparam "/path/to/dhparam"\n';
+      '    ssl_dhparam "/path/to/dhparam";\n';
  }
 
  if (form.ocsp) {
