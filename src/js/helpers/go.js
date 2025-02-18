@@ -21,7 +21,7 @@ export default (form, output) => {
         ?
       '        w.Header().Add("Strict-Transport-Security", "max-age='+output.hstsMaxAge+'")\n'
         : '')+
-      '        w.Write([]byte("This server is running the Mozilla '+form.config+' configuration.\n"))\n'+
+      '        w.Write([]byte("This server is running the Mozilla '+form.config+' configuration.\\n"))\n'+
       '    })\n';
 
  if (form.hsts) {
