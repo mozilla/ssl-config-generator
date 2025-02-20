@@ -10,9 +10,19 @@ export default (form, output) => {
  var conf =
       '# '+output.header+'\n'+
       '# '+output.link+'\n'+
-      'smtpd_tls_auth_only = yes\n'+
+      'smtpd_tls_auth_only = yes\n';
+ if (minver("3.4.0", form.serverVersion)) {
+    conf +=
+      'smtpd_tls_chain_files =\n'+
+      '  /path/to/private_key,\n'+
+      '  /path/to/signed_cert_plus_intermediates\n';
+ }
+ else {
+    conf +=
       'smtpd_tls_cert_file = /path/to/signed_cert_plus_intermediates\n'+
-      'smtpd_tls_key_file = /path/to/private_key\n'+
+      'smtpd_tls_key_file = /path/to/private_key\n';
+ }
+    conf +=
       'smtpd_tls_security_level = may\n'+
       'smtpd_tls_mandatory_protocols = '+protos+'\n'+
       'smtpd_tls_protocols           = '+protos+'\n'+
