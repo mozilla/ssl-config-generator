@@ -1,5 +1,5 @@
 // configs for the supported pieces of software
-// hasVersions, showSupports, supportsConfigs, supportsHsts, and usesOpenssl only need to be defined if false
+// hasVersions, showSupports, supportsHsts, and usesOpenssl only need to be defined if false
 // cipherFormat is assumed to be 'openssl' unless defined otherwise
 
 
