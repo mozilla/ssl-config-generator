@@ -64,8 +64,7 @@ export default async function () {
   const url = new URL(document.location);
 
   // generate the fragment
-  let fragment = `server=${server}&version=${form['version'].value}`;
-  fragment += configs[server].supportsConfigs !== false ? `&config=${config}` : '';
+  let fragment = `server=${server}&version=${form['version'].value}&config=${config}`;
   fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
   fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
   fragment += supportsOcspStapling && !form['ocsp'].checked ? `&ocsp=false` : '';
@@ -146,7 +145,6 @@ export default async function () {
       protocols: protocols,
       serverPreferredOrder: ssc.server_preferred_order,
       showSupports: configs[server].showSupports !== false,
-      supportsConfigs: configs[server].supportsConfigs !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: supportsOcspStapling,
       tlsCurves: ssc.tls_curves,

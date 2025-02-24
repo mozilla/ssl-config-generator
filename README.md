@@ -78,7 +78,6 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `output.usesDhe` - server might use (<= TLSv1.2 kDHE) Diffie-Hellmann key exchange (boolean true/false)
 - `output.dhCommand` - command to generate Diffie-Hellman (DH) parameters
 - `output.hasVersions` - server config has versions (boolean true/false)
-- `output.supportsConfigs` - supports modern, intermediate, old configs (boolean true/false)
 - `output.supportsHsts` - supports HTTP Strict Transport Security (HSTS) (boolean true/false)
 - `output.supportsOcspStapling` - server version supporting OCSP Stapling in config
 - `output.tls13` - server version supporting TLSv1.3
