@@ -193,11 +193,11 @@ export default (form, output) => {
       'else $HTTP["scheme"] == "http" {\n';
     conf += (minver("1.4.50", form.serverVersion))
        ?
-      '  url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")\n'
+      '    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")\n'
        :
-      '  $HTTP["host"] =~ ".*" {\n'+
-      '    url.redirect = (".*" => "https://%0$0")\n'+
-      '  }\n';
+      '    $HTTP["host"] =~ ".*" {\n'+
+      '        url.redirect = (".*" => "https://%0$0")\n'+
+      '    }\n';
     conf +=
       '}\n';
  }
