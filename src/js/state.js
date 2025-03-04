@@ -66,8 +66,8 @@ export default async function () {
   // generate the fragment
   let fragment = `server=${server}&version=${form['version'].value}&config=${config}`;
   fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
-  fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
-  fragment += supportsOcspStapling && !form['ocsp'].checked ? `&ocsp=false` : '';
+  fragment += configs[server].supportsHsts !== false && form['hsts'].checked ? '&hsts' : '';
+  fragment += supportsOcspStapling && form['ocsp'].checked ? '&ocsp' : '';
   fragment += `&guideline=${guideln}`;
 
   // generate the version tags
@@ -91,8 +91,8 @@ export default async function () {
   // generate the header
   const date = new Date().toISOString().substr(0, 10);
   let header = `generated ${date}, Mozilla Guideline v${guideln}, ${version_tags}`;
-  header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
-  header += supportsOcspStapling && !form['ocsp'].checked ? `, no OCSP` : '';
+  header += configs[server].supportsHsts !== false && form['hsts'].checked ? ', HSTS' : '';
+  header += supportsOcspStapling && form['ocsp'].checked ? ', OCSP' : '';
 
   const link = `${url.origin}${url.pathname}#${fragment}`;
 

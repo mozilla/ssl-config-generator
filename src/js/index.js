@@ -128,6 +128,22 @@ function form_config_init() {
       e_version.value = configs[params.get('server')].latestVersion;
     }
 
+    // compat behavior with rendering of guidelines <= 5.7
+    // (guideline ver is used to separate past rendering behavior from current)
+    const guideline = params.get('guideline');
+    if (guideline !== undefined && !isNaN(guideline)) {
+      const guideln = parseFloat(guideline);
+      if (!isNaN(guideln) && guideln <= 5.7) {
+        // OCSP and HSTS logic inverted; absense indicates checked (enabled)
+        if (params.get('hsts') === undefined) {
+          document.getElementById('hsts').checked = true;
+        }
+        if (params.get('ocsp') === undefined) {
+          document.getElementById('ocsp').checked = true;
+        }
+      }
+    }
+
     for (let entry of params.entries()) {
       if (validHashKeys.includes(entry[0])) {
         // find the element
@@ -140,8 +156,7 @@ function form_config_init() {
         switch (e.type) {
           case 'radio':
           case 'checkbox':
-            // if it's in the mappings, we should do a find/replace
-            e.checked = mappings[entry[1]] === undefined ? !!entry[1] : mappings[entry[1]];
+            e.checked = entry[1] === undefined ? true : mappings[entry[1]] === undefined ? !!entry[1] : mappings[entry[1]];
             break;
           case 'text':
           case 'hidden':
