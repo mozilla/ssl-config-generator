@@ -3,8 +3,8 @@ import minver from './helpers/minver.js';
 import { xmlEntities } from './utils.js';
 
 const guidelines = {};
-guidelines['5.7'] = require(`../static/guidelines/5.7.json`);
-const guideln_latest = '5.7'; // update these two lines when guideline changes
+guidelines['5.8'] = require(`../static/guidelines/5.8.json`);
+const guideln_latest = '5.8'; // update these two lines when guideline changes
 
 export default async function () {
 
