@@ -142,6 +142,7 @@ function form_config_init() {
           document.getElementById('ocsp').checked = true;
         }
       }
+      document.getElementById('config-old-compat').classList.toggle('d-none', (!isNaN(guideln) && guideln >= 6.0));
     }
 
     for (let entry of params.entries()) {
