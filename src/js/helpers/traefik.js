@@ -42,8 +42,7 @@ export default (form, output) => {
       '  [http.middlewares.redirect-to-https.redirectScheme]\n'+
       '    scheme = "https"\n'+
       '  [http.middlewares.hsts-header.headers]\n'+
-      '    [http.middlewares.hsts-header.headers.customResponseHeaders]\n'+
-      '      Strict-Transport-Security = "max-age='+output.hstsMaxAge+'"\n';
+      '    stsSeconds = '+output.hstsMaxAge+'\n';
   }
 
     conf +=
