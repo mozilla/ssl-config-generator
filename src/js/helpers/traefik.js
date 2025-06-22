@@ -42,7 +42,12 @@ export default (form, output) => {
       '  [http.middlewares.redirect-to-https.redirectScheme]\n'+
       '    scheme = "https"\n'+
       '  [http.middlewares.hsts-header.headers]\n'+
-      '    stsSeconds = '+output.hstsMaxAge+'\n';
+      '    stsSeconds = '+output.hstsMaxAge+'\n'+
+      '    # Depending on your configuration you might want to also enable "includeSubDomains"\n'+
+      '    # and "preload". More infos about these directives can be found at\n'+
+      '    # https://infosec.mozilla.org/guidelines/web_security#http-strict-transport-security\n'+
+      '    #stsIncludeSubdomains = true\n'+
+      '    #stsPreload = true\n';
   }
 
     conf +=
