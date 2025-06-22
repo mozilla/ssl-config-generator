@@ -2,7 +2,7 @@ import minver from './minver.js';
 
 export default (form, output) => {
  var tlsopts =
-      '      minVersion = '+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'\n'+
+      '      minVersion = "'+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'"\n'+
       '      curvePreferences = ["X25519", "CurveP256", "CurveP384"]\n';
  if (output.ciphers.length) {
     tlsopts +=
