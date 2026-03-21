@@ -46,7 +46,7 @@ Resources:
       AvailabilityZones:
         Fn::GetAZs: !Ref 'AWS::Region'
       Policies:
-        - PolicyName: Mozilla-$form.config}-v5-0
+        - PolicyName: Mozilla-${form.config}-v5-0
           PolicyType: SSLNegotiationPolicyType
           Attributes:
 ${attributes}

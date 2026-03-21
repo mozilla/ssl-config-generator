@@ -2,7 +2,7 @@ import minver from './minver.js';
 
 export default (form, output) => {
  var tlsopts =
-      '      minVersion = '+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'\n'+
+      '      minVersion = "'+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'"\n'+
       '      curvePreferences = ["X25519", "CurveP256", "CurveP384"]\n';
  if (output.ciphers.length) {
     tlsopts +=
@@ -42,8 +42,12 @@ export default (form, output) => {
       '  [http.middlewares.redirect-to-https.redirectScheme]\n'+
       '    scheme = "https"\n'+
       '  [http.middlewares.hsts-header.headers]\n'+
-      '    [http.middlewares.hsts-header.headers.customResponseHeaders]\n'+
-      '      Strict-Transport-Security = "max-age='+output.hstsMaxAge+'"\n';
+      '    stsSeconds = '+output.hstsMaxAge+'\n'+
+      '    # Depending on your configuration you might want to also enable "includeSubDomains"\n'+
+      '    # and "preload". More infos about these directives can be found at\n'+
+      '    # https://infosec.mozilla.org/guidelines/web_security#http-strict-transport-security\n'+
+      '    #stsIncludeSubdomains = true\n'+
+      '    #stsPreload = true\n';
   }
 
     conf +=

@@ -46,7 +46,7 @@ module.exports = {
     tls13: '4.6.2',
   },
   dovecot: {
-    latestVersion: '2.3.21',
+    latestVersion: '2.4.2',
     eolBefore: '2.2.36', // https://dovecot.org/list/dovecot/2018-August/112536.html
     name: 'Dovecot',
     showSupports: false,
@@ -85,7 +85,7 @@ module.exports = {
     usesOpenssl: false,
   },
   lighttpd: {
-    latestVersion: '1.4.77',
+    latestVersion: '1.4.82',
     eolBefore: '1.4.69',
     name: 'lighttpd',
     supportsOcspStapling: '1.4.56',

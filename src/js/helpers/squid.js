@@ -4,7 +4,7 @@ export default (form, output) => {
  var minver_4 = minver("4", form.serverVersion);
  var opts =
       '  options='+
-           (minver_4 ? 'NO_SSLV3' : 'NO_SSLv2,NO_SSLv3')+
+           (minver_4 ? 'NO_SSLv3' : 'NO_SSLv2,NO_SSLv3')+
            (!output.protocols.includes('TLSv1')   ? ',NO_TLSv1'   : '')+
            (!output.protocols.includes('TLSv1.1') ? ',NO_TLSv1_1' : '')+
            (!output.protocols.includes('TLSv1.2') ? ',NO_TLSv1_2' : '')+
