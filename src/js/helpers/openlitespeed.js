@@ -19,7 +19,12 @@ export default (form, output) => {
         'address                 *:443\n'+
         'secure                  1\n'+
         'keyFile                 /path/to/private_key\n'+
-        'certFile                /path/to/signed_cert\n';
+        'certFile                /path/to/signed_cert\n'+
+        (output.ciphers.length
+          ?
+        'ciphers                 '+output.ciphers.join(':')+';\n'
+          :
+        '');
 
     
     if (output.protocols[0] === 'TLSv1.3') {
@@ -43,12 +48,7 @@ export default (form, output) => {
       'vhssl  {\n'+
       '  keyFile                 /path/to/private_key\n'+
       '  certFile                /path/to/signed_cert\n'+
-      '  certChain               1\n'+
-      (output.ciphers.length
-        ?
-      '  ciphers '+output.ciphers.join(':')+';\n'
-        :
-      '');
+      '  certChain               1\n';
     if (form.ocsp) {
       conf +=
           '  enableStapling          1\n';

@@ -180,7 +180,7 @@ module.exports = {
     usesOpenssl: false,
   },
   openlitespeed: {
-    latestVersion: '1.8.3',
+    latestVersion: '1.8.5',
     eolBefore: '1.4.35',
     name: 'OpenLiteSpeed',
     supportsOcspStapling: '1.2',
