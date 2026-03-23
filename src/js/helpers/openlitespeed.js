@@ -19,45 +19,34 @@ export default (form, output) => {
         'address                 *:443\n'+
         'secure                  1\n'+
         'keyFile                 /path/to/private_key\n'+
-        'certFile                /path/to/signed_cert\n'+
+        'certFile                /path/to/signed_cert_followed_by_intermediates\n'+
         (output.ciphers.length
           ?
-        'ciphers                 '+output.ciphers.join(':')+';\n'
+        'ciphers                 '+output.ciphers.join(':')+'\n'
           :
         '');
 
-    
-    if (output.protocols[0] === 'TLSv1.3') {
-        conf +=
-            'sslProtocol             16\n';
-    }
-    else if (output.protocols[0] === 'TLSv1.2') {
-        conf +=
-            'sslProtocol             24\n';
-    }
-    else if (output.protocols.includes('TLSv1.1')) {
-        conf +=
-        'sslProtocol             28\n';
-    }   
-
-    conf +=
-      '\n\n\n'+
-      '# Virtual Host Level Configuration\n';
-      
-    conf +=    
-      'vhssl  {\n'+
-      '  keyFile                 /path/to/private_key\n'+
-      '  certFile                /path/to/signed_cert\n'+
-      '  certChain               1\n';
     if (form.ocsp) {
       conf +=
-          '  enableStapling          1\n';
+        'enableStapling          1\n';
     }
-    conf +=
-      '}\n';
+
+    const protocolMap = {
+      'TLSv1.3': 16,
+      'TLSv1.2,TLSv1.3': 24,
+      'TLSv1.0,TLSv1.1,TLSv1.2,TLSv1.3': 28,
+    };
+
+    const key = output.protocols.join(',');
+    const mask = protocolMap[key];
+    if (mask) {
+      conf += `sslProtocol             ${mask}\n`;
+    }
 
     if (form.hsts) {
         conf +=
+        '\n\n\n'+
+        '# Virtual Host Level Configuration\n'+
         '\n'+
         'context / {\n'+
         '   location                $DOC_ROOT/\n'+
