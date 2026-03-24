@@ -107,9 +107,16 @@ module.exports = {
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '3.4.0',
+    latestVersion: '3.6.1',
     eolBefore: '3.0.0',
     tls13: '1.1.1',
+  },
+  openlitespeed: {
+    latestVersion: '1.8.5',
+    eolBefore: '1.4.35',
+    name: 'OpenLiteSpeed',
+    supportsOcspStapling: '1.2',
+    tls13: '1.4.35',
   },
   oraclehttp: {
     cipherFormat: 'iana',

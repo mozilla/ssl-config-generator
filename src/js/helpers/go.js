@@ -52,11 +52,22 @@ export default (form, output) => {
       '        MinVersion: tls.'+
                  (output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+
                  ',\n'+
-      '        CurvePreferences: []tls.CurveID{\n'+
-      '            tls.X25519, // Go 1.8+\n'+
-      '            tls.CurveP256,\n'+
-      '            tls.CurveP384,\n'+
-      '            //tls.x25519Kyber768Draft00, // Go 1.23+\n'+
+      '        CurvePreferences: []tls.CurveID{\n';
+ // map output.tlsCurves strings into Go 'tls.Config.CurvePreferences' strings
+ let groups_guideln = ['X25519MLKEM768','SecP256r1MLKEM768','SecP384r1MLKEM1024','X25519','prime256v1','secp384r1'];
+ let groups_go      = ['X25519MLKEM768,       // Go 1.24+',
+                       'SecP256r1MLKEM768,    // Go 1.26+',
+                       'SecP384r1MLKEM1024,   // Go 1.26+',
+                       'X25519,               // Go 1.8+',
+                       'CurveP256,',
+                       'CurveP384,'];
+ output.tlsCurves.forEach(function(group) {
+  let idx = groups_guideln.indexOf(group)
+  if (idx >= 0 && groups_go[idx].length) {
+    conf += '            tls.'+groups_go[idx]+'\n';
+  }
+ });
+    conf +=
       '        },\n'+
       (output.serverPreferredOrder
         ?

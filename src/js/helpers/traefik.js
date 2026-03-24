@@ -2,8 +2,21 @@ import minver from './minver.js';
 
 export default (form, output) => {
  var tlsopts =
-      '      minVersion = "'+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'"\n'+
-      '      curvePreferences = ["X25519", "CurveP256", "CurveP384"]\n';
+      '      minVersion = "'+(output.protocols[0] === 'TLSv1' ? 'VersionTLS10' : output.protocols[0].replace('TLSv1.', 'VersionTLS1'))+'"\n';
+ // map output.tlsCurves strings into Traefik 'curvePreferences' strings
+ let groups_guideln = ['X25519MLKEM768','SecP256r1MLKEM768','SecP384r1MLKEM1024','X25519','prime256v1','secp384r1'];
+ let groups_traefik = ['X25519MLKEM768','',                 '',                  'X25519','CurveP256', 'CurveP384'];
+    tlsopts +=
+      '      curvePreferences = [';
+ output.tlsCurves.forEach(function(group) {
+  let idx = groups_guideln.indexOf(group)
+  if (idx >= 0 && groups_traefik[idx].length) {
+    tlsopts += '"'+groups_traefik[idx]+'",';
+  }
+ });
+    tlsopts = tlsopts.substring(0, tlsopts.length - 1);
+    tlsopts +=
+      ']\n';
  if (output.ciphers.length) {
     tlsopts +=
       '      cipherSuites = [\n'+

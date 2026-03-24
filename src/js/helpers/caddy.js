@@ -30,8 +30,19 @@ export default (form, output) => {
       '    ciphers '+output.ciphers.join(' ')+'\n';
  }
 
+ // map output.tlsCurves strings into Caddy 'curves' strings
+ let groups_guideln = ['X25519MLKEM768','SecP256r1MLKEM768','SecP384r1MLKEM1024','X25519','prime256v1','secp384r1'];
+ let groups_caddy   = ['x25519mlkem768','',                 '',                  'x25519','secp256r1', 'secp384r1'];
     conf +=
-      '    curves x25519 secp256r1 secp384r1\n';
+      '    curves';
+ output.tlsCurves.forEach(function(group) {
+  let idx = groups_guideln.indexOf(group)
+  if (idx >= 0 && groups_caddy[idx].length) {
+    conf += ' '+groups_caddy[idx];
+  }
+ });
+    conf +=
+      '\n';
 
  if (output.protocols.includes('TLSv1.1')) {
     conf +=
