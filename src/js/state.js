@@ -81,6 +81,10 @@ export default async function () {
     if (!minver(configs['openssl'].eolBefore, form['openssl'].value)) {
       version_tags += ' (UNSUPPORTED; end-of-life)';
     }
+    else if (!minver("3.5.0", form['openssl'].value)
+             && minver("5.8", guideln)) {
+      version_tags += ' (OLD: missing PQC hybrid MLKEMs)';
+    }
   }
   version_tags += `, ${form['config'].value} config`;
 
