@@ -48,7 +48,7 @@ export default (form, output) => {
       '\n' +
       '<virtualHostConfig>\n' +
       '  <context>\n' +
-      '    <type>NULL</type>\n' +
+      '    <type>static</type>\n' +
       '    <uri>/</uri>\n' +
       '    <location>$DOC_ROOT/</location>\n' +
       '    <allowBrowse>1</allowBrowse>\n' +
