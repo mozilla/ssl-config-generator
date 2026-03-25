@@ -84,6 +84,13 @@ module.exports = {
     tls13: '9.4.12',
     usesOpenssl: false,
   },
+  litespeed: {
+    latestVersion: '6.3.5',
+    eolBefore: '5.4.12',
+    name: 'LiteSpeed',
+    supportsOcspStapling: '1.2',
+    tls13: '5.4.12',
+  },  
   lighttpd: {
     latestVersion: '1.4.82',
     eolBefore: '1.4.69',
