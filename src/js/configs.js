@@ -91,6 +91,13 @@ module.exports = {
     supportsOcspStapling: '1.4.56',
     tls13: '1.4.48',
   },
+  litespeed: {
+    latestVersion: '6.3.5',
+    eolBefore: '5.4.12',
+    name: 'LiteSpeed',
+    supportsOcspStapling: '1.2',
+    tls13: '5.4.12',
+  },
   mysql: {
     latestVersion: '9.1.0',
     eolBefore: '8.0.0',
