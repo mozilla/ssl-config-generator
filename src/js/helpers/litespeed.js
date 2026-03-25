@@ -45,14 +45,14 @@ export default (form, output) => {
 
   if (form.hsts) {
     conf +=
-      '\n' +
+      '\n'+
       '<virtualHostConfig>\n'+
       '  <context>\n'+
       '    <type>static</type>\n'+
       '    <uri>/</uri>\n'+
       '    <location>$DOC_ROOT/</location>\n'+
       '    <allowBrowse>1</allowBrowse>\n'+
-      '    <extraHeaders>Header Set Strict-Transport-Security: max-age=' + output.hstsMaxAge + '</extraHeaders>\n'+
+      '    <extraHeaders>Header Set Strict-Transport-Security: max-age='+output.hstsMaxAge+'</extraHeaders>\n'+
       '    <addDefaultCharset>off</addDefaultCharset>\n'+
       '  </context>\n'+
       '</virtualHostConfig>\n';
