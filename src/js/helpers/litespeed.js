@@ -1,37 +1,36 @@
 export default (form, output) => {
-  var conf =
-      '# '+output.header+'\n'+
-      '# '+output.link+'\n';
+  let conf =
+      '# ' + output.header + '\n' +
+      '# ' + output.link + '\n';
 
-  const protocolBits = {
-    'TLSv1': 2,
-    'TLSv1.1': 4,
-    'TLSv1.2': 8,
+  const protocolMap = {
     'TLSv1.3': 16,
+    'TLSv1.2,TLSv1.3': 24,
+    'TLSv1,TLSv1.1,TLSv1.2,TLSv1.3': 30,
   };
-  const sslProtocol = output.protocols.reduce((mask, proto) => {
-    return mask | (protocolBits[proto] || 0);
-  }, 0);
+
+  const key = (output.protocols || []).join(',');
+  const sslProtocol = protocolMap[key];
 
   conf +=
-      '\n'+
-      '<httpServerConfig>\n'+
-      '  <listenerList>\n'+
-      '    <listener>\n'+
-      '      <name>HTTPS</name>\n'+
-      '      <address>*:443</address>\n'+
-      '      <secure>1</secure>\n'+
-      '      <keyFile>/path/to/private_key</keyFile>\n'+
+      '\n' +
+      '<httpServerConfig>\n' +
+      '  <listenerList>\n' +
+      '    <listener>\n' +
+      '      <name>HTTPS</name>\n' +
+      '      <address>*:443</address>\n' +
+      '      <secure>1</secure>\n' +
+      '      <keyFile>/path/to/private_key</keyFile>\n' +
       '      <certFile>/path/to/signed_cert_followed_by_intermediates</certFile>\n';
 
   if (sslProtocol) {
     conf +=
-      '      <sslProtocol>'+sslProtocol+'</sslProtocol>\n';
+      '      <sslProtocol>' + sslProtocol + '</sslProtocol>\n';
   }
 
-  if (output.ciphers.length) {
+  if (output.ciphers && output.ciphers.length) {
     conf +=
-      '      <ciphers>'+output.ciphers.join(':')+'</ciphers>\n';
+      '      <ciphers>' + output.ciphers.join(':') + '</ciphers>\n';
   }
 
   if (form.ocsp) {
@@ -40,24 +39,22 @@ export default (form, output) => {
   }
 
   conf +=
-      '    </listener>\n'+
-      '  </listenerList>\n'+
+      '    </listener>\n' +
+      '  </listenerList>\n' +
       '</httpServerConfig>\n';
 
   if (form.hsts) {
     conf +=
-      '\n'+
-      '<virtualHostConfig>\n'+
-      '  <context>\n'+
-      '    <type>NULL</type>\n'+
-      '    <uri>/</uri>\n'+
-      '    <location>$DOC_ROOT/</location>\n'+
-      '    <allowBrowse>1</allowBrowse>\n'+
-      '    <extraHeaders>\n'+
-      '        Header Set Strict-Transport-Security: max-age=max-age='+output.hstsMaxAge+'\n'+
-      '    </extraHeaders>\n'+
-      '    <addDefaultCharset>off</addDefaultCharset>\n'+
-      '  </context>\n'+
+      '\n' +
+      '<virtualHostConfig>\n' +
+      '  <context>\n' +
+      '    <type>NULL</type>\n' +
+      '    <uri>/</uri>\n' +
+      '    <location>$DOC_ROOT/</location>\n' +
+      '    <allowBrowse>1</allowBrowse>\n' +
+      '    <extraHeaders>Header Set Strict-Transport-Security: max-age=' + output.hstsMaxAge + '</extraHeaders>\n' +
+      '    <addDefaultCharset>off</addDefaultCharset>\n' +
+      '  </context>\n' +
       '</virtualHostConfig>\n';
   }
 
