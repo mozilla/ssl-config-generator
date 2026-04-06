@@ -89,7 +89,6 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `form.config` - configuration name ([ "modern" | "intermediate" | "old" ])
 - `form.hsts` - HTTP Strict Transport Security form checkbox (boolean true/false)
 - `form.ocsp` - OCSP Stapling form checkbox (boolean true/false)
-
 - `output.header` - description of rendered config
 - `output.link` - URL to rendered config
 - `output.protocols` - protocol list (e.g. zero or more of: "TLSv1" "TLSv1.1" "TLSv1.2" "TLSv1.3")
@@ -107,6 +106,19 @@ Highlighted items from src/js/state.js for use in templates.  See src/js/state.j
 - `output.supportsOcspStapling` - server version supporting OCSP Stapling in config
 - `output.tls13` - server version supporting TLSv1.3
 - `output.tlsCurves` - groups/curves list
+
+### Requested but not yet added new software support
+
+Over time support for various software has been requested and discussed. This is a list of those requests. Check out the linked tickets to see the background and then feel free to submit a pull request for the tool to support that piece of software
+
+* [Micorsoft Internet Information Services (IIS)](https://github.com/mozilla/ssl-config-generator/issues/54)
+* [Envoy Proxy](https://github.com/mozilla/ssl-config-generator/issues/29)
+* [Wildfly](https://github.com/mozilla/ssl-config-generator/issues/172)
+* [Kestrel/ASP.NET Core](https://github.com/mozilla/ssl-config-generator/issues/147)
+* [OpenLDAP](https://github.com/mozilla/ssl-config-generator/issues/118)
+* [GnuTLS](https://github.com/mozilla/ssl-config-generator/issues/321)
+
+Active issues related to new software can be found in the issue list using the [`new software support` label](https://github.com/mozilla/ssl-config-generator/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22new%20software%20support%22).
 
 ## Building
 
