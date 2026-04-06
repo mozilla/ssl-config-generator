@@ -2,9 +2,10 @@ import configs from './configs.js';
 import minver from './helpers/minver.js';
 import { xmlEntities } from './utils.js';
 
+// note: guideln_latest for '6.0' is rendered as number 6 in guidelines[], not string '6.0'
+const guideln_latest = '6.0'; // update when guideline changes
 const guidelines = {};
-guidelines['5.7'] = require(`../static/guidelines/5.7.json`);
-const guideln_latest = '5.7'; // update these two lines when guideline changes
+guidelines[guideln_latest] = require(`../static/guidelines/${guideln_latest}.json`);
 
 export default async function () {
 
@@ -66,8 +67,8 @@ export default async function () {
   // generate the fragment
   let fragment = `server=${server}&version=${form['version'].value}&config=${config}`;
   fragment += configs[server].usesOpenssl !== false ? `&openssl=${form['openssl'].value}` : '';
-  fragment += configs[server].supportsHsts !== false && !form['hsts'].checked ? `&hsts=false` : '';
-  fragment += supportsOcspStapling && !form['ocsp'].checked ? `&ocsp=false` : '';
+  fragment += configs[server].supportsHsts !== false && form['hsts'].checked ? '&hsts' : '';
+  fragment += supportsOcspStapling && form['ocsp'].checked ? '&ocsp' : '';
   fragment += `&guideline=${guideln}`;
 
   // generate the version tags
@@ -81,6 +82,10 @@ export default async function () {
     if (!minver(configs['openssl'].eolBefore, form['openssl'].value)) {
       version_tags += ' (UNSUPPORTED; end-of-life)';
     }
+    else if (!minver("3.5.0", form['openssl'].value)
+             && minver("5.8", guideln)) {
+      version_tags += ' (OLD: missing PQC hybrid MLKEMs)';
+    }
   }
   version_tags += `, ${form['config'].value} config`;
 
@@ -91,8 +96,8 @@ export default async function () {
   // generate the header
   const date = new Date().toISOString().substr(0, 10);
   let header = `generated ${date}, Mozilla Guideline v${guideln}, ${version_tags}`;
-  header += configs[server].supportsHsts !== false && !form['hsts'].checked ? `, no HSTS` : '';
-  header += supportsOcspStapling && !form['ocsp'].checked ? `, no OCSP` : '';
+  header += configs[server].supportsHsts !== false && form['hsts'].checked ? ', HSTS' : '';
+  header += supportsOcspStapling && form['ocsp'].checked ? ', OCSP' : '';
 
   const link = `${url.origin}${url.pathname}#${fragment}`;
 
@@ -104,9 +109,13 @@ export default async function () {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
 
-  let ciphers = configs[server].cipherFormat ? ssc.ciphers[configs[server].cipherFormat] : ssc.ciphers.openssl;
-  if (configs[server].supportedCiphers) {
-    ciphers = ciphers.filter(suite => configs[server].supportedCiphers.indexOf(suite) !== -1);
+  const cipherFormat = configs[server].cipherFormat ? configs[server].cipherFormat : 'openssl';
+  let ciphers = cipherFormat === 'go' ? ssc.ciphers['iana'] : ssc.ciphers[cipherFormat];
+  const supportedCiphers = configs[server].supportedCiphers
+    ? configs[server].supportedCiphers
+    : cipherFormat === 'go' ? configs['go'].supportedCiphers : null;
+  if (supportedCiphers) {
+    ciphers = ciphers.filter(suite => supportedCiphers.indexOf(suite) !== -1);
   } else {
     ciphers = ciphers;
   }
@@ -131,13 +140,14 @@ export default async function () {
       ciphers,
       cipherSuites: ssc.ciphersuites,
       date,
-      dhCommand: ssc.dh_param_size >= 2048 ? `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt` : `openssl dhparam ${ssc.dh_param_size}`,
+      dhCommand: `curl ${url.origin}/ffdhe${ssc.dh_param_size}.txt`,
       dhParamSize: ssc.dh_param_size,
       fragment,
       hasVersions: configs[server].hasVersions !== false,
       header,
       hstsMaxAge: ssc.hsts_min_age,
-      hstsRedirectCode: 301,
+      //hstsRedirectCode: form['config'].value === 'old' ? 301 : 308,
+      hstsRedirectCode: 308,
       latestVersion: configs[server].latestVersion,
       link,
       oldestClients: ssc.oldest_clients,
@@ -148,6 +158,8 @@ export default async function () {
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: supportsOcspStapling,
       tlsCurves: ssc.tls_curves,
+      // XXX: If DHE ciphers removed from guidelines, then usesDhe, dhCommand,
+      //      dhParamSize, and helpers/*.js code which uses them can be removed
       usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
       usesOpenssl: configs[server].usesOpenssl !== false,
     },

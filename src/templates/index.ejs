@@ -69,12 +69,14 @@
               <small class="form-text text-muted">General-purpose servers with a variety of clients, recommended for almost all systems</small>
             </label>
           </div>
+          <div class="d-none" id="config-old-compat">
           <div class="form-check">
             <input class="form-check-input" type="radio" name="config" id="config-old" value="old">
             <label class="form-check-label" for="config-old">
               Old
               <small class="form-text text-muted">Compatible with a number of very old clients, and should be used only as a last resort</small>
             </label>
+          </div>
           </div>
         </div>
 
@@ -107,7 +109,7 @@
           <div class="input-group mt-2">
             <div class="input-group-prepend">
               <div class="input-group-text">
-                <input type="checkbox" id="ocsp" aria-label="OCSP Stapling" checked>
+                <input type="checkbox" id="ocsp" aria-label="OCSP Stapling">
               </div>
             </div>
             <input type="text" class="form-control bg-white" aria-label="OCSP Stapling" value="OCSP Stapling" readonly>
