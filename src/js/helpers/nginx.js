@@ -30,7 +30,7 @@ export default (form, output) => {
     conf +=
       '\n'+
       '        # HSTS (ngx_http_headers_module is required) ('+output.hstsMaxAge+' seconds)\n'+
-      '        add_header Strict-Transport-Security "max-age='+output.hstsMaxAge+'"'+(minver("1.7.5", form.serverVersion) ? ' always' : '')+';\n';
+      '        add_header Strict-Transport-Security "max-age='+output.hstsMaxAge+'; includeSubDomains"'+(minver("1.7.5", form.serverVersion) ? ' always' : '')+';\n';
  }
 
     conf +=

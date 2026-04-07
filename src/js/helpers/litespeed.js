@@ -52,7 +52,7 @@ export default (form, output) => {
       '    <uri>/</uri>\n'+
       '    <location>$DOC_ROOT/</location>\n'+
       '    <allowBrowse>1</allowBrowse>\n'+
-      '    <extraHeaders>Header Set Strict-Transport-Security: max-age='+output.hstsMaxAge+'</extraHeaders>\n'+
+      '    <extraHeaders>Header Set Strict-Transport-Security: max-age='+output.hstsMaxAge+'; includeSubDomains</extraHeaders>\n'+
       '    <addDefaultCharset>off</addDefaultCharset>\n'+
       '  </context>\n'+
       '</virtualHostConfig>\n';

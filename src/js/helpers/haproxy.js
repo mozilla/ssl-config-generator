@@ -72,7 +72,7 @@ export default (form, output) => {
       '    redirect scheme https code '+output.hstsRedirectCode+' if !{ ssl_fc }\n'+
       '\n'+
       '    # HSTS ('+output.hstsMaxAge+' seconds)\n'+
-      '    http-response set-header Strict-Transport-Security max-age='+output.hstsMaxAge+'\n';
+      '    http-response set-header Strict-Transport-Security "max-age='+output.hstsMaxAge+'; includeSubDomains"\n';
  }
 
   return conf;

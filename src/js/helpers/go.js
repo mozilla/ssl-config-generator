@@ -19,7 +19,7 @@ export default (form, output) => {
       '    mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {\n'+
       (form.hsts
         ?
-      '        w.Header().Add("Strict-Transport-Security", "max-age='+output.hstsMaxAge+'")\n'
+      '        w.Header().Add("Strict-Transport-Security", "max-age='+output.hstsMaxAge+'; includeSubDomains")\n'
         : '')+
       '        w.Write([]byte("This server is running the Mozilla '+form.config+' configuration.\\n"))\n'+
       '    })\n';

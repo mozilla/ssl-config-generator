@@ -49,7 +49,7 @@ export default (form, output) => {
       'context / {\n'+
       '  location                $DOC_ROOT/\n'+
       '  allowBrowse             1\n'+
-      '  extraHeaders            Header Set Strict-Transport-Security: max-age='+output.hstsMaxAge+'\n'+
+      '  extraHeaders            Header Set Strict-Transport-Security: max-age='+output.hstsMaxAge+'; includeSubDomains\n'+
       '}\n';
   }
 

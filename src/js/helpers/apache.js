@@ -57,7 +57,7 @@ export default (form, output) => {
     conf +=
       '\n'+
       '    # HTTP Strict Transport Security (mod_headers is required) ('+output.hstsMaxAge+' seconds)\n'+
-      '    Header'+(minver("2.0.0", form.serverVersion) ? ' always' : '')+' set Strict-Transport-Security "max-age='+output.hstsMaxAge+'"\n';
+      '    Header'+(minver("2.0.0", form.serverVersion) ? ' always' : '')+' set Strict-Transport-Security "max-age='+output.hstsMaxAge+'; includeSubDomains"\n';
  }
 
     conf +=
