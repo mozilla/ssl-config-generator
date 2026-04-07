@@ -119,6 +119,7 @@ Over time support for various software has been requested and discussed. This is
 * [GnuTLS](https://github.com/mozilla/ssl-config-generator/issues/321)
 * [Exim](https://github.com/mozilla/ssl-config-generator/issues/115)
 * [H2O](https://github.com/mozilla/ssl-config-generator/issues/329)
+* [Kubelet](https://github.com/mozilla/ssl-config-generator/pull/197)
 
 Active issues related to new software can be found in the issue list using the [`new software support` label](https://github.com/mozilla/ssl-config-generator/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22new%20software%20support%22).
 
