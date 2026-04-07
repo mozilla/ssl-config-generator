@@ -187,7 +187,7 @@ export default (form, output) => {
       '$HTTP["scheme"] == "https" {\n'+
       '    # HTTP Strict Transport Security ('+output.hstsMaxAge+' seconds)\n'+
       '    setenv.add-response-header = (\n'+
-      '      "Strict-Transport-Security" => "max-age='+output.hstsMaxAge+'"\n'+
+      '      "Strict-Transport-Security" => "max-age='+output.hstsMaxAge+'; includeSubDomains"\n'+
       '    )\n'+
       '}\n'+
       'else $HTTP["scheme"] == "http" {\n';

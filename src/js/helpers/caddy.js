@@ -61,7 +61,7 @@ export default (form, output) => {
     conf +=
       '\n'+
       '  # HSTS ('+output.hstsMaxAge+' seconds)\n'+
-      '  header Strict-Transport-Security "max-age='+output.hstsMaxAge+'"\n';
+      '  header Strict-Transport-Security "max-age='+output.hstsMaxAge+'; includeSubDomains"\n';
  }
 
     conf +=
