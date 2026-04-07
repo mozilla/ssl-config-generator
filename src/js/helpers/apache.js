@@ -73,9 +73,9 @@ export default (form, output) => {
         ?
       'SSLCipherSuite          '+output.ciphers.join(':')+'\n'
         : '')+
-      (output.ciphersuites.length
+      (output.cipherSuites.length
         ?
-      'SSLCipherSuite          TLSv1.3 '+output.ciphersuites.join(':')+'\n'
+      'SSLCipherSuite          TLSv1.3 '+output.cipherSuites.join(':')+'\n'
         : '')+
       'SSLHonorCipherOrder     '+(output.serverPreferredOrder ? 'on' : 'off')+'\n'+
       (minpatchver("2.2.30", form.serverVersion) ||
