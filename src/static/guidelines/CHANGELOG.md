@@ -1,11 +1,14 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+(Note: the git history is a better-maintained source of changes)
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project doesn't adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [6.0.0] - 2026-04-06
+
+## [5.8.0] - 2026-04-06
 
 ### Changed
 
