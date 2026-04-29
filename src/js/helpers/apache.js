@@ -73,7 +73,7 @@ export default (form, output) => {
         ?
       'SSLCipherSuite          '+output.ciphers.join(':')+'\n'
         : '')+
-      (output.cipherSuites.length
+      (output.cipherSuites.length && minver("2.4.36", form.serverVersion)
         ?
       'SSLCipherSuite          TLSv1.3 '+output.cipherSuites.join(':')+'\n'
         : '')+
