@@ -108,6 +108,11 @@ export default async function () {
       || !minver(configs['openssl'].tls13, form['openssl'].value)) {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
+  let tlsCurves = ssc.tls_curves;
+  if (!minver('3.5.0', form['openssl'].tls13)) {
+    // future: may need to filter 'X25519MLKEM768','SecP256r1MLKEM768','SecP384r1MLKEM1024'
+    tlsCurves = tlsCurves.filter(groups => groups !== 'X25519MLKEM768');
+  }
 
   const cipherFormat = configs[server].cipherFormat ? configs[server].cipherFormat : 'openssl';
   let ciphers = cipherFormat === 'go' ? ssc.ciphers['iana'] : ssc.ciphers[cipherFormat];
@@ -157,7 +162,7 @@ export default async function () {
       showSupports: configs[server].showSupports !== false,
       supportsHsts: configs[server].supportsHsts !== false,
       supportsOcspStapling: supportsOcspStapling,
-      tlsCurves: ssc.tls_curves,
+      tlsCurves: tlsCurves,
       // XXX: If DHE ciphers removed from guidelines, then usesDhe, dhCommand,
       //      dhParamSize, and helpers/*.js code which uses them can be removed
       usesDhe: ciphers.join(":").includes(":DHE") || ciphers.join(":").includes("_DHE_"), 
