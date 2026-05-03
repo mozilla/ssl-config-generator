@@ -25,10 +25,10 @@ export default (form, output) => {
  }
 
     var sslpolicy = output.protocols.includes('TLSv1')
-      ? 'ELBSecurityPolicy-TLS-1-0-2015-04'
+      ? 'ELBSecurityPolicy-TLS13-1-0-PQ-2025-09'
       : output.protocols.includes('TLSv1.2')
-        ? 'ELBSecurityPolicy-TLS13-1-2-Res-2021-06'
-        : 'ELBSecurityPolicy-TLS13-1-3-2021-06';
+        ? 'ELBSecurityPolicy-TLS13-1-2-Res-PQ-2025-09'
+        : 'ELBSecurityPolicy-TLS13-1-3-PQ-2025-09';
 
     var conf =
 `# Please note that Application Load Balancers don't allow you to directly specify protocols
