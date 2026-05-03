@@ -109,7 +109,7 @@ export default async function () {
     protocols = protocols.filter(ciphers => ciphers !== 'TLSv1.3');
   }
   let tlsCurves = ssc.tls_curves;
-  if (!minver('3.5.0', form['openssl'].tls13)) {
+  if (!minver('3.5.0', form['openssl'].value)) {
     // future: may need to filter 'X25519MLKEM768','SecP256r1MLKEM768','SecP384r1MLKEM1024'
     tlsCurves = tlsCurves.filter(groups => groups !== 'X25519MLKEM768');
   }
