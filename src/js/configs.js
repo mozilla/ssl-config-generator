@@ -115,7 +115,7 @@ module.exports = {
     tls13: '1.13.0',
   },
   openssl: {
-    latestVersion: '3.6.1',
+    latestVersion: '4.0.0',
     eolBefore: '3.0.0',
     tls13: '1.1.1',
   },
